@@ -4,19 +4,21 @@ var raindrops = [];
 var touch = false;
 var myScore;
 var collected = 0;
+var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+var height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
 
 function startGame() {
     gameArea.start();
     bucket = new componentImg(32, 32,
-        gameArea.canvas.width/2 - 15, gameArea.canvas.height- 32, "bucket.png");
+        gameArea.canvas.width/2 - 15, gameArea.canvas.height- 32, "./img/bucket.png");
     myScore = new componentText("20px", "Consolas", "black", 0, 20, "text");
     }
 
 var gameArea = {
     canvas : document.createElement("canvas"),
     start : function() {
-        this.canvas.width = 250;
-        this.canvas.height = 250;
+        this.canvas.width = width;
+        this.canvas.height = height;
         // Adds context
         this.context = this.canvas.getContext("2d");
         var div1 = document.getElementById("divID");
@@ -90,7 +92,7 @@ function componentImg(width, height, x, y, src) {
         obj1 = gameArea.context;
         obj1 = new Image(this.width,this.height);
         obj1.src = src;
-        gameArea.context.drawImage(obj1,this.x,this.y);
+        gameArea.context.drawImage(obj1,this.x,this.y, this.width, this.height);
         
     } 
     this.collideWith = function(otherobj) {
@@ -115,13 +117,18 @@ function componentImg(width, height, x, y, src) {
 }
 
 function updateGameArea() {
-    
+    width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+    height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
+    gameArea.canvas.width = width;
     var x, y;
     for (i = 0; i < raindrops.length; i += 1) {
         if (bucket.collideWith(raindrops[i])) {
             collected += 5;
             raindrops.splice(i, 1);
             console.log(raindrops.length)
+            if (collected == 100) {
+                gameArea.stop();
+            }
         } 
     }
     gameArea.clear();
@@ -133,7 +140,7 @@ function updateGameArea() {
     if (gameArea.frameNum == 1 || everyinterval(50)) {
         x = Math.floor(Math.random()*(gameArea.canvas.width));
         y = 1;
-        raindrops.push(new componentImg(10, 10, x, y, "raindrop.png"));
+        raindrops.push(new componentImg(10, 10, x, y, "./img/raindrop.png"));
     }
     for (i = 0; i < raindrops.length; i += 1) {
         raindrops[i].y += 1*(i+1);

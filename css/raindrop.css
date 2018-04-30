@@ -1,0 +1,17 @@
+canvas {
+    border-style: none;
+    
+}
+
+.divCSS {
+    background-image: url("../html/img/raindropBack.jpg");
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden; 
+}
