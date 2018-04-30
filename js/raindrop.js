@@ -9,9 +9,9 @@ var height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
 
 function startGame() {
     gameArea.start();
-    bucket = new componentImg(32, 32,
-        gameArea.canvas.width/2 - 15, gameArea.canvas.height- 32, "./img/bucket.png");
-    myScore = new componentText("20px", "Consolas", "black", 0, 20, "text");
+    bucket = new componentImg(width*0.1, width*0.1,
+        gameArea.canvas.width/2 - width*0.1, gameArea.canvas.height- width*0.11, "./img/bucket.png");
+    myScore = new componentText(height*0.05 + "px", "Consolas", "black", 0, height*0.05, "text");
     }
 
 var gameArea = {
@@ -140,7 +140,7 @@ function updateGameArea() {
     if (gameArea.frameNum == 1 || everyinterval(50)) {
         x = Math.floor(Math.random()*(gameArea.canvas.width));
         y = 1;
-        raindrops.push(new componentImg(10, 10, x, y, "./img/raindrop.png"));
+        raindrops.push(new componentImg(width*0.05, width*0.05, x, y, "./img/raindrop.png"));
     }
     for (i = 0; i < raindrops.length; i += 1) {
         raindrops[i].y += 1*(i+1);
