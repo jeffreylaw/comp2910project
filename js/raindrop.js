@@ -8,7 +8,7 @@ var collected = 0;
 function startGame() {
     gameArea.start();
     bucket = new componentImg(32, 32,
-        gameArea.canvas.width/2 - 15, gameArea.canvas.height- 32, "bucket.png");
+        gameArea.canvas.width/2 - 15, gameArea.canvas.height- 32, "./img/bucket.png");
     myScore = new componentText("20px", "Consolas", "black", 0, 20, "text");
     }
 
@@ -90,7 +90,7 @@ function componentImg(width, height, x, y, src) {
         obj1 = gameArea.context;
         obj1 = new Image(this.width,this.height);
         obj1.src = src;
-        gameArea.context.drawImage(obj1,this.x,this.y);
+        gameArea.context.drawImage(obj1,this.x,this.y, this.width, this.height);
         
     } 
     this.collideWith = function(otherobj) {
@@ -122,6 +122,9 @@ function updateGameArea() {
             collected += 5;
             raindrops.splice(i, 1);
             console.log(raindrops.length)
+            if (collected == 100) {
+                gameArea.stop();
+            }
         } 
     }
     gameArea.clear();
@@ -133,7 +136,7 @@ function updateGameArea() {
     if (gameArea.frameNum == 1 || everyinterval(50)) {
         x = Math.floor(Math.random()*(gameArea.canvas.width));
         y = 1;
-        raindrops.push(new componentImg(10, 10, x, y, "raindrop.png"));
+        raindrops.push(new componentImg(10, 10, x, y, "./img/raindrop.png"));
     }
     for (i = 0; i < raindrops.length; i += 1) {
         raindrops[i].y += 1*(i+1);
