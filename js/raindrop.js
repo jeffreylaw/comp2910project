@@ -4,6 +4,8 @@ var raindrops = [];
 var touch = false;
 var myScore;
 var collected = 0;
+var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+var height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
 
 function startGame() {
     gameArea.start();
@@ -15,8 +17,8 @@ function startGame() {
 var gameArea = {
     canvas : document.createElement("canvas"),
     start : function() {
-        this.canvas.width = 250;
-        this.canvas.height = 250;
+        this.canvas.width = width;
+        this.canvas.height = height;
         // Adds context
         this.context = this.canvas.getContext("2d");
         var div1 = document.getElementById("divID");
@@ -115,7 +117,9 @@ function componentImg(width, height, x, y, src) {
 }
 
 function updateGameArea() {
-    
+    width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+    height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
+    gameArea.canvas.width = width;
     var x, y;
     for (i = 0; i < raindrops.length; i += 1) {
         if (bucket.collideWith(raindrops[i])) {
