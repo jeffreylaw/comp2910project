@@ -6,11 +6,12 @@ var myScore;
 var collected = 0;
 var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 var height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
+var gravity = 0.05;
 
 function startGame() {
     gameArea.start();
     bucket = new componentImg(width*0.1, width*0.1,
-        gameArea.canvas.width/2 - width*0.1, gameArea.canvas.height- width*0.11, "./img/bucket.png");
+        gameArea.canvas.width/2 - width*0.1, gameArea.canvas.height- height*0.1, "./img/bucket.png");
     myScore = new componentText(height*0.05 + "px", "Consolas", "black", 0, height*0.05, "text");
     }
 
@@ -18,7 +19,7 @@ var gameArea = {
     canvas : document.createElement("canvas"),
     start : function() {
         this.canvas.width = width;
-        this.canvas.height = height;
+        this.canvas.height = height * 0.9;
         // Adds context
         this.context = this.canvas.getContext("2d");
         var div1 = document.getElementById("divID");
@@ -47,7 +48,7 @@ var gameArea = {
         }
 
         function touchMove(e) {
-            if (touch == true && e.touches[0].screenX < gameArea.canvas.width) {
+            if (touch === true && e.touches[0].screenX < gameArea.canvas.width) {
                 var touchLocation = e.targetTouches[0];
                 gameArea.x = touchLocation.pageX;
                 console.log("what");
@@ -88,6 +89,7 @@ function componentImg(width, height, x, y, src) {
     this.y = y;   
     this.width = width;
     this.height = height;
+    this.gravitySpeed = 0;
     this.update = function() {
         obj1 = gameArea.context;
         obj1 = new Image(this.width,this.height);
@@ -96,15 +98,15 @@ function componentImg(width, height, x, y, src) {
         
     } 
     this.collideWith = function(otherobj) {
-        var myleft = this.x;
-        var myright = this.x + (this.width);
-        var mytop = this.y;
-        var mybottom = this.y + (this.height);
-        var otherleft = otherobj.x;
-        var otherright = otherobj.x + (otherobj.width);
-        var othertop = otherobj.y;
-        var otherbottom = otherobj.y + (otherobj.height);
-        var collide = true;
+        let myleft = this.x;
+        let myright = this.x + (this.width);
+        let mytop = this.y;
+        let mybottom = this.y + (this.height);
+        let otherleft = otherobj.x;
+        let otherright = otherobj.x + (otherobj.width);
+        let othertop = otherobj.y;
+        let otherbottom = otherobj.y + (otherobj.height);
+        let collide = true;
         if ((mybottom < othertop) ||
                (mytop > otherbottom) ||
                (myright < otherleft) ||
@@ -120,13 +122,17 @@ function updateGameArea() {
     width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
     height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
     gameArea.canvas.width = width;
+    gameArea.canvas.height = height * 0.9;
+    bucket.y = gameArea.canvas.height- bucket.height;
+    bucket.width = width*0.1;
+    bucket.height = width*0.1;
     var x, y;
-    for (i = 0; i < raindrops.length; i += 1) {
+    for (let i = 0; i < raindrops.length; i++) {
         if (bucket.collideWith(raindrops[i])) {
             collected += 5;
             raindrops.splice(i, 1);
             console.log(raindrops.length)
-            if (collected == 100) {
+            if (collected === 100) {
                 gameArea.stop();
             }
         } 
@@ -137,13 +143,14 @@ function updateGameArea() {
 
     
     
-    if (gameArea.frameNum == 1 || everyinterval(50)) {
+    if (gameArea.frameNum === 1 || everyinterval(50)) {
         x = Math.floor(Math.random()*(gameArea.canvas.width));
         y = 1;
         raindrops.push(new componentImg(width*0.05, width*0.05, x, y, "./img/raindrop.png"));
     }
-    for (i = 0; i < raindrops.length; i += 1) {
-        raindrops[i].y += 1*(i+1);
+    for (let i = 0; i < raindrops.length; i++) {
+        raindrops[i].gravitySpeed += gravity;
+        raindrops[i].y += 1 + raindrops[i].gravitySpeed;
         if (raindrops[i].y > gameArea.canvas.height) {
             raindrops.splice(i, 1);
         }
@@ -169,3 +176,4 @@ function everyinterval(n) {
     return false;
 }
 
+/* Button Functionality. */
