@@ -9,58 +9,57 @@ var height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
 var gravity = 0.05;
 var pageOpen = true;
 
+             //cursor
+             window.addEventListener("mousemove", mouseMove, false);
+             
+             function mouseMove(e) {
+                    gameArea.x = e.pageX;
+                    console.log("no");
+                
+            }
+            // mobile touch
+            window.addEventListener('touchstart', touchStart, false);
+            window.addEventListener('touchmove', touchMove, false)
+            window.addEventListener('touchend', touchEnd, false);
+    
+            function touchStart(e) {
+                console.log("touched");
+                touch = true;
+            }
+    
+            function touchMove(e) {
+                if (touch === true && e.touches[0].screenX < gameArea.canvas.width) {
+                    var touchLocation = e.targetTouches[0];
+                    gameArea.x = touchLocation.pageX;
+                    console.log("what");
+                }
+            }
+    
+            function touchEnd(e) {
+                console.log("touchend");
+                touch = false;
+            }
+
 function startGame() {
     gameArea.start();
     bucket = new componentImg(width*0.1, width*0.1,
         gameArea.canvas.width/2 - width*0.1, gameArea.canvas.height- height*0.1, "./img/bucket.png");
-    myScore = new componentText(height*0.05 + "px", "Consolas", "black", 0, height*0.05, "text")
+    myScore = new componentText(height*0.05 + "px", "Consolas", "black", 0, height*0.05, "text");
     }
 
 var gameArea = {
     canvas : document.createElement("canvas"),
     start : function() {
+        gameArea.canvas = document.createElement("canvas");
         this.canvas.width = width;
         this.canvas.height = height * 0.9;
         // Adds context
         this.context = this.canvas.getContext("2d");
-        var div1 = document.getElementById("raindropGame");
+        let div1 = document.getElementById("raindropGame");
         div1.appendChild(this.canvas);
         this.interval = setInterval(updateGameArea, 20);
         this.canvas.style.cursor = "none";
         this.frameNum = 0;
-        
-         //cursor
-         window.addEventListener("mousemove", function (e) {
-            if(e.pageX < gameArea.canvas.width - bucket.width/2
-            && e.pageX > bucket.width/2) {
-                gameArea.x = e.pageX;
-                //console.log("no");
-            }
-            
-        })
-        // mobile touch
-        window.addEventListener('touchstart', touchStart, false);
-        window.addEventListener('touchmove', touchMove, false)
-        window.addEventListener('touchend', touchEnd, false);
-
-        function touchStart(e) {
-            console.log("touched");
-            touch = true;
-        }
-
-        function touchMove(e) {
-            if (touch === true && e.touches[0].screenX < gameArea.canvas.width) {
-                var touchLocation = e.targetTouches[0];
-                gameArea.x = touchLocation.pageX;
-                console.log("what");
-            }
-        }
-
-        function touchEnd(e) {
-            console.log("touchend");
-            touch = false;
-        }
-
         
     },
     clear : function () {
@@ -68,6 +67,10 @@ var gameArea = {
     },
     stop : function() {
         clearInterval(this.interval);
+        window.removeEventListener('mousemove', mouseMove);
+        window.removeEventListener('touchstart', touchStart);
+        window.removeEventListener('touchmove', touchMove)
+        window.removeEventListener('touchend', touchEnd);
     }
 }
 
@@ -178,3 +181,30 @@ function everyinterval(n) {
 }
 
 /* Button Functionality. */
+
+function initializeButtons() {
+    var nextButton = document.getElementById("next");
+    console.log(nextButton);
+    
+    nextButton.addEventListener("click", nextClick, false);
+
+    function nextClick() {
+        pageOpen = true;
+        startGame();
+        alert("next button clicked");
+    }
+
+    var removeButton = document.getElementById("remove");
+    console.log(removeButton);
+    
+    removeButton.addEventListener("click", removeClick, false);
+
+    function removeClick() {
+        var removeCanvas = document.getElementsByTagName("canvas");
+        var div1 = document.getElementById("raindropGame");
+        alert(removeCanvas[0]);
+        gameArea.stop();
+        removeCanvas[0].remove(div1);
+    }
+    
+}
