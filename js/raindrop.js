@@ -9,11 +9,6 @@ var height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
 var gravity = 0.05;
 var pageOpen = true;
 
-function nextClick() {
-    alert("next button clicked");
-}
-
-
 function startGame() {
     gameArea.start();
     bucket = new componentImg(width*0.1, width*0.1,
