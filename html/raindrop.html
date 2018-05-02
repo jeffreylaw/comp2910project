@@ -12,23 +12,27 @@
     
 </head>
 <body>
-    <div id = "divID" class = "divCSS">
+    <div id = "raindropDiv">
+    <div id = "raindropGame">
         <script>
-            startGame();
+            if (pageOpen == true) {
+                startGame();
+            }
+            
         </script>
     </div>
     <div id = "bottomBar">
 
-        <div id = "next" class = "next btn noselect">
+        <button id = "next" onclick= "nextClick()" class = "next btn noselect">
             Next
-        </div>
-        <div id = "skip" class = "next btn noselect">
+        </button>
+        <button id = "skip" class = "next btn noselect">
                 Skip
-        </div>
-        <div id = "home" class = "next btn noselect">
+        </button>
+        <button id = "home" class = "next btn noselect">
                 Home
-        </div>
-
+        </button>
+    </div>
 
     </div>
     

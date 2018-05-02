@@ -7,12 +7,18 @@ var collected = 0;
 var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 var height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
 var gravity = 0.05;
+var pageOpen = true;
+
+function nextClick() {
+    alert("next button clicked");
+}
+
 
 function startGame() {
     gameArea.start();
     bucket = new componentImg(width*0.1, width*0.1,
         gameArea.canvas.width/2 - width*0.1, gameArea.canvas.height- height*0.1, "./img/bucket.png");
-    myScore = new componentText(height*0.05 + "px", "Consolas", "black", 0, height*0.05, "text");
+    myScore = new componentText(height*0.05 + "px", "Consolas", "black", 0, height*0.05, "text")
     }
 
 var gameArea = {
@@ -22,7 +28,7 @@ var gameArea = {
         this.canvas.height = height * 0.9;
         // Adds context
         this.context = this.canvas.getContext("2d");
-        var div1 = document.getElementById("divID");
+        var div1 = document.getElementById("raindropGame");
         div1.appendChild(this.canvas);
         this.interval = setInterval(updateGameArea, 20);
         this.canvas.style.cursor = "none";

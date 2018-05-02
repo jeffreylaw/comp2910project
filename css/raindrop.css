@@ -2,7 +2,12 @@ canvas {
     border-style: none;
 }
 
-#divID {
+#raindropDiv {
+    height: 90%;
+    width: 100%; 
+}
+
+#raindropGame {
     background-image: url("../html/img/raindropBack.jpg");
     height: 90%;
     width: 100%;
@@ -11,6 +16,7 @@ canvas {
 }
 
 html, body {
+    margin: 0%;
     max-width: 100%;
     overflow-x: hidden;
     overflow-y: hidden;
@@ -18,7 +24,7 @@ html, body {
 }
 
 #bottomBar {
-    margin: 0%;
+    margin-bottom: 5%;
     padding: 0%;
     background-color: yellow;
     height: 9%;
@@ -39,10 +45,10 @@ html, body {
     background-image: linear-gradient(to bottom, #c6e1f2, #43aff2);
     -webkit-border-radius: 10;
     -moz-border-radius: 10;
-    border-radius: 5px;
+    border-radius: 10%;
     font-family: Arial;
     color: #000000;
-    font-size: 90%;
+    font-size: 80%;
     padding: 1%;
     margin-left: 2%;
     margin-top: 1%;
