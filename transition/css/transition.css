@@ -1,5 +1,9 @@
 canvas {
     border-style: none;
+    background-image: url("../image/testBack.jpeg");
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 #divID {

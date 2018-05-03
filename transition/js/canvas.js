@@ -15,7 +15,7 @@ var screenArea = {
         this.canvas.height = height;
         this.context = this.canvas.getContext("2d");
         var div1 = document.getElementById("divID");
-        div1.appendChild(this.canvas);
+        div1.prepend(this.canvas);
         this.interval = setInterval(updateScreenArea, 20);
         this.frameNum = 0;
         

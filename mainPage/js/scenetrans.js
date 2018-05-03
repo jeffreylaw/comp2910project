@@ -3,7 +3,7 @@ function hiclick() {
 }
 
 function removeElements() {
-    window.location.href = "../transition/transitionPage.html";
+    window.location.href = "./transition/transitionPage.html";
 }
 
 function blackout(){
