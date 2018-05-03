@@ -7,7 +7,7 @@ canvas {
 }
 
 #raindropGame {
-    background-image: url("../html/img/raindropBack.jpg");
+    background-image: url("../html/img/back.png");
     background-repeat: no-repeat;
     background-size: cover;
 }
