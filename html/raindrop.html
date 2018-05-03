@@ -10,26 +10,27 @@
     </script>
     <script src="../js/raindrop.js"></script>
     
+    
 </head>
 <body>
-    <div id = "divID" class = "divCSS">
-        <script>
-            startGame();
-        </script>
+    <div id = "raindropDIV">
+    <div id = "raindropGame">
     </div>
     <div id = "bottomBar">
-
-        <div id = "next" class = "next btn noselect">
+        <button id = "next" class = "next btn noselect">
             Next
-        </div>
-        <div id = "skip" class = "next btn noselect">
-                Skip
-        </div>
-        <div id = "home" class = "next btn noselect">
+        </button>
+        <button id = "remove" class = "next btn noselect">
+                remove
+        </button>
+        <button id = "home" class = "next btn noselect">
                 Home
-        </div>
-
-
+        </button>
+        <script>
+            startRaindropGame();
+            initializeRaindropButtons();
+        </script>
+    </div>
     </div>
     
     
