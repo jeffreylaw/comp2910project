@@ -12,6 +12,7 @@ $(document).ready(function(){
     $("#text3").hide(0);
     $("#text4").hide(0);
     $("#text5").hide(0);
+    $("#earthchan").hide(0);
     $("#next").click(function(){
         $("#text1").hide(0);
         $("#next").hide(0);
@@ -23,7 +24,7 @@ $(document).ready(function(){
         $("#text3").show(0);
     })
     $("#next3").click(function(){
-        document.getElementById("divID").style.backgroundImage = 'url("testBack.jpeg")';
+        document.getElementById("divID").style.backgroundImage = 'url("./image/testBack.jpeg")';        
         $('#divID').animate({
         opacity: 0,
         }, 0, function() {

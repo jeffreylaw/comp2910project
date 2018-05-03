@@ -3,7 +3,7 @@ canvas {
 }
 
 #divID {
-    background-image: url("Ocean.png");
+    background-image: url("../image/Ocean.png");
     height: 100%;
     width: 100%;
     background-repeat: no-repeat;
@@ -19,7 +19,7 @@ html, body {
 }
 
 #title {
-    margin-top: 25%;
+    margin-top: 20%;
     margin-left: 10%;
     margin-right: 10%;
     margin-bottom:10%;
