@@ -9,38 +9,39 @@ var height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
 var gravity = 0.05;
 var pageOpen = true;
 
-             //cursor
-             window.addEventListener("mousemove", mouseMove, false);
+ //cursor
+ window.addEventListener("mousemove", mouseMove, false);
              
-             function mouseMove(e) {
-                    gameArea.x = e.pageX;
-                    console.log("no");
-                
-            }
-            // mobile touch
-            window.addEventListener('touchstart', touchStart, false);
-            window.addEventListener('touchmove', touchMove, false)
-            window.addEventListener('touchend', touchEnd, false);
+ function mouseMove(e) {
+        gameArea.x = e.pageX;
+        console.log("no");
     
-            function touchStart(e) {
-                console.log("touched");
-                touch = true;
-            }
-    
-            function touchMove(e) {
-                if (touch === true && e.touches[0].screenX < gameArea.canvas.width) {
-                    var touchLocation = e.targetTouches[0];
-                    gameArea.x = touchLocation.pageX;
-                    console.log("what");
-                }
-            }
-    
-            function touchEnd(e) {
-                console.log("touchend");
-                touch = false;
-            }
+}
+// mobile touch
+window.addEventListener('touchstart', touchStart, false);
+window.addEventListener('touchmove', touchMove, false)
+window.addEventListener('touchend', touchEnd, false);
 
-function startGame() {
+function touchStart(e) {
+    console.log("touched");
+    touch = true;
+}
+
+function touchMove(e) {
+    if (touch === true && e.touches[0].screenX < gameArea.canvas.width) {
+        var touchLocation = e.targetTouches[0];
+        gameArea.x = touchLocation.pageX;
+        console.log("what");
+    }
+}
+
+function touchEnd(e) {
+    console.log("touchend");
+    touch = false;
+}
+
+
+function startRaindropGame() {
     gameArea.start();
     bucket = new componentImg(width*0.1, width*0.1,
         gameArea.canvas.width/2 - width*0.1, gameArea.canvas.height- height*0.1, "./img/bucket.png");
@@ -56,11 +57,12 @@ var gameArea = {
         // Adds context
         this.context = this.canvas.getContext("2d");
         let div1 = document.getElementById("raindropGame");
+        let div2 = document.getElementById("raindropDIV");
         div1.appendChild(this.canvas);
+        div2.style.display = "block";
         this.interval = setInterval(updateGameArea, 20);
         this.canvas.style.cursor = "none";
         this.frameNum = 0;
-        
     },
     clear : function () {
         this.context.clearRect(0,0, this.canvas.width, this.canvas.height);
@@ -169,7 +171,7 @@ function updateGameArea() {
         if (gameArea.touchX) {
             bucket.x = gameArea.x - bucket.width/2;
         }
-
+        myScore.fontSize = height*0.05 + "px";
         myScore.text = "Collected: " + collected + " %";
         myScore.update();
         bucket.update();
@@ -182,7 +184,7 @@ function everyinterval(n) {
 
 /* Button Functionality. */
 
-function initializeButtons() {
+function initializeRaindropButtons() {
     var nextButton = document.getElementById("next");
     console.log(nextButton);
     
@@ -190,8 +192,10 @@ function initializeButtons() {
 
     function nextClick() {
         pageOpen = true;
-        startGame();
-        alert("next button clicked");
+        var removeCanvas = document.getElementsByTagName("canvas");
+        var div1 = document.getElementById("raindropGame");
+        removeCanvas[0].remove(document.body);
+        startRaindropGame();
     }
 
     var removeButton = document.getElementById("remove");
@@ -200,10 +204,13 @@ function initializeButtons() {
     removeButton.addEventListener("click", removeClick, false);
 
     function removeClick() {
+        gameArea.stop();
+        gameArea.clear();
+        collected = 0;
+        let div2 = document.getElementById("raindropDIV");
+        div2.style.display = "none";
         var removeCanvas = document.getElementsByTagName("canvas");
         var div1 = document.getElementById("raindropGame");
-        alert(removeCanvas[0]);
-        gameArea.stop();
         removeCanvas[0].remove(div1);
     }
     
