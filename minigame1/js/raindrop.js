@@ -7,7 +7,7 @@ var collected = 0;
 var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 var height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
 var gravity = 0.05;
-var pageOpen = true;
+var timer;
 
  //cursor
  window.addEventListener("mousemove", mouseMove, false);
@@ -46,6 +46,7 @@ function startRaindropGame() {
     bucket = new componentImg(width*0.1, width*0.1,
         gameArea.canvas.width/2 - width*0.1, gameArea.canvas.height- height*0.1, "./img/bucket.png");
     myScore = new componentText(height*0.05 + "px", "Consolas", "black", 0, height*0.05, "text");
+    timer = new componentText(height*0.05 + "px", "Consolas", "black", width*0.8, height*0.05, "text");
     }
 
 var gameArea = {
@@ -149,7 +150,7 @@ function updateGameArea() {
 
     
     
-    if (gameArea.frameNum === 1 || everyinterval(50)) {
+    if (gameArea.frameNum === 1 || everyinterval(30)) {
         x = Math.floor(Math.random()*(gameArea.canvas.width));
         y = 1;
         raindrops.push(new componentImg(width*0.05, width*0.05, x, y, "./img/raindrop.png"));
@@ -171,11 +172,17 @@ function updateGameArea() {
         if (gameArea.touchX) {
             bucket.x = gameArea.x - bucket.width/2;
         }
-        myScore.fontSize = height*0.05 + "px";
-        myScore.text = "Collected: " + collected + " %";
+        myScore.fontSize = width*0.03 + "px";
+        timer.fontSize = width*0.03 + "px";
+        myScore.text = "Collected: " + collected + "%";
+        timer.text = "Time: " + (20 - Math.ceil(gameArea.frameNum/50))
+        timer.x = width*0.8;
+        if((20 - Math.ceil(gameArea.frameNum/50) == 0)) {
+            gameArea.stop();
+        }
+        timer.update();
         myScore.update();
         bucket.update();
-        console.log(gameArea.frameNum);
 }
 
 function everyinterval(n) {
@@ -200,18 +207,22 @@ function initializeRaindropButtons() {
     } */
 
     function nextClick() {
+        console.log((Math.ceil(gameArea.frameNum / 50) ));
         if (collected == 100) {
             window.location.href = "./afterRainGame.html"; 
+        } else if ((Math.ceil(gameArea.frameNum / 50) == 20)){
+            alert("You lost.");
+            window.location.href = "./afterRainGame.html";
         } else {
             alert("Game is not completed");
         }
         
     }
 
-    var removeButton = document.getElementById("remove");
+/*     var removeButton = document.getElementById("remove");
     console.log(removeButton);
     
-    removeButton.addEventListener("click", removeClick, false);
+    removeButton.addEventListener("click", removeClick, false); */
 
     function removeClick() {
         gameArea.stop();
