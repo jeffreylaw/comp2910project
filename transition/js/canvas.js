@@ -4,11 +4,14 @@ var textbox;
 var start;
 var next;
 var char1;
+var char2
 
 function startScreen() {
     screenArea.start();
     char1 = new componentImg(width*0.1, width*0.1,
         screenArea.canvas.width/2 - width*0.1, screenArea.canvas.height- height*0.1, "./image/earthchan.png");
+    char2 = new componentImg(width*0.1, width*0.1,
+        screenArea.canvas.width/2 - width*0.1, screenArea.canvas.height- height*0.1, "./image/guy.png");
 }
 
 var screenArea = {
@@ -72,6 +75,12 @@ function updateScreenArea() {
     char1.y = screenArea.canvas.height- char1.height;
     char1.width = height*0.7;
     char1.height = height*0.7;
+
+    char2.x = screenArea.canvas.width * 0.2;
+    char2.y = screenArea.canvas.height- char2.height;
+    char2.width = height*0.7;
+    char2.height = height*0.7;
+
     if(char1.height > screenArea.canvas.height*0.9){
         char1.height =  screenArea.canvas.height*0.9;
     }
@@ -80,6 +89,7 @@ function updateScreenArea() {
     screenArea.clear();
     screenArea.frameNum += 1;
     char1.update();
+    char2.update();
 }
 
 function everyinterval(n) {
@@ -87,10 +97,6 @@ function everyinterval(n) {
     return false;
 }
 
-var script = document.createElement('script');
-script.src = 'http://code.jquery.com/jquery-1.11.0.min.js';
-script.type = 'text/javascript';
-document.getElementsByTagName('head')[0].appendChild(script);
 
 
 $(document).ready(function(){
