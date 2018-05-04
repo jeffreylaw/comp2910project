@@ -1,4 +1,4 @@
-canvas {
+#storyPage1 {
     border-style: none;
     background-image: url("../image/testBack.jpeg");
     width: 100%;
@@ -82,7 +82,7 @@ html, body {
 #textbox {
     width:78%;
     height: 20%;
-    max-height: 300px;
+    max-height: 18%;
     margin-right: 10%;
     margin-left: 10%;
     position: absolute;
@@ -92,17 +92,16 @@ html, body {
     box-shadow: 10px 10px 5px -2px #872;
     border-radius: 5px 10px 15px 20px;
     color: white;
-    font-size: 16pt;
+    font-size: 150%;
 }
 
 p{
-    padding:0.7em;
+    padding:2%;
 }
 
 #earthguy{
     width: 70%;
     height:inherit;
-    max-width:700px;
     position: absolute;
     height:auto;
     bottom:0;

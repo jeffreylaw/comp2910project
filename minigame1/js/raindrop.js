@@ -175,6 +175,7 @@ function updateGameArea() {
         myScore.text = "Collected: " + collected + " %";
         myScore.update();
         bucket.update();
+        console.log(gameArea.frameNum);
 }
 
 function everyinterval(n) {
@@ -190,12 +191,21 @@ function initializeRaindropButtons() {
     
     nextButton.addEventListener("click", nextClick, false);
 
-    function nextClick() {
+/*     function nextClick() {
         pageOpen = true;
         var removeCanvas = document.getElementsByTagName("canvas");
         var div1 = document.getElementById("raindropGame");
         removeCanvas[0].remove(document.body);
         startRaindropGame();
+    } */
+
+    function nextClick() {
+        if (collected == 100) {
+            window.location.href = "./afterRainGame.html"; 
+        } else {
+            alert("Game is not completed");
+        }
+        
     }
 
     var removeButton = document.getElementById("remove");
