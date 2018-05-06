@@ -54,7 +54,7 @@ var gameArea = {
     start : function() {
         gameArea.canvas = document.createElement("canvas");
         this.canvas.width = width;
-        this.canvas.height = height * 0.9;
+        this.canvas.height = height * 0.7;
         // Adds context
         this.context = this.canvas.getContext("2d");
         let div1 = document.getElementById("raindropGame");
@@ -129,7 +129,7 @@ function updateGameArea() {
     width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
     height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
     gameArea.canvas.width = width;
-    gameArea.canvas.height = height * 0.9;
+    gameArea.canvas.height = height * 0.69;
     bucket.y = gameArea.canvas.height- bucket.height;
     bucket.width = width*0.1;
     bucket.height = width*0.1;
@@ -247,3 +247,19 @@ function initializeRaindropButtons() {
         }
 
 }
+
+function updatePage() {
+    var text = document.getElementsByTagName("p");
+    var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+    var height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
+
+    for (let i = 0; i < text.length; i++) {
+        if (width > height) {
+            text[i].style.fontSize = height * 0.04 + "px";
+        } else {
+            text[i].style.fontSize = width * 0.04 + "px";
+        }
+    }
+    setTimeout(updatePage, 100);
+}
+updatePage();

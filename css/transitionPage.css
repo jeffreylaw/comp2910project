@@ -30,6 +30,7 @@ html, body {
 }
 
 .next{
+    cursor: pointer;
     width:7%;
     margin-left:90%;
     position:absolute;
