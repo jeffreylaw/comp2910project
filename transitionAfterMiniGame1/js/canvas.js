@@ -76,6 +76,7 @@ function everyinterval(n) {
 }
 
 $(document).ready(function(){
+    document.getElementById("divID").style.backgroundImage = 'url("./image/testBack2.jpeg")';
     $('#overlay').animate({
        opacity: 1,
      }, 0, function() {
@@ -111,20 +112,8 @@ $(document).ready(function(){
         $("#text4").show(0);
     })
     $("#next4").click(function(){
-        name = prompt("Please Enter the Name", "Enter Name Here");
-        document.getElementById("divID").style.backgroundImage = 'url("./image/testBack.jpeg")';        
-        $('#divID').animate({
-        opacity: 0,
-        }, 0, function() {
-        });
-        $('#divID').animate({
-        opacity: 1,
-        }, 1000, function() {
-        });
         $("#text4").hide(0);
         $("#next4").hide(0);
-        var text5 = document.getElementById("text5");
-        text5.innerHTML = "Hello " + name + ", welcome to Vancouver. We have been expecting you.";
         $("#text5").show(0);
     })
     $("#next5").click(function(){
@@ -148,15 +137,6 @@ $(document).ready(function(){
         $("#text9").show(0);
     })
     $("#next9").click(function(){
-        document.getElementById("divID").style.backgroundImage = 'url("./image/testBack2.jpeg")';        
-        $('#divID').animate({
-        opacity: 0,
-        }, 0, function() {
-        });
-        $('#divID').animate({
-        opacity: 1,
-        }, 1000, function() {
-        });
         $("#text9").hide(0);
         $("#next9").hide(0);
         $("#text10").show(0);

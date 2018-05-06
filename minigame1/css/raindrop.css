@@ -19,6 +19,16 @@ html, body {
     overflow-y: hidden; 
 }
 
+#overlay {
+	position: absolute;
+	background: black;
+	pointer-events: none;
+	opacity: 0;
+	width: 100%;
+	top: 0px;
+	bottom: 4px;
+	z-index: 99;
+}
 
 #bottomBar {
     background-image: url("../html/img/back.png");

@@ -209,12 +209,13 @@ function initializeRaindropButtons() {
     function nextClick() {
         console.log((Math.ceil(gameArea.frameNum / 50) ));
         if (collected == 100) {
-            window.location.href = "./afterRainGame.html"; 
+            blackout();
+            window.location.href = "../../transitionAfterMiniGame1/transitionPage2.html";
         } else if ((Math.ceil(gameArea.frameNum / 50) == 20)){
-            alert("You lost.");
-            window.location.href = "./afterRainGame.html";
+            blackout();
+            window.location.href = "../../transitionAfterMiniGame1/transitionPage2.html";
         } else {
-            alert("Game is not completed");
+            console.log("Game not completed.");
         }
         
     }
@@ -235,4 +236,14 @@ function initializeRaindropButtons() {
         removeCanvas[0].remove(div1);
     }
     
+
+    function blackout(){
+         $('#overlay').animate({
+           opacity: 1,
+         }, 1500, function() {
+
+         });
+        setTimeout(1500);
+        }
+
 }
