@@ -7,7 +7,7 @@ canvas {
 }
 
 #raindropGame {
-    background-image: url("../html/img/back.png");
+    background-image: url("../images/back.png");
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -31,7 +31,7 @@ html, body {
 }
 
 #bottomBar {
-    background-image: url("../html/img/back.png");
+    background-image: url("../images/back.png");
     position: absoulte;
     bottom: 0;
     width: 100%;

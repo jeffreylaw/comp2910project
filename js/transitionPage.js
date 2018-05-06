@@ -112,7 +112,7 @@ $(document).ready(function(){
     })
     $("#next4").click(function(){
         name = prompt("Please Enter the Name", "Enter Name Here");
-        document.getElementById("divID").style.backgroundImage = 'url("./image/testBack.jpeg")';        
+        document.getElementById("divID").style.backgroundImage = 'url("./images/testBack.jpeg")';        
         $('#divID').animate({
         opacity: 0,
         }, 0, function() {
@@ -148,7 +148,7 @@ $(document).ready(function(){
         $("#text9").show(0);
     })
     $("#next9").click(function(){
-        document.getElementById("divID").style.backgroundImage = 'url("./image/testBack2.jpeg")';        
+        document.getElementById("divID").style.backgroundImage = 'url("./images/testBack2.jpeg")';        
         $('#divID').animate({
         opacity: 0,
         }, 0, function() {
@@ -173,7 +173,7 @@ $(document).ready(function(){
 })
 
 function removeElements() {
-    window.location.href = "../minigame1/html/raindrop.html";
+    window.location.href = "./raindrop.html";
 }
 
 function updateText() {

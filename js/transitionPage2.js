@@ -76,7 +76,7 @@ function everyinterval(n) {
 }
 
 $(document).ready(function(){
-    document.getElementById("divID").style.backgroundImage = 'url("./image/testBack2.jpeg")';
+    document.getElementById("divID").style.backgroundImage = 'url("./images/testBack2.jpeg")';
     $('#overlay').animate({
        opacity: 1,
      }, 0, function() {
@@ -153,7 +153,7 @@ $(document).ready(function(){
 })
 
 function removeElements() {
-    window.location.href = "../minigame1/html/raindrop.html";
+    window.location.href = "./raindrop.html";
 }
 
 function updateText() {
