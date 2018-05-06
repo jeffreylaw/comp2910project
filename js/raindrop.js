@@ -44,7 +44,7 @@ function touchEnd(e) {
 function startRaindropGame() {
     gameArea.start();
     bucket = new componentImg(width*0.1, width*0.1,
-        gameArea.canvas.width/2 - width*0.1, gameArea.canvas.height- height*0.1, "./images/bucket.png");
+        gameArea.canvas.width/2 - width*0.1, gameArea.canvas.height- height*0.1, "../images/bucket.png");
     myScore = new componentText(height*0.05 + "px", "Consolas", "black", 0, height*0.05, "text");
     timer = new componentText(height*0.05 + "px", "Consolas", "black", width*0.8, height*0.05, "text");
     }
@@ -153,7 +153,7 @@ function updateGameArea() {
     if (gameArea.frameNum === 1 || everyinterval(30)) {
         x = Math.floor(Math.random()*(gameArea.canvas.width));
         y = 1;
-        raindrops.push(new componentImg(width*0.05, width*0.05, x, y, "./images/raindrop.png"));
+        raindrops.push(new componentImg(width*0.05, width*0.05, x, y, "../images/raindrop.png"));
     }
     for (let i = 0; i < raindrops.length; i++) {
         raindrops[i].gravitySpeed += gravity;

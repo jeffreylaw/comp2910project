@@ -76,7 +76,7 @@ function everyinterval(n) {
 }
 
 $(document).ready(function(){
-    document.getElementById("divID").style.backgroundImage = 'url("./images/testBack2.jpeg")';
+    document.getElementById("divID").style.backgroundImage = 'url("../images/testBack2.jpeg")';
     $('#overlay').animate({
        opacity: 1,
      }, 0, function() {

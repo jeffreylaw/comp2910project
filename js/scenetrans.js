@@ -8,7 +8,7 @@ function clickedPlay() {
 }
 
 function transitionPage() {
-    window.location.href = "./transitionPage.html";
+    window.location.href = "./html/transitionPage.html";
 }
 
 
