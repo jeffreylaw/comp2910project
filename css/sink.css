@@ -17,7 +17,7 @@ html, body {
     max-width: 100%;
     overflow-x: hidden;
     overflow-y: hidden;
-    background-color: black; 
+    background-color: orange; 
 }
 
 #overlay {
@@ -47,6 +47,13 @@ html, body {
     z-index: -1;
 }
 
+#timer {
+    position: absolute;
+    margin: 0;
+    color: black;
+    right: 1%;
+}
+
 .tap {
     position: absolute;
     cursor: pointer;
@@ -55,31 +62,46 @@ html, body {
 }
 
 #tap1 {
-    bottom: 45%;
+    bottom: 35%;
     left: 20%;
 }
 
 #tap2 {
-    bottom: 45%;
+    bottom: 35%;
     left: 45%;
 }
 
 #tap3 {
-    bottom: 45%;
+    bottom: 35%;
     right: 20%;
 }
 
 #tap4 {
-    bottom: 70%;
+    bottom: 55%;
     left: 20%;
 }
 
 #tap5 {
-    bottom: 70%;
+    bottom: 55%;
     left: 45%;
 }
 #tap6 {
-    bottom: 70%;
+    bottom: 55%;
+    right: 20%;
+}
+
+#tap7 {
+    bottom: 75%;
+    left: 20%;
+}
+
+#tap8 {
+    bottom: 75%;
+    left: 45%;
+}
+
+#tap9 {
+    bottom: 75%;
     right: 20%;
 }
 

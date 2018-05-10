@@ -1,7 +1,8 @@
 var background;
 var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 var height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
-var timer;
+var sinkFill= 0;
+var timer = 20;
 var faucetOn = false;
 var faucet1On = false;
 var faucet2On = false;
@@ -9,6 +10,9 @@ var faucet3On = false;
 var faucet4On = false;
 var faucet5On = false;
 var faucet6On = false;
+var faucet7On = false;
+var faucet8On = false;
+var faucet9On = false;
 var gameOver = false;
 
 function blackout() {
@@ -27,8 +31,8 @@ function updatePage() {
     var taps = document.getElementsByClassName("tap");
     var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
     var height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
-    var tapHeight  = height * 0.19;
-    var tapWidth  = width * 0.19;
+    var tapHeight = height * 0.19;
+    var tapWidth = width * 0.19;
     for (let i = 0; i < taps.length; i++) {
         if (width > height) {
             taps[i].style.width = "auto";
@@ -39,11 +43,13 @@ function updatePage() {
         }
     }
     if (width > height) {
-        $("#tap2").css("left", (width / 2 - tapHeight/2) + "px");
-        $("#tap5").css("left", (width / 2 - tapHeight/2) + "px");
-    }else {
-        $("#tap2").css("left", (width / 2 - tapWidth/2) + "px");
-        $("#tap5").css("left", (width / 2 - tapWidth/2) + "px");
+        $("#tap2").css("left", (width / 2 - tapHeight / 2) + "px");
+        $("#tap5").css("left", (width / 2 - tapHeight / 2) + "px");
+        $("#tap8").css("left", (width / 2 - tapHeight / 2) + "px");
+    } else {
+        $("#tap2").css("left", (width / 2 - tapWidth / 2) + "px");
+        $("#tap5").css("left", (width / 2 - tapWidth / 2) + "px");
+        $("#tap8").css("left", (width / 2 - tapWidth / 2) + "px");
     }
 
     for (let i = 0; i < text.length; i++) {
@@ -62,12 +68,12 @@ function updateRandomFaucet() {
     var faucets = document.getElementsByClassName("tap");
     var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
     var height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
-    var timer;
+    var sinkFill;
 
-    switch (Math.floor((Math.random() * 5))) {
+    switch (Math.floor((Math.random() * 8))) {
         case 0:
             if (faucet1On == true) {
-                console.log("Ok carry it thorugh");
+                //console.log("Ok carry it thorugh");
             } else {
                 faucetOn = true;
                 faucet1On = true;
@@ -76,7 +82,7 @@ function updateRandomFaucet() {
             }
         case 1:
             if (faucet2On == true) {
-                console.log("Ok carry it thorugh");
+                //console.log("Ok carry it thorugh");
             } else {
                 faucetOn = true;
                 faucet2On = true;
@@ -85,7 +91,7 @@ function updateRandomFaucet() {
             }
         case 2:
             if (faucet3On == true) {
-                console.log("Ok carry it thorugh");
+                //console.log("Ok carry it thorugh");
             } else {
                 faucetOn = true;
                 faucet3On = true;
@@ -94,7 +100,7 @@ function updateRandomFaucet() {
             }
         case 3:
             if (faucet4On == true) {
-                console.log("Ok carry it thorugh");
+                //console.log("Ok carry it thorugh");
             } else {
                 faucetOn = true;
                 faucet4On = true;
@@ -103,7 +109,7 @@ function updateRandomFaucet() {
             }
         case 4:
             if (faucet5On == true) {
-                console.log("Ok carry it thorugh");
+                //console.log("Ok carry it thorugh");
             } else {
                 faucetOn = true;
                 faucet5On = true;
@@ -112,13 +118,44 @@ function updateRandomFaucet() {
             }
         case 5:
             if (faucet6On == true) {
-                console.log("Ok carry it thorugh");
+                //console.log("Ok carry it thorugh");
             } else {
                 faucet6On = true;
                 faucetOn = true;
                 $("#tap6").attr("src", "../images/faucetFrame2.png");
                 break;
             }
+        case 6:
+            if (faucet7On == true) {
+                //console.log("Ok carry it thorugh");
+            } else {
+                faucet7On = true;
+                faucetOn = true;
+                $("#tap7").attr("src", "../images/faucetFrame2.png");
+                break;
+            }
+
+        case 7:
+            if (faucet8On == true) {
+                //console.log("Ok carry it thorugh");
+            } else {
+                faucet8On = true;
+                faucetOn = true;
+                $("#tap8").attr("src", "../images/faucetFrame2.png");
+                break;
+            }
+
+        case 8:
+            if (faucet9On == true) {
+                //console.log("Ok carry it thorugh");
+            } else {
+                faucet9On = true;
+                faucetOn = true;
+                $("#tap9").attr("src", "../images/faucetFrame2.png");
+                break;
+            }
+
+
         default:
             faucet1On = true;
             faucet2On = true;
@@ -126,12 +163,15 @@ function updateRandomFaucet() {
             faucet4On = true;
             faucet5On = true;
             faucet6On = true;
+            faucet7On = true;
+            faucet8On = true;
+            faucet9On = true;
             for (let i = 0; i < faucets.length; i++) {
                 faucets[i].setAttribute("src", "../images/faucetFrame2.png");
             }
             break;
     }
-    if (gameOver) {
+    if (timer <= 0 || sinkFill >= 300) {
         return;
     }
     var rand = Math.floor(Math.random() * (1500 - 500)) + 500;
@@ -141,7 +181,7 @@ function updateRandomFaucet() {
 
 $(document).ready(function () {
     $("#tap1").click(function () {
-        console.log("clciked??");
+        //console.log("clciked??");
         faucetOn = false;
         faucet1On = false;
         $("#tap1").attr("src", "../images/faucet.png");
@@ -176,13 +216,28 @@ $(document).ready(function () {
         faucet6On = false;
         $("#tap6").attr("src", "../images/faucet.png");
     });
+    $("#tap7").click(function () {
+        faucetOn = false;
+        faucet7On = false;
+        $("#tap7").attr("src", "../images/faucet.png");
+    });
+    $("#tap8").click(function () {
+        faucetOn = false;
+        faucet8On = false;
+        $("#tap8").attr("src", "../images/faucet.png");
+    });
+    $("#tap9").click(function () {
+        faucetOn = false;
+        faucet9On = false;
+        $("#tap9").attr("src", "../images/faucet.png");
+    });
 });
 
 
 /*  ////////////////////////////////////// */
-var timer = 0;
+var sinkFill = 0;
 
-function startTimer() {
+function startSinkFill() {
     setInterval(function () {
         var numFaucetsOn = 0;
         if (faucet1On) {
@@ -203,25 +258,58 @@ function startTimer() {
         if (faucet6On) {
             numFaucetsOn++;
         }
-        timer = timer + numFaucetsOn;
+        if (faucet7On) {
+            numFaucetsOn++;
+        }
+        if (faucet8On) {
+            numFaucetsOn++;
+        }
+        if (faucet9On) {
+            numFaucetsOn++;
+        }
+        sinkFill = sinkFill + numFaucetsOn;
 
 
-        if (timer > 300) {
+        if (timer <= 0) {
+            gameOver = true;
+            return;
+        }
+        if (sinkFill > 300) {
             gameOver = true;
             $("#text1").html("100%");
             $("#sinkGameWater").css("height", "100%")
-            clearInterval(timer);
+            clearInterval(sinkFill);
             return;
         }
-        console.log(timer);
-        $("#sinkGameWater").css("height", (timer / 300 * 100) + "%");
+
+        //console.log(sinkFill);
+        $("#sinkGameWater").css("height", Math.ceil(sinkFill / 300 * 100) + "%");
         //placeholder (suppose to be random text)
-        $("#text1").html(Math.ceil(timer / 300 * 100) + "%");
+        $("#text1").html(Math.ceil(sinkFill / 300 * 100) + "%");
+        $("#timer").html("Time: " + (timer-1));
+        
 
     }, 300);
 
 }
 
-startTimer();
+function startTimer() {
+    setInterval(function () {
+        timer--;
+
+        if (gameOver == true || timer <= 0) {
+            gameOver = true;
+            clearInterval(timer);
+            return;
+        }
+        console.log(timer)
+
+
+    }, 1000);
+}
+
+
+startSinkFill();
 updatePage();
 updateRandomFaucet();
+startTimer();
