@@ -1,13 +1,9 @@
 canvas {
     border-style: none;
-    background-image: url("../image/testBack.jpeg");
-    width: 100%;
-    background-repeat: no-repeat;
-    background-size: cover;
 }
 
 #divID {
-    background-image: url("../image/black1.jpeg");
+    background-image: url("../images/black1.jpeg");
     height: 100%;
     width: 100%;
     background-repeat: no-repeat;
@@ -33,56 +29,19 @@ html, body {
 	z-index: 99;
 }
 
-#next{
-    width:7%;
-    margin-left:90%;
-    position:absolute;
-    bottom: 4%;
-}
-#next2{
-    width:7%;
-    margin-left:90%;
-    position:absolute;
-    bottom: 4%;
-}
-#next3{
-    width:7%;
-    margin-left:90%;
-    position:absolute;
-    bottom: 4%;
-}
-#next4{
-    width:7%;
-    margin-left:90%;
-    position:absolute;
-    bottom: 4%;
-}
-#next5{
-    width:7%;
-    margin-left:90%;
-    position:absolute;
-    bottom: 4%;
-}
-#next6{
+.next{
+    cursor: pointer;
     width:7%;
     margin-left:90%;
     position:absolute;
     bottom: 4%;
 }
 
-#textbox{
-    width:80%;
-    max-height: 300px;
-    margin-left:10%;
-    margin-right:10%;
-    position: absolute;
-    bottom: 4%;
-}
 
 #textbox {
+    background-color:beige;
     width:78%;
-    height: 20%;
-    max-height: 300px;
+    height: 25%;
     margin-right: 10%;
     margin-left: 10%;
     position: absolute;
@@ -91,12 +50,13 @@ html, body {
     border: 2px solid #298;
     box-shadow: 10px 10px 5px -2px #872;
     border-radius: 5px 10px 15px 20px;
-    color: white;
-    font-size: 16pt;
+    color: black;
+    font-size: 32pt;
 }
 
 p{
-    padding:0.7em;
+    padding-left: 1%;
+    padding-right: 1%;
 }
 
 #earthguy{

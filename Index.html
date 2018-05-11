@@ -1,30 +1,52 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		  <title>Game</title>
-		  <meta charset="utf-8"/>
-      <link rel="stylesheet" type="text/css" href= "./mainPage/css/css.css"/>
-<script
-  src="https://code.jquery.com/jquery-2.2.4.js"
-  integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
-  crossorigin="anonymous"></script>
-      <script src="./mainPage/js/scenetrans.js"></script>
-      <script src="./mainPage/js/start.js"></script>
-      
-      
-	</head>
-	<body>
-      <div id="divID">
-          <div id="overlay"></div>
-          <div id="firstDiv">
-            <img src="./mainPage/image/Title.png" id="title" alt="title">
-            <img src="./mainPage/image/playbutton.png" id="startButton" alt="PlayButton" onclick="hiclick()">
-          </div>
-          <script>
-              startScreen();
-          </script>
 
-      </div>
-    
-	</body>
+<head>
+    <title>Game</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="./css/index.css" />
+    <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
+    <script src="./js/index.js"></script>
+
+</head>
+
+<body>
+    <div id="sinkGameWater">
+    </div>
+    <div id="sinkGame">
+        <p id="timer">Time: 20</p>
+        <img id="tap1" class="tap" src="./images/faucet.png" alt="tap">
+        <img id="tap2" class="tap" src="./images/faucet.png" alt="tap">
+        <img id="tap3" class="tap" src="./images/faucet.png" alt="tap">
+        <img id="tap4" class="tap" src="./images/faucet.png" alt="tap">
+        <img id="tap5" class="tap" src="./images/faucet.png" alt="tap">
+        <img id="tap6" class="tap" src="./images/faucet.png" alt="tap">
+        <img id="tap7" class="tap" src="./images/faucet.png" alt="tap">
+        <img id="tap8" class="tap" src="./images/faucet.png" alt="tap">
+        <img id="tap9" class="tap" src="./images/faucet.png" alt="tap">s
+    </div>
+
+    <div id="overlay"></div>
+    <img id="next" class='next' src="./images/next.png" alt="next">
+    <p id="text1">It is 2030….with the average temperature. You are an Unknown User, the newly appointed mayor of Vancouver, a prosperous
+        city situated next to the Pacific Ocean.</p>
+    <div id='beginningPage'>
+    </div>
+    <div id="divID">
+        <div id="firstDiv">
+            <img src="./images/Title.png" id="title" alt="title">
+            <img src="./images/playbutton.png" id="startButton" alt="PlayButton">
+        </div>
+    </div>
+    <div id="raindropDIV">
+        <div id="raindropGame">
+            <img id="nextInGame" class="next" src="./images/next.png" alt="next">
+            <script>
+            </script>
+        </div>
+    </div>
+
+
+</body>
+
 </html>
