@@ -166,40 +166,6 @@ function componentText(fontSize, fontType, color, x, y, text) {
 
 }
 
-function componentImg(width, height, x, y, src) {
-    this.x = x;
-    this.y = y;
-    this.width = width;
-    this.height = height;
-    this.gravitySpeed = 0;
-    this.update = function () {
-        obj1 = gameArea.context;
-        obj1 = new Image(this.width, this.height);
-        obj1.src = src;
-        gameArea.context.drawImage(obj1, this.x, this.y, this.width, this.height);
-
-    }
-    this.collideWith = function (otherobj) {
-        let myleft = this.x;
-        let myright = this.x + (this.width);
-        let mytop = this.y;
-        let mybottom = this.y + (this.height);
-        let otherleft = otherobj.x;
-        let otherright = otherobj.x + (otherobj.width);
-        let othertop = otherobj.y;
-        let otherbottom = otherobj.y + (otherobj.height);
-        let collide = true;
-        if ((mybottom < othertop) ||
-            (mytop > otherbottom) ||
-            (myright < otherleft) ||
-            (myleft > otherright)) {
-            collide = false;
-        }
-        return collide;
-    }
-
-}
-
 function newGameObject(obj) {
     this.width = obj.width;
     this.height = obj.height;
@@ -213,6 +179,7 @@ function newGameObject(obj) {
     this.hitLeft = false;
     this.hitRight = false;
     this.speed = height * 0.01;
+    this.direction = Math.floor(Math.random() * 2);
     this.update = function () {
         obj1 = gameArea.context;
         obj1 = new Image(this.width, this.height);
@@ -276,7 +243,7 @@ function updateGameArea() {
         addObjectOntoScreen();
         //console.log(objects);
     }
-    if(everyinterval(80)) {
+    if (everyinterval(80)) {
         addObjectOntoScreen();
     }
 
@@ -292,7 +259,16 @@ function updateGameArea() {
         } else if (objects[i].hitRight == true) {
             objects[i].x = objects[i].x - 1;
         } else {
-            objects[i].x = objects[i].x + 1;
+            switch (objects[i].direction) {
+                case 0:
+                    objects[i].x = objects[i].x + 1;
+                    break;
+                case 1:
+                    objects[i].x = objects[i].x - 1;
+                    break;
+                default:
+                    break;
+            }
         }
 
         if (objects[i].y <= height * 0.05) {
