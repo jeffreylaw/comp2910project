@@ -1,7 +1,7 @@
 var background;
 var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 var height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
-var sinkFill= 0;
+var sinkFill = 0;
 var timer = 20;
 var faucetOn = false;
 var faucet1On = false;
@@ -171,7 +171,7 @@ function updateRandomFaucet() {
             }
             break;
     }
-    if (timer <= 0 || sinkFill >= 300) {
+    if (timer <= 1 || sinkFill >= 300) {
         return;
     }
     var rand = Math.floor(Math.random() * (1500 - 500)) + 500;
@@ -270,7 +270,7 @@ function startSinkFill() {
         sinkFill = sinkFill + numFaucetsOn;
 
 
-        if (timer <= 0) {
+        if (timer <= 1) {
             gameOver = true;
             return;
         }
@@ -286,8 +286,8 @@ function startSinkFill() {
         $("#sinkGameWater").css("height", Math.ceil(sinkFill / 300 * 100) + "%");
         //placeholder (suppose to be random text)
         $("#text1").html(Math.ceil(sinkFill / 300 * 100) + "%");
-        $("#timer").html("Time: " + (timer-1));
-        
+        $("#timer").html("Time: " + (timer - 1));
+
 
     }, 300);
 
@@ -297,14 +297,13 @@ function startTimer() {
     setInterval(function () {
         timer--;
 
-        if (gameOver == true || timer <= 0) {
+        if (gameOver == true || timer <= 1) {
+            $("#timer").html("Time: 0");
             gameOver = true;
             clearInterval(timer);
             return;
         }
-        console.log(timer)
-
-
+        console.log(timer);
     }, 1000);
 }
 
