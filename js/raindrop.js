@@ -8,6 +8,7 @@ var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 var height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
 var gravity = 0.05;
 var timer;
+var raindropGameStopped = false;
 
  //cursor
  window.addEventListener("mousemove", mouseMove, false);
@@ -69,7 +70,9 @@ var gameArea = {
         this.context.clearRect(0,0, this.canvas.width, this.canvas.height);
     },
     stop : function() {
-        clearInterval(this.interval);
+        //clearInterval(this.interval);
+        raindropGameStopped
+     = true;
         window.removeEventListener('mousemove', mouseMove);
         window.removeEventListener('touchstart', touchStart);
         window.removeEventListener('touchmove', touchMove)
@@ -134,7 +137,17 @@ function updateGameArea() {
     bucket.width = width*0.1;
     bucket.height = width*0.1;
     var x, y;
+
+    gameArea.clear();
+    if (raindropGameStopped
+     === false) {
+        gameArea.frameNum += 1;
+    }
+    // Update background first
+
     for (let i = 0; i < raindrops.length; i++) {
+        raindrops[i].width = width*0.05;
+        raindrops[i].height = width*0.05;
         if (bucket.collideWith(raindrops[i])) {
             collected += 5;
             raindrops.splice(i, 1);
@@ -144,20 +157,22 @@ function updateGameArea() {
             }
         } 
     }
-    gameArea.clear();
-    gameArea.frameNum += 1;
-    // Update background first
+
 
     
     
-    if (gameArea.frameNum === 1 || everyinterval(30)) {
+    if (gameArea.frameNum === 1 || everyinterval(30) && raindropGameStopped
+ === false) {
         x = Math.floor(Math.random()*(gameArea.canvas.width));
         y = 1;
         raindrops.push(new componentImg(width*0.05, width*0.05, x, y, "../images/raindrop.png"));
     }
     for (let i = 0; i < raindrops.length; i++) {
-        raindrops[i].gravitySpeed += gravity;
-        raindrops[i].y += 1 + raindrops[i].gravitySpeed;
+        if (raindropGameStopped
+         === false) {
+            raindrops[i].gravitySpeed += gravity;
+            raindrops[i].y += 1 + raindrops[i].gravitySpeed;
+        }
         if (raindrops[i].y > gameArea.canvas.height) {
             raindrops.splice(i, 1);
         }
@@ -252,6 +267,7 @@ function updatePage() {
     var text = document.getElementsByTagName("p");
     var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
     var height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
+    
 
     for (let i = 0; i < text.length; i++) {
         if (width > height) {

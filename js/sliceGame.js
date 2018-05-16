@@ -9,6 +9,8 @@ var numLives;
 var mouseClicked;
 var lives = 3;
 var score = 0;
+var sliceGameMusic;
+var sliceGameStopped = false;
 
 var shower = {
     x: Math.random() * width,
@@ -66,6 +68,10 @@ window.addEventListener("mousedown", mouseDown, false);
 window.addEventListener("mousemove", mouseMove, false);
 window.addEventListener("mouseup", mouseUp, false);
 
+window.addEventListener('touchstart', touchStart, false);
+window.addEventListener('touchmove', touchMove, false)
+window.addEventListener('touchend', touchEnd, false);
+
 function mouseDown(e) {
     touch = true;
 }
@@ -89,10 +95,6 @@ function mouseUp(e) {
     gameArea.y = 0;
 }
 
-// mobile touch
-window.addEventListener('touchstart', touchStart, false);
-window.addEventListener('touchmove', touchMove, false)
-window.addEventListener('touchend', touchEnd, false);
 
 function touchStart(e) {
     console.log("touched");
@@ -120,6 +122,7 @@ function touchEnd(e) {
 
 function startSliceGame() {
     gameArea.start();
+    //sliceGameMusic = new sound("sliceGame.mp3");
     myScore = new componentText(height * 0.05 + "px", "Consolas", "black", 0, height * 0.05, "text");
     numLives = new componentText(height * 0.05 + "px", "Consolas", "black", width * 0.8, height * 0.05, "text");
 }
@@ -128,6 +131,7 @@ var gameArea = {
     canvas: document.createElement("canvas"),
     start: function () {
         gameArea.canvas = document.createElement("canvas");
+        gameArea.canvas.setAttribute("id", "sliceCanvas");
         this.canvas.width = width;
         this.canvas.height = height * 0.7;
         // Adds context
@@ -138,18 +142,34 @@ var gameArea = {
         div2.style.display = "block";
         this.interval = setInterval(updateGameArea, 20);
         this.frameNum = 0;
+
     },
     clear: function () {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     },
     stop: function () {
-        clearInterval(this.interval);
+        sliceGameStopped = true;
         window.removeEventListener('mousemove', mouseMove);
+        window.removeEventListener('mousedown', mouseDown);
+        window.removeEventListener('mouseup', mouseUp);
         window.removeEventListener('touchstart', touchStart);
-        window.removeEventListener('touchmove', touchMove)
+        window.removeEventListener('touchmove', touchMove);
         window.removeEventListener('touchend', touchEnd);
+
+        /*         clearInterval(this.interval);
+                window.removeEventListener('mousemove', mouseMove);
+                window.removeEventListener('touchstart', touchStart);
+                window.removeEventListener('touchmove', touchMove)
+                window.removeEventListener('touchend', touchEnd); */
     }
 }
+
+/* // mobile touch
+$(document).ready(function () {
+    document.getElementById("sliceGame").addEventListener('touchstart', touchStart, false);
+    document.getElementById("sliceGame").addEventListener('touchmove', touchMove, false)
+    document.getElementById("sliceGame").addEventListener('touchend', touchEnd, false);
+}); */
 
 
 function componentText(fontSize, fontType, color, x, y, text) {
@@ -233,74 +253,82 @@ function updateGameArea() {
     height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
     gameArea.canvas.width = width;
     gameArea.canvas.height = height * 0.7;
-    //bucket.y = gameArea.canvas.height- bucket.height;
     var x, y;
 
     gameArea.clear();
-    gameArea.frameNum += 1;
+    if (sliceGameStopped === false) {
+        gameArea.frameNum += 1;
+    }
     var rand = Math.floor(Math.random() * (120 - 50)) + 50;
-    if (gameArea.frameNum === 1 || everyinterval(rand)) {
+    if (gameArea.frameNum === 1 || everyinterval(rand) && sliceGameStopped === false) {
         addObjectOntoScreen();
         //console.log(objects);
     }
-    if (everyinterval(80)) {
+    if (everyinterval(80) && sliceGameStopped === false) {
         addObjectOntoScreen();
     }
 
     for (let i = objects.length - 1; i >= 0; i--) {
-        if (objects[i].x <= 0) {
-            objects[i].x = objects[i].x + 1;
-            objects[i].hitLeft = true;
-        } else if (objects[i].x >= width - objects[i].width) {
-            objects[i].x = objects[i].x - 1;
-            objects[i].hitRight = true;
-        } else if (objects[i].hitLeft == true) {
-            objects[i].x = objects[i].x + 1;
-        } else if (objects[i].hitRight == true) {
-            objects[i].x = objects[i].x - 1;
-        } else {
-            switch (objects[i].direction) {
-                case 0:
-                    objects[i].x = objects[i].x + 1;
-                    break;
-                case 1:
-                    objects[i].x = objects[i].x - 1;
-                    break;
-                default:
-                    break;
+
+        objects[i].width = width * 0.1;
+        objects[i].height = width * 0.1;
+
+        if (sliceGameStopped === false) {
+            if (objects[i].x <= 0) {
+                objects[i].x = objects[i].x + 1;
+                objects[i].hitLeft = true;
+            } else if (objects[i].x >= width - objects[i].width) {
+                objects[i].x = objects[i].x - 1;
+                objects[i].hitRight = true;
+            } else if (objects[i].hitLeft == true) {
+                objects[i].x = objects[i].x + 1;
+            } else if (objects[i].hitRight == true) {
+                objects[i].x = objects[i].x - 1;
+            } else {
+                switch (objects[i].direction) {
+                    case 0:
+                        objects[i].x = objects[i].x + 1;
+                        break;
+                    case 1:
+                        objects[i].x = objects[i].x - 1;
+                        break;
+                    default:
+                        break;
+                }
             }
-        }
 
-        if (objects[i].y <= height * 0.05) {
-            objects[i].hitTop = true;
-            objects[i].speed = 0;
+            if (objects[i].y <= height * 0.05) {
+                objects[i].hitTop = true;
+                objects[i].speed = 0;
 
-        }
-        if (objects[i].hitTop == true) {
-            objects[i].speed += gravity;
-            objects[i].y += 1 + objects[i].speed;
-            //console.log(objects[i].speed);
-        } else {
-            objects[i].speed -= height * 0.0001;
-            objects[i].y -= 1 + objects[i].speed;
+            }
+            if (objects[i].hitTop == true) {
+                objects[i].speed += gravity;
+                objects[i].y += 1 + objects[i].speed;
+                //console.log(objects[i].speed);
+            } else {
+                objects[i].speed -= height * 0.0001;
+                objects[i].y -= 1 + objects[i].speed;
+            }
         }
 
         objects[i].update();
 
+        if (sliceGameStopped === false) {
+            if (objects[i].y >= height * 0.7) {
+                lives = lives + objects[i].dropped;
+                objects.splice(i, 1);
+                //console.log(objects);
+            } else if (objects[i].sliced()) {
+                score = score + objects[i].score;
+                lives = lives + objects[i].life;
+                objects.splice(i, 1);
 
-        if (objects[i].y >= height * 0.7) {
-            lives = lives + objects[i].dropped;
-            objects.splice(i, 1);
-            //console.log(objects);
-        } else if (objects[i].sliced()) {
-            score = score + objects[i].score;
-            lives = lives + objects[i].life;
-            objects.splice(i, 1);
-
-        }
-        if (lives <= 0) {
-            //gameArea.clear();
-            gameArea.stop();
+            }
+            if (lives <= 0) {
+                //gameArea.clear();
+                gameArea.stop();
+            }
         }
     }
 
@@ -311,7 +339,6 @@ function updateGameArea() {
     numLives.text = "Lives: " + lives;
     numLives.update();
     myScore.update();
-    //bucket.update();
 }
 
 function everyinterval(n) {
@@ -375,3 +402,39 @@ function updatePage() {
     setTimeout(updatePage, 100);
 }
 updatePage();
+
+
+/*          var el = document.getElementById('sliceCanvas');
+            console.log(el);
+            var ctx = el.getContext('2d');
+            
+            ctx.lineWidth = 10;
+            ctx.lineJoin = ctx.lineCap = 'round';
+            ctx.strokeStyle="#FF0000";
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = 'rgb(100, 50, 234)';
+            
+            var isDrawing, points = [ ];
+            
+            el.onmousedown = function(e) {
+              isDrawing = true;
+              points.push({ x: e.clientX, y: e.clientY });
+            };
+            
+            el.onmousemove = function(e) {
+              if (!isDrawing) return;
+            
+              points.push({ x: e.clientX, y: e.clientY });
+            
+              ctx.beginPath();
+              ctx.moveTo(points[0].x, points[0].y);
+              for (var i = 1; i < points.length; i++) {
+                ctx.lineTo(points[i].x, points[i].y);
+              }
+              ctx.stroke();
+            };
+            
+            el.onmouseup = function() {
+              isDrawing = false;
+              points.length = 0;
+            }; */
