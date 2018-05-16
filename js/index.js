@@ -1049,6 +1049,7 @@ $(document).ready(function () {
                 nextEndGame();
                 break;
             case (secondSceneNum + 1):
+                console.log("removed the divs");
                 animateDiv();
                 $('#raindropDIV').remove(0);
                 $('#raindropGame').remove(0);
@@ -1385,6 +1386,11 @@ $(document).ready(function () {
                 animateDiv();
                 $('#raindropDIV').hide(0);
                 $('#raindropGame').hide(0);
+
+                //This Should Work??d/sa
+                var removeCanvas = document.getElementsByTagName("canvas");
+                var div1 = document.getElementById("raindropGame");
+                removeCanvas[0].remove(div1);
                 $('#beginningPage').show(0);
                 $("#text1").html("Employee: " + "<br/>Although we could not collect all the drops, we fixed the pipes. Everything would be all good for now.");
                 textNum = secondSceneNum + 1;
