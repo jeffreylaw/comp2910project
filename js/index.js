@@ -8,14 +8,15 @@ var bucket;
 var background;
 var raindrops = [];
 var touch = false;
-var myScore1;
+var myScore;
 var collected = 0;
 var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 var height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
 var gravity = 0.05;
 var timer1;
 var userName;
-var raindropGameStopped = false;
+var raindropGameBackgroundMusic;
+var waterDropSound;
 
 window.addEventListener("touchmove", function (event) {
     event.preventDefault();
@@ -58,8 +59,11 @@ function startRaindropGame() {
     gameArea.start();
     bucket = new componentImg(width * 0.1, width * 0.1,
         gameArea.canvas.width / 2 - width * 0.1, gameArea.canvas.height - height * 0.1, "./images/bucket.png");
-    myScore1 = new componentText(height * 0.05 + "px", "Consolas", "black", 0, height * 0.05, "text");
+    myScore = new componentText(height * 0.05 + "px", "Consolas", "black", 0, height * 0.05, "text");
     timer1 = new componentText(height * 0.05 + "px", "Consolas", "black", width * 0.8, height * 0.05, "text");
+    waterDropSound = new sound("./audio/waterDropSound.mp3", "soundEffect");
+    raindropGameBackgroundMusic = new sound("./audio/raindropGameBackgroundMusic.mp3", "backgroundMusic");
+    raindropGameBackgroundMusic.play();
 }
 
 var gameArea = {
@@ -82,8 +86,8 @@ var gameArea = {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     },
     stop: function () {
-        //clearInterval(this.interval);
-        raindropGameStopped = true;
+        clearInterval(this.interval);
+        stopAllSounds();
         $('#next').show(0);
         window.removeEventListener('mousemove', mouseMove);
         window.removeEventListener('touchstart', touchStart);
@@ -150,9 +154,9 @@ function updateGameArea() {
     bucket.height = width * 0.1;
     var x, y;
     for (let i = 0; i < raindrops.length; i++) {
-        raindrops[i].width = width * 0.05;
-        raindrops[i].height = width * 0.05;
         if (bucket.collideWith(raindrops[i])) {
+            waterDropSound.stop();
+            waterDropSound.play();
             collected += 5;
             raindrops.splice(i, 1);
             console.log(raindrops.length)
@@ -162,25 +166,19 @@ function updateGameArea() {
         }
     }
     gameArea.clear();
-
-    if (raindropGameStopped === false) {
-        gameArea.frameNum += 1;
-    }
+    gameArea.frameNum += 1;
     // Update background first
 
 
 
-    if (gameArea.frameNum === 1 || everyinterval(30)
-        && raindropGameStopped === false) {
+    if (gameArea.frameNum === 1 || everyinterval(30)) {
         x = Math.floor(Math.random() * (gameArea.canvas.width));
         y = 1;
         raindrops.push(new componentImg(width * 0.05, width * 0.05, x, y, "./images/raindrop.png"));
     }
     for (let i = 0; i < raindrops.length; i++) {
-        if (raindropGameStopped === false) {
-            raindrops[i].gravitySpeed += gravity;
-            raindrops[i].y += 1 + raindrops[i].gravitySpeed;
-        }
+        raindrops[i].gravitySpeed += gravity;
+        raindrops[i].y += 1 + raindrops[i].gravitySpeed;
         if (raindrops[i].y > gameArea.canvas.height) {
             raindrops.splice(i, 1);
         }
@@ -195,16 +193,16 @@ function updateGameArea() {
     if (gameArea.touchX) {
         bucket.x = gameArea.x - bucket.width / 2;
     }
-    myScore1.fontSize = width * 0.03 + "px";
+    myScore.fontSize = width * 0.03 + "px";
     timer1.fontSize = width * 0.03 + "px";
-    myScore1.text = "Collected: " + collected + "%";
+    myScore.text = "Collected: " + collected + "%";
     timer1.text = "Time: " + (20 - Math.ceil(gameArea.frameNum / 50))
     timer1.x = width * 0.8;
     if ((20 - Math.ceil(gameArea.frameNum / 50) == 0)) {
         gameArea.stop();
     }
     timer1.update();
-    myScore1.update();
+    myScore.update();
     bucket.update();
 }
 
@@ -461,7 +459,7 @@ function updateTapPage() {
 
 var objects = [];
 var touch2 = false;
-var myScore2;
+var myScore;
 var collected = 0;
 var gravity = 0.05;
 var numLives;
@@ -581,7 +579,7 @@ function touchEnd2(e) {
 function startSliceGame() {
     gameArea2.start();
     //sliceGameMusic = new sound("sliceGame.mp3");
-    myScore2 = new componentText2(height * 0.05 + "px", "Consolas", "black", 0, height * 0.05, "text");
+    myScore = new componentText2(height * 0.05 + "px", "Consolas", "black", 0, height * 0.05, "text");
     numLives = new componentText2(height * 0.05 + "px", "Consolas", "black", width * 0.8, height * 0.05, "text");
 }
 
@@ -610,9 +608,9 @@ var gameArea2 = {
         window.removeEventListener('mousemove', mouseMove2);
         window.removeEventListener('mousedown', mouseDown2);
         window.removeEventListener('mouseup', mouseUp2);
-        window.removeEventListener('touchstart', touchStart2);
-        window.removeEventListener('touchmove', touchMove2);
-        window.removeEventListener('touchend', touchEnd2);
+        window.removeEventListener('touchstart', touchStart);
+        window.removeEventListener('touchmove', touchMove);
+        window.removeEventListener('touchend', touchEnd);
 
         /*         clearInterval(this.interval);
                 window.removeEventListener('mousemove', mouseMove);
@@ -700,8 +698,8 @@ function addObjectOntoScreen() {
 }
 
 function updateGameArea2() {
-    var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
-    var height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
+    width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+    height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
     gameArea2.canvas.width = width;
     gameArea2.canvas.height = height * 0.65;
     var x, y;
@@ -709,15 +707,14 @@ function updateGameArea2() {
     gameArea2.clear();
     if (sliceGameStopped === false) {
         gameArea2.frameNum += 1;
-
-        var rand = Math.floor(Math.random() * (120 - 50)) + 50;
-        if (gameArea2.frameNum === 1 || everyinterval2(rand)) {
-            addObjectOntoScreen();
-            //console.log(objects);
-        }
-        if (everyinterval2(80)) {
-            addObjectOntoScreen();
-        }
+    }
+    var rand = Math.floor(Math.random() * (120 - 50)) + 50;
+    if (gameArea2.frameNum === 1 || everyinterval2(rand) && sliceGameStopped === false) {
+        addObjectOntoScreen();
+        //console.log(objects);
+    }
+    if (everyinterval2(80) && sliceGameStopped === false) {
+        addObjectOntoScreen();
     }
 
     for (let i = objects.length - 1; i >= 0; i--) {
@@ -777,20 +774,20 @@ function updateGameArea2() {
                 objects.splice(i, 1);
 
             }
-            if (lives <= 0) {
+            if (lives <= 0 || score == 3000) {
                 $('#next').show(0);
                 gameArea2.stop();
             }
         }
     }
 
-    myScore2.text = "Score: " + score;
-    myScore2.fontSize = width * 0.03 + "px";
+    myScore.text = "Score: " + score;
+    myScore.fontSize = width * 0.03 + "px";
     numLives.fontSize = width * 0.03 + "px";
     numLives.x = width * 0.8;
     numLives.text = "Lives: " + lives;
     numLives.update();
-    myScore2.update();
+    myScore.update();
 }
 
 function everyinterval2(n) {
@@ -842,7 +839,7 @@ function nameCancel() {
 }
 
 
-
+var dialogueMusic;
 
 $(document).ready(function () {
 
@@ -959,11 +956,13 @@ $(document).ready(function () {
     $("#next").click(function () {
 
         textNum++;
-
         console.log(textNum);
         switch (textNum) {
             case 1:
+                dialogueMusic = new sound("./audio/raindropGameBackgroundMusic.mp3", "backgroundMusic");
+                dialogueMusic.play();
                 $("#text1").html(lines[0]);
+                //textNum = 241;
                 break;
             case 2:
                 $("#text1").html("Employee: " + "<br/>" + lines[1]);
@@ -1039,18 +1038,19 @@ $(document).ready(function () {
                 $("#text1").html(userName + ":" + "<br/>" + lines[23]);
                 break;
             case 25:
+                stopAllSounds();
                 $("#next").hide(0);
                 $('#overlay').animate({
                     opacity: 1,
                 }, 1500, function () {
                 });
                 setTimeout(nextMinigame1, 1500);
+
                 break;
             case 26:
                 nextEndGame();
                 break;
             case (secondSceneNum + 1):
-                console.log("removed the divs");
                 animateDiv();
                 $('#raindropDIV').remove(0);
                 $('#raindropGame').remove(0);
@@ -1230,8 +1230,7 @@ $(document).ready(function () {
                 break;
             case 156:
                 $("#text1").show(0);
-                //$("#text2").hide(0);
-                console.log("g");
+                $("#text2").hide(0);
                 nextEndGame2();
                 break;
             case (thirdSceneNum + 1):
@@ -1387,11 +1386,6 @@ $(document).ready(function () {
                 animateDiv();
                 $('#raindropDIV').hide(0);
                 $('#raindropGame').hide(0);
-
-                //This Should Work??d/sa
-                var removeCanvas = document.getElementsByTagName("canvas");
-                var div1 = document.getElementById("raindropGame");
-                removeCanvas[0].remove(div1);
                 $('#beginningPage').show(0);
                 $("#text1").html("Employee: " + "<br/>Although we could not collect all the drops, we fixed the pipes. Everything would be all good for now.");
                 textNum = secondSceneNum + 1;
@@ -1522,3 +1516,55 @@ function updatePage() {
     setTimeout(updatePage, 100);
 }
 updatePage();
+
+
+///SOUNDS FUNCTION///
+
+function sound(src, backgroundMusic) {
+    this.sound = document.createElement("audio");
+    this.sound.src = src;
+    this.sound.setAttribute("class", backgroundMusic);
+    this.sound.setAttribute("preload", "auto");
+    this.sound.setAttribute("controls", "none");
+    this.sound.style.display = "none";
+    document.body.appendChild(this.sound);
+    if(backgroundMusic == "backgroundMusic") {
+        this.sound.setAttribute("loop", "loop");
+    }
+    this.play = function () {
+        this.sound.play();
+    }
+    this.stop = function () {
+        this.sound.currentTime = 0;
+        this.sound.pause();
+    }
+}
+
+function removeAllSounds() {
+    var allSounds = document.getElementsByTagName("audio");
+    var i = 0;
+    while (i < allSounds.length) {
+        //console.log(allSounds);
+        allSounds[i].pause();
+        allSounds[i].parentNode.removeChild(allSounds[i]);
+    }
+}
+
+/// Use this to stop and remove sounds
+function stopAllSounds() {
+    var allSounds = document.getElementsByClassName("backgroundMusic");
+    if (allSounds.length == 0) {
+        return;
+    } else if (allSounds.length > 1) {
+        allSounds[0].pause();
+        allSounds[0].parentNode.removeChild(allSounds[0]);
+        return;
+    }
+    if (allSounds[0].volume >= 0.1) {
+        allSounds[0].volume -= 0.1;
+        setTimeout(stopAllSounds, 700);
+    } else {
+        allSounds[0].pause();
+        removeAllSounds();
+    }
+}
