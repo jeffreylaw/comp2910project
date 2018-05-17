@@ -8,7 +8,7 @@ var bucket;
 var background;
 var raindrops = [];
 var touch = false;
-var myScore;
+var myScore1;
 var collected = 0;
 var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 var height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
@@ -58,7 +58,7 @@ function startRaindropGame() {
     gameArea.start();
     bucket = new componentImg(width * 0.1, width * 0.1,
         gameArea.canvas.width / 2 - width * 0.1, gameArea.canvas.height - height * 0.1, "./images/bucket.png");
-    myScore = new componentText(height * 0.05 + "px", "Consolas", "black", 0, height * 0.05, "text");
+    myScore1 = new componentText(height * 0.05 + "px", "Consolas", "black", 0, height * 0.05, "text");
     timer1 = new componentText(height * 0.05 + "px", "Consolas", "black", width * 0.8, height * 0.05, "text");
 }
 
@@ -195,16 +195,16 @@ function updateGameArea() {
     if (gameArea.touchX) {
         bucket.x = gameArea.x - bucket.width / 2;
     }
-    myScore.fontSize = width * 0.03 + "px";
+    myScore1.fontSize = width * 0.03 + "px";
     timer1.fontSize = width * 0.03 + "px";
-    myScore.text = "Collected: " + collected + "%";
+    myScore1.text = "Collected: " + collected + "%";
     timer1.text = "Time: " + (20 - Math.ceil(gameArea.frameNum / 50))
     timer1.x = width * 0.8;
     if ((20 - Math.ceil(gameArea.frameNum / 50) == 0)) {
         gameArea.stop();
     }
     timer1.update();
-    myScore.update();
+    myScore1.update();
     bucket.update();
 }
 
@@ -461,7 +461,7 @@ function updateTapPage() {
 
 var objects = [];
 var touch2 = false;
-var myScore;
+var myScore2;
 var collected = 0;
 var gravity = 0.05;
 var numLives;
@@ -581,7 +581,7 @@ function touchEnd2(e) {
 function startSliceGame() {
     gameArea2.start();
     //sliceGameMusic = new sound("sliceGame.mp3");
-    myScore = new componentText2(height * 0.05 + "px", "Consolas", "black", 0, height * 0.05, "text");
+    myScore2 = new componentText2(height * 0.05 + "px", "Consolas", "black", 0, height * 0.05, "text");
     numLives = new componentText2(height * 0.05 + "px", "Consolas", "black", width * 0.8, height * 0.05, "text");
 }
 
@@ -610,9 +610,9 @@ var gameArea2 = {
         window.removeEventListener('mousemove', mouseMove2);
         window.removeEventListener('mousedown', mouseDown2);
         window.removeEventListener('mouseup', mouseUp2);
-        window.removeEventListener('touchstart', touchStart);
-        window.removeEventListener('touchmove', touchMove);
-        window.removeEventListener('touchend', touchEnd);
+        window.removeEventListener('touchstart', touchStart2);
+        window.removeEventListener('touchmove', touchMove2);
+        window.removeEventListener('touchend', touchEnd2);
 
         /*         clearInterval(this.interval);
                 window.removeEventListener('mousemove', mouseMove);
@@ -709,14 +709,15 @@ function updateGameArea2() {
     gameArea2.clear();
     if (sliceGameStopped === false) {
         gameArea2.frameNum += 1;
-    }
-    var rand = Math.floor(Math.random() * (120 - 50)) + 50;
-    if (gameArea2.frameNum === 1 || everyinterval2(rand) && sliceGameStopped === false) {
-        addObjectOntoScreen();
-        //console.log(objects);
-    }
-    if (everyinterval2(80) && sliceGameStopped === false) {
-        addObjectOntoScreen();
+
+        var rand = Math.floor(Math.random() * (120 - 50)) + 50;
+        if (gameArea2.frameNum === 1 || everyinterval2(rand)) {
+            addObjectOntoScreen();
+            //console.log(objects);
+        }
+        if (everyinterval2(80)) {
+            addObjectOntoScreen();
+        }
     }
 
     for (let i = objects.length - 1; i >= 0; i--) {
@@ -783,13 +784,13 @@ function updateGameArea2() {
         }
     }
 
-    myScore.text = "Score: " + score;
-    myScore.fontSize = width * 0.03 + "px";
+    myScore2.text = "Score: " + score;
+    myScore2.fontSize = width * 0.03 + "px";
     numLives.fontSize = width * 0.03 + "px";
     numLives.x = width * 0.8;
     numLives.text = "Lives: " + lives;
     numLives.update();
-    myScore.update();
+    myScore2.update();
 }
 
 function everyinterval2(n) {
@@ -958,7 +959,7 @@ $(document).ready(function () {
     $("#next").click(function () {
 
         textNum++;
-        
+
         console.log(textNum);
         switch (textNum) {
             case 1:
