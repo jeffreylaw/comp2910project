@@ -8,17 +8,18 @@ var bucket;
 var background;
 var raindrops = [];
 var touch = false;
-var myScore;
+var myScore1;
 var collected = 0;
 var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 var height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
 var gravity = 0.05;
 var timer1;
 var userName;
+var raindropGameStopped = false;
 
-window.addEventListener("touchmove", function(event) {
-   event.preventDefault();
-   event.stopPropagation();
+window.addEventListener("touchmove", function (event) {
+    event.preventDefault();
+    event.stopPropagation();
 }, false);
 
 //cursor
@@ -56,8 +57,8 @@ function touchEnd(e) {
 function startRaindropGame() {
     gameArea.start();
     bucket = new componentImg(width * 0.1, width * 0.1,
-        gameArea.canvas.width / 2 - width * 0.1, gameArea.canvas.height - height * 0.1, "./images/bucket.png");
-    myScore = new componentText(height * 0.05 + "px", "Consolas", "black", 0, height * 0.05, "text");
+        gameArea.canvas.width / 2 - width * 0.1, gameArea.canvas.height - height * 0.1, "./images/minigame1/bucket.png");
+    myScore1 = new componentText(height * 0.05 + "px", "Consolas", "black", 0, height * 0.05, "text");
     timer1 = new componentText(height * 0.05 + "px", "Consolas", "black", width * 0.8, height * 0.05, "text");
 }
 
@@ -66,7 +67,7 @@ var gameArea = {
     start: function () {
         gameArea.canvas = document.createElement("canvas");
         this.canvas.width = width;
-        this.canvas.height = height * 0.69;
+        this.canvas.height = height * 0.65;
         // Adds context
         this.context = this.canvas.getContext("2d");
         let div1 = document.getElementById("raindropGame");
@@ -81,7 +82,8 @@ var gameArea = {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     },
     stop: function () {
-        clearInterval(this.interval);
+        //clearInterval(this.interval);
+        raindropGameStopped = true;
         $('#next').show(0);
         window.removeEventListener('mousemove', mouseMove);
         window.removeEventListener('touchstart', touchStart);
@@ -148,6 +150,8 @@ function updateGameArea() {
     bucket.height = width * 0.1;
     var x, y;
     for (let i = 0; i < raindrops.length; i++) {
+        raindrops[i].width = width * 0.05;
+        raindrops[i].height = width * 0.05;
         if (bucket.collideWith(raindrops[i])) {
             collected += 5;
             raindrops.splice(i, 1);
@@ -158,19 +162,25 @@ function updateGameArea() {
         }
     }
     gameArea.clear();
-    gameArea.frameNum += 1;
+
+    if (raindropGameStopped === false) {
+        gameArea.frameNum += 1;
+    }
     // Update background first
 
 
 
-    if (gameArea.frameNum === 1 || everyinterval(30)) {
+    if (gameArea.frameNum === 1 || everyinterval(30)
+        && raindropGameStopped === false) {
         x = Math.floor(Math.random() * (gameArea.canvas.width));
         y = 1;
-        raindrops.push(new componentImg(width * 0.05, width * 0.05, x, y, "./images/raindrop.png"));
+        raindrops.push(new componentImg(width * 0.05, width * 0.05, x, y, "./images/minigame1/raindrop.png"));
     }
     for (let i = 0; i < raindrops.length; i++) {
-        raindrops[i].gravitySpeed += gravity;
-        raindrops[i].y += 1 + raindrops[i].gravitySpeed;
+        if (raindropGameStopped === false) {
+            raindrops[i].gravitySpeed += gravity;
+            raindrops[i].y += 1 + raindrops[i].gravitySpeed;
+        }
         if (raindrops[i].y > gameArea.canvas.height) {
             raindrops.splice(i, 1);
         }
@@ -185,16 +195,16 @@ function updateGameArea() {
     if (gameArea.touchX) {
         bucket.x = gameArea.x - bucket.width / 2;
     }
-    myScore.fontSize = width * 0.03 + "px";
+    myScore1.fontSize = width * 0.03 + "px";
     timer1.fontSize = width * 0.03 + "px";
-    myScore.text = "Collected: " + collected + "%";
+    myScore1.text = "Collected: " + collected + "%";
     timer1.text = "Time: " + (20 - Math.ceil(gameArea.frameNum / 50))
     timer1.x = width * 0.8;
     if ((20 - Math.ceil(gameArea.frameNum / 50) == 0)) {
         gameArea.stop();
     }
     timer1.update();
-    myScore.update();
+    myScore1.update();
     bucket.update();
 }
 
@@ -236,7 +246,7 @@ function updateRandomFaucet() {
             } else {
                 faucetOn = true;
                 faucet1On = true;
-                $("#tap1").attr("src", "./images/faucetFrame2.png");
+                $("#tap1").attr("src", "./images/minigame2/faucetFrame2.png");
                 break;
             }
         case 1:
@@ -245,7 +255,7 @@ function updateRandomFaucet() {
             } else {
                 faucetOn = true;
                 faucet2On = true;
-                $("#tap2").attr("src", "./images/faucetFrame2.png");
+                $("#tap2").attr("src", "./images/minigame2/faucetFrame2.png");
                 break;
             }
         case 2:
@@ -254,7 +264,7 @@ function updateRandomFaucet() {
             } else {
                 faucetOn = true;
                 faucet3On = true;
-                $("#tap3").attr("src", "./images/faucetFrame2.png");
+                $("#tap3").attr("src", "./images/minigame2/faucetFrame2.png");
                 break;
             }
         case 3:
@@ -263,7 +273,7 @@ function updateRandomFaucet() {
             } else {
                 faucetOn = true;
                 faucet4On = true;
-                $("#tap4").attr("src", "./images/faucetFrame2.png");
+                $("#tap4").attr("src", "./images/minigame2/faucetFrame2.png");
                 break;
             }
         case 4:
@@ -272,7 +282,7 @@ function updateRandomFaucet() {
             } else {
                 faucetOn = true;
                 faucet5On = true;
-                $("#tap5").attr("src", "./images/faucetFrame2.png");
+                $("#tap5").attr("src", "./images/minigame2/faucetFrame2.png");
                 break;
             }
         case 5:
@@ -281,7 +291,7 @@ function updateRandomFaucet() {
             } else {
                 faucet6On = true;
                 faucetOn = true;
-                $("#tap6").attr("src", "./images/faucetFrame2.png");
+                $("#tap6").attr("src", "./images/minigame2/faucetFrame2.png");
                 break;
             }
         case 6:
@@ -290,7 +300,7 @@ function updateRandomFaucet() {
             } else {
                 faucet7On = true;
                 faucetOn = true;
-                $("#tap7").attr("src", "./images/faucetFrame2.png");
+                $("#tap7").attr("src", "./images/minigame2/faucetFrame2.png");
                 break;
             }
 
@@ -300,7 +310,7 @@ function updateRandomFaucet() {
             } else {
                 faucet8On = true;
                 faucetOn = true;
-                $("#tap8").attr("src", "./images/faucetFrame2.png");
+                $("#tap8").attr("src", "./images/minigame2/faucetFrame2.png");
                 break;
             }
 
@@ -310,7 +320,7 @@ function updateRandomFaucet() {
             } else {
                 faucet9On = true;
                 faucetOn = true;
-                $("#tap9").attr("src", "./images/faucetFrame2.png");
+                $("#tap9").attr("src", "./images/minigame2/faucetFrame2.png");
                 break;
             }
 
@@ -326,7 +336,7 @@ function updateRandomFaucet() {
             faucet8On = true;
             faucet9On = true;
             for (let i = 0; i < faucets.length; i++) {
-                faucets[i].setAttribute("src", "./images/faucetFrame2.png");
+                faucets[i].setAttribute("src", "./images/minigame2/faucetFrame2.png");
             }
             break;
     }
@@ -438,7 +448,7 @@ function updateTapPage() {
         $("#tap5").css("left", (width / 2 - tapWidth / 2) + "px");
         $("#tap8").css("left", (width / 2 - tapWidth / 2) + "px");
     }
-    
+
     setTimeout(updateTapPage, 10);
 }
 
@@ -451,7 +461,7 @@ function updateTapPage() {
 
 var objects = [];
 var touch2 = false;
-var myScore;
+var myScore2;
 var collected = 0;
 var gravity = 0.05;
 var numLives;
@@ -466,7 +476,7 @@ var shower = {
     y: height * 0.7,
     width: width * 0.1,
     height: width * 0.1,
-    src: "./images/shower.png",
+    src: "./images/minigame3/shower.png",
     speed: 15,
     score: 100,
     life: 0,
@@ -479,7 +489,7 @@ var faucet = {
     y: height * 0.7,
     width: width * 0.1,
     height: width * 0.1,
-    src: "./images/faucet.png",
+    src: "./images/minigame3/faucet.png",
     speed: 15,
     score: 100,
     life: 0,
@@ -491,7 +501,7 @@ var washer = {
     y: height * 0.7,
     width: width * 0.1,
     height: width * 0.1,
-    src: "./images/washer.png",
+    src: "./images/minigame3/washer.png",
     speed: 15,
     score: 100,
     life: 0,
@@ -504,7 +514,7 @@ var waterBottle = {
     y: height * 0.7,
     width: width * 0.1,
     height: height * 0.1,
-    src: "./images/waterBottle.png",
+    src: "./images/minigame3/waterBottle.png",
     speed: 15,
     score: -100,
     life: -1,
@@ -571,7 +581,7 @@ function touchEnd2(e) {
 function startSliceGame() {
     gameArea2.start();
     //sliceGameMusic = new sound("sliceGame.mp3");
-    myScore = new componentText2(height * 0.05 + "px", "Consolas", "black", 0, height * 0.05, "text");
+    myScore2 = new componentText2(height * 0.05 + "px", "Consolas", "black", 0, height * 0.05, "text");
     numLives = new componentText2(height * 0.05 + "px", "Consolas", "black", width * 0.8, height * 0.05, "text");
 }
 
@@ -581,7 +591,7 @@ var gameArea2 = {
         gameArea2.canvas = document.createElement("canvas");
         gameArea2.canvas.setAttribute("id", "sliceCanvas");
         this.canvas.width = width;
-        this.canvas.height = height * 0.7;
+        this.canvas.height = height * 0.65;
         // Adds context
         this.context = this.canvas.getContext("2d");
         let div1 = document.getElementById("sliceGame");
@@ -600,9 +610,9 @@ var gameArea2 = {
         window.removeEventListener('mousemove', mouseMove2);
         window.removeEventListener('mousedown', mouseDown2);
         window.removeEventListener('mouseup', mouseUp2);
-        window.removeEventListener('touchstart', touchStart);
-        window.removeEventListener('touchmove', touchMove);
-        window.removeEventListener('touchend', touchEnd);
+        window.removeEventListener('touchstart', touchStart2);
+        window.removeEventListener('touchmove', touchMove2);
+        window.removeEventListener('touchend', touchEnd2);
 
         /*         clearInterval(this.interval);
                 window.removeEventListener('mousemove', mouseMove);
@@ -690,23 +700,24 @@ function addObjectOntoScreen() {
 }
 
 function updateGameArea2() {
-    width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
-    height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
+    var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+    var height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
     gameArea2.canvas.width = width;
-    gameArea2.canvas.height = height * 0.7;
+    gameArea2.canvas.height = height * 0.65;
     var x, y;
 
     gameArea2.clear();
     if (sliceGameStopped === false) {
         gameArea2.frameNum += 1;
-    }
-    var rand = Math.floor(Math.random() * (120 - 50)) + 50;
-    if (gameArea2.frameNum === 1 || everyinterval2(rand) && sliceGameStopped === false) {
-        addObjectOntoScreen();
-        //console.log(objects);
-    }
-    if (everyinterval2(80) && sliceGameStopped === false) {
-        addObjectOntoScreen();
+
+        var rand = Math.floor(Math.random() * (120 - 50)) + 50;
+        if (gameArea2.frameNum === 1 || everyinterval2(rand)) {
+            addObjectOntoScreen();
+            //console.log(objects);
+        }
+        if (everyinterval2(80)) {
+            addObjectOntoScreen();
+        }
     }
 
     for (let i = objects.length - 1; i >= 0; i--) {
@@ -773,13 +784,13 @@ function updateGameArea2() {
         }
     }
 
-    myScore.text = "Score: " + score;
-    myScore.fontSize = width * 0.03 + "px";
+    myScore2.text = "Score: " + score;
+    myScore2.fontSize = width * 0.03 + "px";
     numLives.fontSize = width * 0.03 + "px";
     numLives.x = width * 0.8;
     numLives.text = "Lives: " + lives;
     numLives.update();
-    myScore.update();
+    myScore2.update();
 }
 
 function everyinterval2(n) {
@@ -802,6 +813,64 @@ var lines2 = [];
 var lines3 = [];
 var secondSceneNum = 100;
 var thirdSceneNum = 200;
+var lastSceneNum = 300;
+var employer = "<b>Tommy:<br/></b>";
+var questionMark = "<b>???:<br/></b>";
+var gardener = "<b>Lily:<br/></b>";
+var chef = "<b>Olivia:<br/></b>";
+var maintenanceGuy = "<b>Richard:<br/></b>";
+
+
+function startStoryGame() {
+    storyArea.start();
+}
+
+var storyArea = {
+    canvas: document.createElement("canvas"),
+    start: function () {
+        storyArea.canvas = document.createElement("canvas");
+        this.canvas.width = width;
+        this.canvas.height = height * 0.65;
+        // Adds context
+        this.context = this.canvas.getContext("2d");
+        let div = document.getElementById("beginningPage");
+        div.appendChild(this.canvas);
+        this.interval = setInterval(updateStoryArea, 20);
+        this.canvas.style.cursor = "none";
+        this.frameNum = 0;
+    },
+    clear: function () {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    },
+    stop: function () {
+        window.removeEventListener('mousemove', mouseMove);
+        window.removeEventListener('touchstart', touchStart);
+        window.removeEventListener('touchmove', touchMove)
+        window.removeEventListener('touchend', touchEnd);
+    }
+}
+
+function componentStoryImg(width, height, x, y, src) {
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+    this.update = function () {
+        obj1 = storyArea.context;
+        obj1 = new Image(this.width, this.height);
+        obj1.src = src;
+        storyArea.context.drawImage(obj1, this.x, this.y, this.width, this.height);
+    }
+}
+
+function updateStoryArea() {
+    width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+    height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
+    storyArea.canvas.width = width;
+    storyArea.canvas.height = height * 0.65;
+    var x, y;
+    storyArea.clear();
+}
 
 $.ajax({
     url: "./js/transitionPage_gettable.php",
@@ -827,7 +896,7 @@ $.ajax({
 });
 
 function nameCancel() {
-            document.getElementById('nameBlank').style.display = 'none';
+    document.getElementById('nameBlank').style.display = 'none';
 }
 
 
@@ -837,16 +906,6 @@ $(document).ready(function () {
 
     $('#sinkGameWater').hide(0);
     $('#sinkGame').hide(0);
-    $('#timer').hide(0);
-    $('#tap1').hide(0);
-    $('#tap2').hide(0);
-    $('#tap3').hide(0);
-    $('#tap4').hide(0);
-    $('#tap5').hide(0);
-    $('#tap6').hide(0);
-    $('#tap7').hide(0);
-    $('#tap8').hide(0);
-    $('#tap9').hide(0);
     $('#beginningPage').hide(0);
     $('#text1').hide(0);
     $('#next').hide(0);
@@ -859,175 +918,201 @@ $(document).ready(function () {
         //console.log("clciked??");
         faucetOn = false;
         faucet1On = false;
-        $("#tap1").attr("src", "./images/faucet.png");
+        $("#tap1").attr("src", "./images/minigame2/faucet.png");
     });
 
     $("#tap2").click(function () {
         faucetOn = false;
         faucet2On = false;
-        $("#tap2").attr("src", "./images/faucet.png");
+        $("#tap2").attr("src", "./images/minigame2/faucet.png");
     });
 
     $("#tap3").click(function () {
         faucetOn = false;
         faucet3On = false;
-        $("#tap3").attr("src", "./images/faucet.png");
+        $("#tap3").attr("src", "./images/minigame2/faucet.png");
     });
 
     $("#tap4").click(function () {
         faucetOn = false;
         faucet4On = false;
-        $("#tap4").attr("src", "./images/faucet.png");
+        $("#tap4").attr("src", "./images/minigame2/faucet.png");
     });
 
     $("#tap5").click(function () {
         faucetOn = false;
         faucet5On = false;
-        $("#tap5").attr("src", "./images/faucet.png");
+        $("#tap5").attr("src", "./images/minigame2/faucet.png");
     });
 
     $("#tap6").click(function () {
         faucetOn = false;
         faucet6On = false;
-        $("#tap6").attr("src", "./images/faucet.png");
+        $("#tap6").attr("src", "./images/minigame2/faucet.png");
     });
     $("#tap7").click(function () {
         faucetOn = false;
         faucet7On = false;
-        $("#tap7").attr("src", "./images/faucet.png");
+        $("#tap7").attr("src", "./images/minigame2/faucet.png");
     });
     $("#tap8").click(function () {
         faucetOn = false;
         faucet8On = false;
-        $("#tap8").attr("src", "./images/faucet.png");
+        $("#tap8").attr("src", "./images/minigame2/faucet.png");
     });
     $("#tap9").click(function () {
         faucetOn = false;
         faucet9On = false;
-        $("#tap9").attr("src", "./images/faucet.png");
+        $("#tap9").attr("src", "./images/minigame2/faucet.png");
     });
 
     //----------------------------------------------------------------------------------------------
 
 
-        function nameConfirm() {
-            userName = document.getElementById('userNameInput').value;
-            if (userName.trim().length == 0) {
-                document.getElementById('nameBlank').style.display = 'inline';
-            } else if (userName.toUpperCase() === 'BCIT') {
-                //Put code here to transition to comic
-            } else {
-                $('#overlay').animate({
-                        opacity: 1,
-                }, 1000, function () {
-                });
-                setTimeout(transitionPage, 1000);
-            }
-        }
-
-        console.log(userName);
-
-
-        function transitionPage() {
-            $('#divID').remove(0);
+    function nameConfirm() {
+        userName = document.getElementById('userNameInput').value;
+        if (userName.trim().length == 0) {
+            document.getElementById('nameBlank').style.display = 'inline';
+        } else if (userName.toUpperCase() === 'BCIT') {
+            //Put code here to transition to comic
+        } else {
             $('#overlay').animate({
-                opacity: 0,
-            }, 1000, function () { });
-            $('#beginningPage').show(0);
-            $('#text1').show(0);
-            $('#next').show(0);
-            $('#myModal').remove(0);
-            $('#promtBox').remove(0);
-            $("promptBoxContent").remove(0);
+                opacity: 1,
+            }, 1000, function () {
+            });
+            setTimeout(transitionPage, 1000);
         }
-    
+    }
+
+
+    function transitionPage() {
+        $('#divID').remove(0);
+        $('#overlay').animate({
+            opacity: 0,
+        }, 1000, function () { });
+        $('#beginningPage').show(0);
+        startStoryGame();
+        $('#text1').show(0);
+        $('#next').show(0);
+        $('#myModal').remove(0);
+        $('#promtBox').remove(0);
+        $("promptBoxContent").remove(0);
+    }
+
     $('#ok').click(function () {
         nameConfirm();
     })
 
     $("#next").click(function () {
-
+        var user = "<b>" + userName + ":<br/></b>";
         textNum++;
+
         console.log(textNum);
         switch (textNum) {
             case 1:
                 $("#text1").html(lines[0]);
-                textNum = 241;
                 break;
             case 2:
-                $("#text1").html("Employee: " + "<br/>" + lines[1]);
-                console.log(lines[1]);
+                $("#text1").html(lines[1]);
                 break;
             case 3:
-                $("#text1").html(userName + ":" + "<br/>" + lines[2]);
+                $("#text1").html("<b>Employee:<br/></b>" + lines[2]);
                 break;
             case 4:
-                $("#text1").html("Employee: " + "<br/>" + userName+ "! " + lines[3]);
+                $("#text1").html(user + lines[3]);
                 break;
             case 5:
-                $("#text1").html(userName + ":" + "<br/>" + lines[4]);
+                $("#text1").html("<b>Employee:<br/></b>" + userName + "! "+ lines[4]);
                 break;
             case 6:
-                $("#text1").html("Employee: " + "<br/>" + lines[5]);
+                $("#text1").html(user + lines[5]);
                 break;
             case 7:
-                $("#text1").html("Employee: " + "<br/>" + lines[6]);
+                $("#text1").html("<b>Employee:<br/></b>" + lines[6]);
                 break;
             case 8:
-                $("#text1").html(userName + ":" + "<br/>" + lines[7]);
+                $("#text1").html("<b>Employee:<br/></b>" + lines[7]);
                 break;
             case 9:
-                $("#text1").html("Employee: " + "<br/>" + lines[8]);
+                $("#text1").html("<b>Employee:<br/></b>" + lines[8]);
                 break;
             case 10:
-//                document.getElementById("beginningPage").style.backgroundImage = 'url("./images/testBack2.jpeg")';
-                animateDiv();
-                $("#text1").html("Employee: " + "<br/>" + lines[9] + ", " + userName);
+                $("#text1").html(user + lines[9]);
                 break;
             case 11:
-                $("#text1").html("Employee: " + "<br/>" + lines[10]);
+                $("#text1").html("<b>Employee:<br/></b>" + lines[10]);
                 break;
-            case 12 :
-                $("#text1").html("Employee: " + "<br/>" + lines[11]);
+            case 12:
+                animateDiv();
+                document.getElementById("beginningPage").style.backgroundImage = 'url("./images/background/lobby_day.jpg")';
+                $("#text1").html("<b>Employee:<br/></b>" + lines[11] + " " + userName);
                 break;
             case 13:
-                animateDiv();
-                $("#text1").html("Employee: " + "<br/>" + lines[12]);
+                $("#text1").html("<b>Employee:<br/></b>" + lines[12]);
                 break;
             case 14:
-                $("#text1").html(lines[13]);
+                $("#text1").html(employer + lines[13]);
                 break;
             case 15:
-                $("#text1").html(userName + ":" + "<br/>" + lines[14]);
+                $("#text1").html(employer + lines[14]);
                 break;
             case 16:
-                $("#text1").html("Employee: " + "<br/>" + lines[15]);
+                animateDiv();
+                document.getElementById("beginningPage").style.backgroundImage = 'url("./images/background/basement.jpg")';
+                $("#text1").html(employer + lines[15]);
                 break;
             case 17:
-                $("#text1").html("Employee: " + "<br/>" + lines[16]);
+                $("#text1").html(employer + lines[16]);
                 break;
             case 18:
                 $("#text1").html(lines[17]);
                 break;
             case 19:
-                $("#text1").html(userName + ":" + "<br/>" + lines[18]);
+                $("#text1").html(user + lines[18]);
                 break;
             case 20:
-                $("#text1").html("Employee: " + "<br/>" + lines[19]);
+                $("#text1").html(employer + lines[19]);
                 break;
             case 21:
-                $("#text1").html(userName + ":" + "<br/>" + lines[20]);
+                $("#text1").html(employer + lines[20]);
                 break;
             case 22:
-                $("#text1").html("Employee: " + "<br/>" + lines[21]);
+                $("#text1").html(employer + lines[21]);
                 break;
             case 23:
-                $("#text1").html(userName + ":" + "<br/>" + lines[22]);
+                $("#text1").html(employer + lines[22]);
                 break;
             case 24:
-                $("#text1").html(userName + ":" + "<br/>" + lines[23]);
+                $("#text1").html(employer + lines[23]);
                 break;
             case 25:
+                $("#text1").html(lines[24]);
+                break;
+            case 26:
+                $("#text1").html(user + lines[25]);
+                break;
+            case 27:
+                $("#text1").html(lines[26]);
+                break;
+            case 28:
+                $("#text1").html(user + lines[27]);
+                break;
+            case 29:
+                $("#text1").html(employer + lines[28]);
+                break;
+            case 30:
+                $("#text1").html(user + lines[29]);
+                break;
+            case 31:
+                $("#text1").html(employer + lines[30]);
+                break;
+            case 32:
+                $("#text1").html(user + lines[31]);
+                break;
+            case 33:
+                $("#text1").html(user + lines[32]);
+                break;
+            case 34:
                 $("#next").hide(0);
                 $('#overlay').animate({
                     opacity: 1,
@@ -1035,334 +1120,398 @@ $(document).ready(function () {
                 });
                 setTimeout(nextMinigame1, 1500);
                 break;
-            case 26:
+            case 35:
                 nextEndGame();
                 break;
-            case (secondSceneNum+1):
+            case (secondSceneNum + 1):
                 animateDiv();
                 $('#raindropDIV').remove(0);
                 $('#raindropGame').remove(0);
                 $('#beginningPage').show(0);
-//                document.getElementById("beginningPage").style.backgroundImage = 'url("./images/testBack.jpeg")';
-                $("#text1").html("Employee: " + "<br/>" + lines2[0]);
+                $("#text1").html(employer + lines2[0]);
                 break;
             case 102:
-                $("#text1").html("Employee: " + "<br/>" + lines2[1]);
+                $("#text1").html(employer + lines2[1]);
                 break;
             case 103:
-                $("#text1").html("???: " + "<br/>" + lines2[2]);
+                $("#text1").html(employer + lines2[2]);
                 break;
             case 104:
-                $("#text1").html("???: " + "<br/>" + lines2[3]);
+                $("#text1").html(questionMark + lines2[3]);
                 break;
             case 105:
-                $("#text1").html(userName + ":" + "<br/>" + lines2[4]);
+                $("#text1").html(questionMark + lines2[4]);
                 break;
             case 106:
-                $("#text1").html("Richard: " + "<br/>" + lines2[5]);
+                $("#text1").html(user + lines2[5]);
                 break;
             case 107:
-                $("#text1").html("Employee: " + "<br/>" + lines2[6]);
+                $("#text1").html(maintenanceGuy + lines2[6]);
                 break;
             case 108:
-                $("#text1").html("Richard: " + "<br/>" + lines2[7]);
+                $("#text1").html(maintenanceGuy + lines2[7]);
                 break;
             case 109:
-                $("#text1").html("Richard: " + "<br/>" + lines2[8]);
+                $("#text1").html(maintenanceGuy + lines2[8]);
                 break;
             case 110:
-                $("#text1").html("Richard: " + "<br/>" + lines2[9]);
+                $("#text1").html(employer + lines2[9]);
                 break;
             case 111:
-                $("#text1").html(userName + ":" + "<br/>" + lines2[10]);
+                $("#text1").html(maintenanceGuy + lines2[10]);
                 break;
             case 112:
-               $("#text1").html("Richard: " + "<br/>" + lines2[11]);
+                $("#text1").html(employer + lines2[11]);
                 break;
             case 113:
-               $("#text1").html("Employee: " + "<br/>" + lines2[12]);
-                break; 
+                $("#text1").html(maintenanceGuy + lines2[12]);
+                break;
             case 114:
-                $("#text1").html(userName + ":" + "<br/>" + lines2[13]);
+                $("#text1").html(maintenanceGuy + lines2[13]);
                 break;
             case 115:
-                $("#text1").html(userName + ":" + "<br/>" + lines2[14]);
+                $("#text1").html(user + lines2[14]);
                 break;
             case 116:
-                $("#text1").html(userName + ":" + "<br/>" + lines2[15]);
+                $("#text1").html(user + lines2[15]);
                 break;
             case 117:
-                $("#text1").html(userName + ":" + "<br/>" + lines2[16]);
+                $("#text1").html(maintenanceGuy + lines2[16]);
                 break;
             case 118:
-                $("#text1").html("Employee: " + "<br/>" + lines2[17]);
+                $("#text1").html(maintenanceGuy + lines2[17]);
                 break;
             case 119:
-                $("#text1").html("Employee: " + "<br/>" + lines2[18]);
+                $("#text1").html(employer + lines2[18]);
                 break;
             case 120:
-                $("#text1").html(userName + ":" + "<br/>" + lines2[19]);
+                $("#text1").html(user + lines2[19]);
                 break;
             case 121:
-                animateDiv();
-                $("#text1").html("As -hotel employee’s name here- walks through the garden, he notices that the sprinklers are  on and a lady washing the pavilion with a hose.");
+                $("#text1").html(user + lines2[20]);
                 break;
             case 122:
-                $("#text1").html("Employee: " + "<br/>" + lines2[20]);
+                $("#text1").html(user + lines2[21]);
                 break;
             case 123:
-                $("#text1").html("Employee: " + "<br/>" + lines2[21]);
+                $("#text1").html(employer + lines2[22]);
                 break;
             case 124:
-                $("#text1").html("Gradener: " + "<br/>" + lines2[22]);
+                $("#text1").html(employer + lines2[23]);
                 break;
             case 125:
-                $("#text1").html("Jenny: " + "<br/>" + lines2[23]);
+                $("#text1").html(user + lines2[24]);
                 break;
             case 126:
-                $("#text1").html("Employee: " + "<br/>" + lines2[24]);
+                animateDiv();
+                document.getElementById("beginningPage").style.backgroundImage = 'url("./images/background/garden_pavillion.jpg")';
+                $("#text1").html(lines2[25]);
                 break;
             case 127:
-                $("#text1").html("Jenny: " + "<br/>" + lines2[25]);
+                $("#text1").html(employer + "<i>" + lines2[26] + "</i>");
                 break;
             case 128:
-                $("#text1").html("Employee: " + "<br/>" + lines2[26]);
+                $("#text1").html(employer + lines2[27]);
                 break;
             case 129:
-                $("#text1").html("Employee: " + "<br/>" + lines2[27]);
+                $("#text1").html("<b>Gardener:<br/></b>" + lines2[28]);
                 break;
             case 130:
-                $("#text1").html("Jenny: " + "<br/>" + lines2[28]);
+                $("#text1").html(gardener + lines2[29]);
                 break;
             case 131:
-                $("#text1").html("Employee: " + "<br/>" + lines2[29]);
+                $("#text1").html(gardener + lines2[30]);
                 break;
             case 132:
-                $("#text1").html("Jenny: " + "<br/>" + lines2[30]);
+                $("#text1").html(employer + lines2[31]);
                 break;
             case 133:
-                $("#text1").html("Jenny: " + "<br/>" + lines2[31]);
+                $("#text1").html(gardener + lines2[32]);
                 break;
             case 134:
-                $("#text1").html("Employee: " + "<br/>" + lines2[32]);
+                $("#text1").html(employer + lines2[33]);
                 break;
             case 135:
-                $("#text1").html("Jenny: " + "<br/>" + lines2[33]);
+                $("#text1").html(employer + lines2[34]);
                 break;
             case 136:
-                $("#text1").html("Employee: " + "<br/>" + lines2[34]);
+                $("#text1").html(gardener + lines2[35]);
                 break;
             case 137:
-                $("#text1").html("Jenny: " + "<br/>" + lines2[35]);
+                $("#text1").html(employer + lines2[36]);
                 break;
             case 138:
-                $("#text1").html("Employee: " + "<br/>" + lines2[36]);
+                $("#text1").html(gardener + lines2[37]);
                 break;
             case 139:
-                $("#text1").html("Jenny: " + "<br/>" + lines2[37]);
+                $("#text1").html(gardener + lines2[38]);
                 break;
             case 140:
-                $("#text1").html("Employee: " + "<br/>" + lines2[38]);
+                $("#text1").html(gardener + lines2[39]);
                 break;
             case 141:
-                $("#text1").html("Jenny: " + "<br/>" + lines2[39]);
+                $("#text1").html(employer + lines2[40]);
                 break;
             case 142:
-                $("#text1").html("Jenny: " + "<br/>" + lines2[40]);
+                $("#text1").html(gardener + lines2[41]);
                 break;
             case 143:
-                $("#text1").html("Employee: " + "<br/>" + lines2[41]);
+                $("#text1").html(employer + lines2[42]);
                 break;
             case 144:
-                $("#text1").html("Employee: " + "<br/>" + lines2[42]);
+                $("#text1").html(gardener + lines2[43]);
                 break;
             case 145:
-                $("#text1").html("Employee: " + "<br/>" + lines2[43]);
+                $("#text1").html(employer + lines2[44]);
                 break;
             case 146:
-                $("#text1").html("Employee: " + "<br/>" + lines2[44]);
+                $("#text1").html(gardener + lines2[45]);
                 break;
             case 147:
-                $("#text1").html("Jenny: " + "<br/>" + lines2[45]);
+                $("#text1").html(employer + lines2[46]);
                 break;
             case 148:
-                $("#text1").html("Employee: " + "<br/>" + lines2[46]);
+                $("#text1").html(gardener + lines2[47]);
                 break;
             case 149:
-                $("#text1").html("Employee: " + "<br/>" + lines2[47]);
+                $("#text1").html(gardener + lines2[48]);
                 break;
             case 150:
-                animateDiv();
-                $("#text1").html(userName + ":" + "<br/>" + lines2[48]);
+                $("#text1").html(employer + lines2[49]);
                 break;
             case 151:
-                $("#text1").html(userName + ":" + "<br/>" + lines2[49]);
+                $("#text1").html(employer + lines2[50]);
                 break;
             case 152:
-                $("#text1").html(lines2[50]);
+                $("#text1").html(employer + lines2[51]);
                 break;
             case 153:
-                $("#text1").html(userName + ":" + "<br/>" + lines2[51]);
+                $("#text1").html(employer + lines2[52]);
                 break;
             case 154:
-                $("#text1").html(userName + ":" + "<br/>" + lines2[52]);
+                $("#text1").html(gardener + lines2[53]);
                 break;
             case 155:
+                $("#text1").html(gardener + lines2[54]);
+                break;                
+            case 156:
+                $("#text1").html(employer + lines2[55]);
+                break;
+            case 157:
+                $("#text1").html(employer + lines2[56]);
+                break;
+            case 158:
+                animateDiv();
+                document.getElementById("beginningPage").style.backgroundImage = 'url("./images/background/kitchen.jpg")';
+                $("#text1").html(user + lines2[57]);
+                break;
+            case 159:
+                $("#text1").html(user + lines2[58]);
+                break;
+            case 160:
+                $("#text1").html(lines2[59]);
+                break;
+            case 161:
+                $("#text1").html(user + lines2[60]);
+                break;
+            case 162:
+                $("#text1").html(user + lines2[61]);
+                break;
+            case 163:
                 $("#next").hide(0);
                 $('#overlay').animate({
                     opacity: 1,
                 }, 1500, function () {
                 });
-                
                 setTimeout(nextMinigame2, 1500);
                 break;
-            case 156:
+            case 164:
                 $("#text1").show(0);
                 $("#text2").hide(0);
+                console.log("g");
                 nextEndGame2();
                 break;
-            case (thirdSceneNum+1):
+            case (thirdSceneNum + 1):
                 animateDiv();
                 $('#sinkGameWater').hide(0);
                 $('#sinkGame').hide(0);
-                $('#timer').hide(0);
-                $('#tap1').hide(0);
-                $('#tap2').hide(0);
-                $('#tap3').hide(0);
-                $('#tap4').hide(0);
-                $('#tap5').hide(0);
-                $('#tap6').hide(0);
-                $('#tap7').hide(0);
-                $('#tap8').hide(0);
-                $('#tap9').hide(0);
                 $('#beginningPage').show(0);
-                $("#text1").html("???: " + "<br/>" + lines3[0]);
+                $("#text1").html(questionMark + lines3[0] + " " + lines3[1]);
                 break;
             case 202:
-                $("#text1").html(userName + ":" + "<br/>" + lines3[1] + userName + ". " + lines3[2]);
+                $("#text1").html(user + lines3[2] + " " + userName + ".");
                 break;
             case 203:
-                $("#text1").html("???: " + "<br/>" + lines3[3]);
+                $("#text1").html(user + lines3[3]);
                 break;
             case 204:
-                $("#text1").html("Kevin: " + "<br/>" + lines3[4]);
+                $("#text1").html(questionMark + lines3[4]);
                 break;
             case 205:
-                $("#text1").html("Kevin: " + "<br/>" + lines3[5]);
+                $("#text1").html(chef + lines3[5]);
                 break;
             case 206:
-                $("#text1").html(userName + ":" + "<br/>" + lines3[6]);
+                $("#text1").html(chef + lines3[6]);
                 break;
             case 207:
-                $("#text1").html(userName + ":" + "<br/>" + lines3[7]);
+                $("#text1").html(user + lines3[7]);
                 break;
             case 208:
-                $("#text1").html("Kevin: " + "<br/>" + lines3[8]);
+                $("#text1").html(user + lines3[8]);
                 break;
             case 209:
-                $("#text1").html(userName + ":" + "<br/>" + lines3[9]);
+                $("#text1").html(chef + lines3[9]);
                 break;
             case 210:
-                $("#text1").html("Kevin: " + "<br/>" + lines3[10]);
+                $("#text1").html(user + lines3[10]);
                 break;
             case 211:
-                $("#text1").html(userName + ":" + "<br/>" + lines3[11]);
+                $("#text1").html(chef + lines3[11]);
                 break;
             case 212:
-                $("#text1").html(userName + ":" + "<br/>" + lines3[12]);
+                $("#text1").html(chef + lines3[12]);
                 break;
             case 213:
-                $("#text1").html("Kevin: " + "<br/>" + lines3[13]);
+                $("#text1").html(user + lines3[13]);
                 break;
             case 214:
-                $("#text1").html(userName + ":" + "<br/>" + lines3[14]);
+                $("#text1").html(user + lines3[14]);
                 break;
             case 215:
-                $("#text1").html("Kevin: " + "<br/>" + lines3[15]);
+                $("#text1").html(user + lines3[15]);
                 break;
             case 216:
-                $("#text1").html(userName + ":" + "<br/>" + lines3[16]);
+                $("#text1").html(chef + lines3[16]);
                 break;
             case 217:
-                $("#text1").html("Kevin: " + "<br/>" + lines3[17]);
+                $("#text1").html(chef + lines3[17]);
                 break;
             case 218:
-                $("#text1").html(lines3[18]);
+                $("#text1").html(user + lines3[18]);
                 break;
             case 219:
-                $("#text1").html(userName + ":" + "<br/>" + lines3[19]);
+                $("#text1").html(chef + lines3[19]);
                 break;
             case 220:
-                $("#text1").html("Kevin: " + "<br/>" + lines3[20]);
+                $("#text1").html(chef + lines3[20]);
                 break;
             case 221:
-                $("#text1").html(userName + ":" + "<br/>" + lines3[21]);
+                $("#text1").html(user + lines3[21]);
                 break;
             case 222:
-                $("#text1").html("Kevin: " + "<br/>" + lines3[22]);
+                $("#text1").html(chef + lines3[22]);
                 break;
             case 223:
-                $("#text1").html("Kevin: " + "<br/>" + lines3[23]);
+                $("#text1").html(lines3[23]);
                 break;
             case 224:
-                $("#text1").html(userName + ":" + "<br/>" + lines3[24]);
+                $("#text1").html(user + lines3[24]);
                 break;
             case 225:
-                $("#text1").html("Kevin: " + "<br/>" + lines3[25]);
+                $("#text1").html(chef + lines3[25]);
                 break;
             case 226:
-                $("#text1").html("Kevin: " + "<br/>" + lines3[26]);
+                $("#text1").html(user + lines3[26]);
                 break;
             case 227:
-                $("#text1").html(userName + ":" + "<br/>" + lines3[27]);
+                $("#text1").html(chef + lines3[27]);
                 break;
             case 228:
-                $("#text1").html("Kevin: " + "<br/>" + lines3[28]);
+                $("#text1").html(chef + lines3[28]);
                 break;
             case 229:
-                $("#text1").html("Kevin: " + "<br/>" + lines3[29]);
+                $("#text1").html(user + lines3[29]);
                 break;
             case 230:
-                $("#text1").html(userName + ":" + "<br/>" + lines3[30]);
+                $("#text1").html(chef + lines3[30]);
                 break;
             case 231:
-                $("#text1").html(userName + ":" + "<br/>" + lines3[31]);
+                $("#text1").html(chef + lines3[31]);
                 break;
             case 232:
-                $("#text1").html("Kevin: " + "<br/>" + lines3[32]);
+                $("#text1").html(user + lines3[32]);
                 break;
             case 233:
-                animateDiv();
-                $("#text1").html("Employee: " + "<br/>" + userName + " " + lines3[33]);
+                $("#text1").html(chef + lines3[33]);
                 break;
             case 234:
-                $("#text1").html(userName + ":" + "<br/>" + lines3[34]);
+                $("#text1").html(chef + lines3[34]);
                 break;
             case 235:
-                $("#text1").html("Employee: " + "<br/>" + lines3[35]);
+                $("#text1").html(user + lines3[35]);
                 break;
             case 236:
-                $("#text1").html("Richard: " + "<br/>" + lines3[36]);
+                $("#text1").html(user + lines3[36]);
                 break;
             case 237:
-                $("#text1").html("Employee: " + "<br/>" + lines3[37]);
+                $("#text1").html(chef + lines3[37]);
                 break;
             case 238:
-                $("#text1").html(userName + ":" + "<br/>" + lines3[38]);
+                animateDiv();
+                document.getElementById("beginningPage").style.backgroundImage = 'url("./images/background/lobby_night.jpg")';
+                $("#text1").html(employer + lines3[38]);
                 break;
             case 239:
-                $("#text1").html("Employee: " + "<br/>" + lines3[39]);
+                $("#text1").html(user + lines3[39]);
                 break;
             case 240:
-                $("#text1").html(userName + ":" + "<br/>" + lines3[40]);
+                $("#text1").html(employer + lines3[40]);
                 break;
             case 241:
-                $("#text1").html(userName + ":" + "<br/>" + lines3[41]);
+                $("#text1").html(employer + lines3[41]);
                 break;
             case 242:
-                $("#text1").html(userName + ":" + "<br/>" + lines3[42]);
+                $("#text1").html(employer + lines3[42]);
                 break;
             case 243:
+                $("#text1").html(employer + lines3[43]);
+                break;
+            case 244:
+                $("#text1").html(user + lines3[44]);
+                break;
+            case 245:
+                $("#text1").html(user + lines3[45]);
+                break;
+            case 246:
+                $("#text1").html(user + lines3[46]);
+                break;
+            case 247:
+                $("#text1").html(user + lines3[47]);
+                break;
+            case 248:
+                $("#text1").html(employer + lines3[48]);
+                break;
+            case 249:
+                $("#text1").html(lines3[49]);
+                break;
+            case 250:
+                $("#text1").html(employer + lines3[50]);
+                break;
+            case 251:
+                $("#text1").html(user + lines3[51]);
+                break;
+            case 252:
+                $("#text1").html(employer + lines3[52]);
+                break;
+            case 253:
+                $("#text1").html(user + lines3[53]);
+                break;
+            case 254:
+                $("#text1").html(user + lines3[54]);
+                break;
+            case 255:
+                $("#text1").html(user + lines3[55]);
+                break;
+            case 256:
+                $("#text1").html(user + lines3[56]);
+                break;
+            case 257:
+                $("#text1").html(user + lines3[57]);
+                break;
+            case 258:
+                $("#text1").html(maintenanceGuy + lines3[58] + " " + userName + "! " + lines3[59]);
+                break;
+            case 259:
                 $("#next").hide(0);
                 $('#overlay').animate({
                     opacity: 1,
@@ -1370,31 +1519,42 @@ $(document).ready(function () {
                 });
                 setTimeout(nextMinigame3, 1500);
                 break;
+            case (lastSceneNum+1):
+                animateDiv();
+                $('#beginningPage').show(0);
+                $('#sliceDIV').hide(0);
+                $('#sliceGame').hide(0);
+                $("#text1").html("test");
+                break;
             case 1000:
                 animateDiv();
-                $('#raindropDIV').hide(0);
-                $('#raindropGame').hide(0);
+                $('#raindropDIV').remove(0);
+                $('#raindropGame').remove(0);
                 $('#beginningPage').show(0);
-                $("#text1").html("Employee: " + "<br/>Although we could not collect all the drops, we fixed the pipes. Everything would be all good for now.");
+                $("#text1").html(employer + "Although we could not collect all the drops, we fixed the pipes. Everything would be all good for now.");
                 textNum = secondSceneNum + 1;
                 break;
             case 2000:
                 animateDiv();
                 $('#sinkGameWater').hide(0);
                 $('#sinkGame').hide(0);
-                $('#timer').hide(0);
-                $('#tap1').hide(0);
-                $('#tap2').hide(0);
-                $('#tap3').hide(0);
-                $('#tap4').hide(0);
-                $('#tap5').hide(0);
-                $('#tap6').hide(0);
-                $('#tap7').hide(0);
-                $('#tap8').hide(0);
-                $('#tap9').hide(0);
                 $('#beginningPage').show(0);
                 $("#text1").html("failtest");
-                textNum = thirdSceneNum;
+                break;
+            case 2001:
+                $("#text1").html(questionMark + lines3[0]);
+                textNum = thirdSceneNum+1;
+                break;
+            case 3000:
+                animateDiv();
+                $('#beginningPage').show(0);
+                $('#sliceDIV').hide(0);
+                $('#sliceGame').hide(0);
+                $("#text1").html("failtest");
+                break;
+            case 3001:
+                $("#text1").html("test");
+                textNum = lastSceneNum+1;
                 break;
             default:
                 break;
@@ -1431,16 +1591,6 @@ function nextMinigame2() {
     $('#beginningPage').hide(0);
     $('#sinkGameWater').show(0);
     $('#sinkGame').show(0);
-    $('#timer').show(0);
-    $('#tap1').show(0);
-    $('#tap2').show(0);
-    $('#tap3').show(0);
-    $('#tap4').show(0);
-    $('#tap5').show(0);
-    $('#tap6').show(0);
-    $('#tap7').show(0);
-    $('#tap8').show(0);
-    $('#tap9').show(0);
     startSinkFill();
     updateRandomFaucet();
     updateTapPage();
@@ -1485,6 +1635,16 @@ function nextEndGame2() {
     } else {
         $("#text1").html("You did it.");
         textNum = thirdSceneNum;
+    }
+}
+
+function nextEndGame3() {
+    if (lives <= 0) {
+        $("#text1").html("You failed to save the water.");
+        textNum = 2999;
+    } else {
+        $("#text1").html("You did it.");
+        textNum = lastSceneNum;
     }
 }
 

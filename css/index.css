@@ -1,5 +1,5 @@
 #divID {
-    background-image: url("../images/Ocean.png");
+    background-image: url("../images/background/Ocean.png");
     height: 100vh;
     background-repeat: no-repeat;
     background-size: cover;
@@ -62,8 +62,7 @@ html, body {
 }
 
 #beginningPage {
-    background-image: url("../images/black1.jpeg");
-    height: 100vh;
+    background-image: url("../images/background/black.jpeg");
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -100,6 +99,7 @@ p{
     color: black;
     font-size: 32pt;
 }
+
 #text2 {
     background-color:beige;
     width:60%;
@@ -116,17 +116,8 @@ p{
     font-size: 32pt;
 }
 
-#bottomBar {
-    background-image: url("../images/back.png");
-    position: absoulte;
-    bottom: 0;
-    width: 100%;
-    height: 10vh;
-}
-
-
 #raindropGame {
-    background-image: url("../images/back.png");
+    background-image: url("../images/minigame1/back.png");
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -144,7 +135,7 @@ canvas {
 }
 
 #sinkGameWater {
-    background-image: url("../images/Ocean.png");
+    background-image: url("../images/minigame2/Ocean.png");
     background-repeat: no-repeat;
     background-size: cover;
     width:100%;
@@ -237,7 +228,15 @@ canvas {
     font-size: 10pt;
 }
 
+#sliceDIV {
+    display: none;
+}
 
+#sliceGame {
+    background-image: url("../images/back.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
 
 
 
