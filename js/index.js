@@ -15,10 +15,11 @@ var height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
 var gravity = 0.05;
 var timer1;
 var userName;
+var raindropGameStopped = false;
 
-window.addEventListener("touchmove", function(event) {
-   event.preventDefault();
-   event.stopPropagation();
+window.addEventListener("touchmove", function (event) {
+    event.preventDefault();
+    event.stopPropagation();
 }, false);
 
 //cursor
@@ -66,7 +67,7 @@ var gameArea = {
     start: function () {
         gameArea.canvas = document.createElement("canvas");
         this.canvas.width = width;
-        this.canvas.height = height * 0.69;
+        this.canvas.height = height * 0.65;
         // Adds context
         this.context = this.canvas.getContext("2d");
         let div1 = document.getElementById("raindropGame");
@@ -81,7 +82,8 @@ var gameArea = {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     },
     stop: function () {
-        clearInterval(this.interval);
+        //clearInterval(this.interval);
+        raindropGameStopped = true;
         $('#next').show(0);
         window.removeEventListener('mousemove', mouseMove);
         window.removeEventListener('touchstart', touchStart);
@@ -148,6 +150,8 @@ function updateGameArea() {
     bucket.height = width * 0.1;
     var x, y;
     for (let i = 0; i < raindrops.length; i++) {
+        raindrops[i].width = width * 0.05;
+        raindrops[i].height = width * 0.05;
         if (bucket.collideWith(raindrops[i])) {
             collected += 5;
             raindrops.splice(i, 1);
@@ -158,19 +162,25 @@ function updateGameArea() {
         }
     }
     gameArea.clear();
-    gameArea.frameNum += 1;
+
+    if (raindropGameStopped === false) {
+        gameArea.frameNum += 1;
+    }
     // Update background first
 
 
 
-    if (gameArea.frameNum === 1 || everyinterval(30)) {
+    if (gameArea.frameNum === 1 || everyinterval(30)
+        && raindropGameStopped === false) {
         x = Math.floor(Math.random() * (gameArea.canvas.width));
         y = 1;
         raindrops.push(new componentImg(width * 0.05, width * 0.05, x, y, "./images/raindrop.png"));
     }
     for (let i = 0; i < raindrops.length; i++) {
-        raindrops[i].gravitySpeed += gravity;
-        raindrops[i].y += 1 + raindrops[i].gravitySpeed;
+        if (raindropGameStopped === false) {
+            raindrops[i].gravitySpeed += gravity;
+            raindrops[i].y += 1 + raindrops[i].gravitySpeed;
+        }
         if (raindrops[i].y > gameArea.canvas.height) {
             raindrops.splice(i, 1);
         }
@@ -438,7 +448,7 @@ function updateTapPage() {
         $("#tap5").css("left", (width / 2 - tapWidth / 2) + "px");
         $("#tap8").css("left", (width / 2 - tapWidth / 2) + "px");
     }
-    
+
     setTimeout(updateTapPage, 10);
 }
 
@@ -581,7 +591,7 @@ var gameArea2 = {
         gameArea2.canvas = document.createElement("canvas");
         gameArea2.canvas.setAttribute("id", "sliceCanvas");
         this.canvas.width = width;
-        this.canvas.height = height * 0.7;
+        this.canvas.height = height * 0.65;
         // Adds context
         this.context = this.canvas.getContext("2d");
         let div1 = document.getElementById("sliceGame");
@@ -690,10 +700,10 @@ function addObjectOntoScreen() {
 }
 
 function updateGameArea2() {
-    width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
-    height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
+    var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+    var height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
     gameArea2.canvas.width = width;
-    gameArea2.canvas.height = height * 0.7;
+    gameArea2.canvas.height = height * 0.65;
     var x, y;
 
     gameArea2.clear();
@@ -827,7 +837,7 @@ $.ajax({
 });
 
 function nameCancel() {
-            document.getElementById('nameBlank').style.display = 'none';
+    document.getElementById('nameBlank').style.display = 'none';
 }
 
 
@@ -910,37 +920,37 @@ $(document).ready(function () {
     //----------------------------------------------------------------------------------------------
 
 
-        function nameConfirm() {
-            userName = document.getElementById('userNameInput').value;
-            if (userName.trim().length == 0) {
-                document.getElementById('nameBlank').style.display = 'inline';
-            } else if (userName.toUpperCase() === 'BCIT') {
-                //Put code here to transition to comic
-            } else {
-                $('#overlay').animate({
-                        opacity: 1,
-                }, 1000, function () {
-                });
-                setTimeout(transitionPage, 1000);
-            }
-        }
-
-        console.log(userName);
-
-
-        function transitionPage() {
-            $('#divID').remove(0);
+    function nameConfirm() {
+        userName = document.getElementById('userNameInput').value;
+        if (userName.trim().length == 0) {
+            document.getElementById('nameBlank').style.display = 'inline';
+        } else if (userName.toUpperCase() === 'BCIT') {
+            //Put code here to transition to comic
+        } else {
             $('#overlay').animate({
-                opacity: 0,
-            }, 1000, function () { });
-            $('#beginningPage').show(0);
-            $('#text1').show(0);
-            $('#next').show(0);
-            $('#myModal').remove(0);
-            $('#promtBox').remove(0);
-            $("promptBoxContent").remove(0);
+                opacity: 1,
+            }, 1000, function () {
+            });
+            setTimeout(transitionPage, 1000);
         }
-    
+    }
+
+    console.log(userName);
+
+
+    function transitionPage() {
+        $('#divID').remove(0);
+        $('#overlay').animate({
+            opacity: 0,
+        }, 1000, function () { });
+        $('#beginningPage').show(0);
+        $('#text1').show(0);
+        $('#next').show(0);
+        $('#myModal').remove(0);
+        $('#promtBox').remove(0);
+        $("promptBoxContent").remove(0);
+    }
+
     $('#ok').click(function () {
         nameConfirm();
     })
@@ -948,6 +958,7 @@ $(document).ready(function () {
     $("#next").click(function () {
 
         textNum++;
+        
         console.log(textNum);
         switch (textNum) {
             case 1:
@@ -961,7 +972,7 @@ $(document).ready(function () {
                 $("#text1").html(userName + ":" + "<br/>" + lines[2]);
                 break;
             case 4:
-                $("#text1").html("Employee: " + "<br/>" + userName+ "! " + lines[3]);
+                $("#text1").html("Employee: " + "<br/>" + userName + "! " + lines[3]);
                 break;
             case 5:
                 $("#text1").html(userName + ":" + "<br/>" + lines[4]);
@@ -979,14 +990,14 @@ $(document).ready(function () {
                 $("#text1").html("Employee: " + "<br/>" + lines[8]);
                 break;
             case 10:
-//                document.getElementById("beginningPage").style.backgroundImage = 'url("./images/testBack2.jpeg")';
+                //                document.getElementById("beginningPage").style.backgroundImage = 'url("./images/testBack2.jpeg")';
                 animateDiv();
                 $("#text1").html("Employee: " + "<br/>" + lines[9] + ", " + userName);
                 break;
             case 11:
                 $("#text1").html("Employee: " + "<br/>" + lines[10]);
                 break;
-            case 12 :
+            case 12:
                 $("#text1").html("Employee: " + "<br/>" + lines[11]);
                 break;
             case 13:
@@ -1037,12 +1048,12 @@ $(document).ready(function () {
             case 26:
                 nextEndGame();
                 break;
-            case (secondSceneNum+1):
+            case (secondSceneNum + 1):
                 animateDiv();
                 $('#raindropDIV').remove(0);
                 $('#raindropGame').remove(0);
                 $('#beginningPage').show(0);
-//                document.getElementById("beginningPage").style.backgroundImage = 'url("./images/testBack.jpeg")';
+                //                document.getElementById("beginningPage").style.backgroundImage = 'url("./images/testBack.jpeg")';
                 $("#text1").html("Employee: " + "<br/>" + lines2[0]);
                 break;
             case 102:
@@ -1076,11 +1087,11 @@ $(document).ready(function () {
                 $("#text1").html(userName + ":" + "<br/>" + lines2[10]);
                 break;
             case 112:
-               $("#text1").html("Richard: " + "<br/>" + lines2[11]);
+                $("#text1").html("Richard: " + "<br/>" + lines2[11]);
                 break;
             case 113:
-               $("#text1").html("Employee: " + "<br/>" + lines2[12]);
-                break; 
+                $("#text1").html("Employee: " + "<br/>" + lines2[12]);
+                break;
             case 114:
                 $("#text1").html(userName + ":" + "<br/>" + lines2[13]);
                 break;
@@ -1212,15 +1223,16 @@ $(document).ready(function () {
                     opacity: 1,
                 }, 1500, function () {
                 });
-                
+
                 setTimeout(nextMinigame2, 1500);
                 break;
             case 156:
                 $("#text1").show(0);
-                $("#text2").hide(0);
+                //$("#text2").hide(0);
+                console.log("g");
                 nextEndGame2();
                 break;
-            case (thirdSceneNum+1):
+            case (thirdSceneNum + 1):
                 animateDiv();
                 $('#sinkGameWater').hide(0);
                 $('#sinkGame').hide(0);
