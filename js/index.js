@@ -58,8 +58,8 @@ function startRaindropGame() {
     gameArea.start();
     bucket = new componentImg(width * 0.1, width * 0.1,
         gameArea.canvas.width / 2 - width * 0.1, gameArea.canvas.height - height * 0.1, "./images/minigame1/bucket.png");
-    myScore1 = new componentText(height * 0.05 + "px", "Consolas", "black", 0, height * 0.05, "text");
-    timer1 = new componentText(height * 0.05 + "px", "Consolas", "black", width * 0.8, height * 0.05, "text");
+    myScore1 = new componentText(height * 0.05 + "px", "Consolas", "white", 0, height * 0.05, "text");
+    timer1 = new componentText(height * 0.05 + "px", "Consolas", "white", width * 0.8, height * 0.05, "text");
 }
 
 var gameArea = {
@@ -819,6 +819,12 @@ var questionMark = "<b>???:<br/></b>";
 var gardener = "<b>Lily:<br/></b>";
 var chef = "<b>Olivia:<br/></b>";
 var maintenanceGuy = "<b>Richard:<br/></b>";
+var tommy;
+var richard;
+var lily;
+var olivia;
+
+
 
 
 function startStoryGame() {
@@ -911,6 +917,9 @@ $(document).ready(function () {
     $('#next').hide(0);
     $('#sliceDIV').hide(0);
     $('#sliceGame').hide(0);
+    $('#richard').hide(0);
+    $('#tommy').hide(0);
+    
 
     //for mini game2---------------------------------------------------------------------------------
 
@@ -1011,6 +1020,7 @@ $(document).ready(function () {
         switch (textNum) {
             case 1:
                 $("#text1").html(lines[0]);
+                textNum = 15;
                 break;
             case 2:
                 $("#text1").html(lines[1]);
@@ -1022,12 +1032,21 @@ $(document).ready(function () {
                 $("#text1").html(user + lines[3]);
                 break;
             case 5:
+                animateDiv();
+                document.getElementById("beginningPage").style.backgroundImage = 'url("./images/background/hotel_corridor.jpg")';
+                $('#tommy').show(0); 
+                $('#tommy').attr("src", "./images/characters/tommy/tommy1.png");
                 $("#text1").html("<b>Employee:<br/></b>" + userName + "! "+ lines[4]);
                 break;
             case 6:
+                $('#tommy').hide(0); 
+                document.getElementById("beginningPage").style.backgroundImage = 'url("./images/background/bedroom.jpeg")';
                 $("#text1").html(user + lines[5]);
                 break;
             case 7:
+                $('#tommy').show(0); 
+                document.getElementById("beginningPage").style.backgroundImage = 'url("./images/background/hotel_corridor.jpg")';
+                $('#tommy').attr("src", "./images/characters/tommy/thinkingTommy.png");
                 $("#text1").html("<b>Employee:<br/></b>" + lines[6]);
                 break;
             case 8:
@@ -1045,6 +1064,7 @@ $(document).ready(function () {
             case 12:
                 animateDiv();
                 document.getElementById("beginningPage").style.backgroundImage = 'url("./images/background/lobby_day.jpg")';
+                $('#tommy').attr("src", "./images/characters/tommy/normalTommy.png");
                 $("#text1").html("<b>Employee:<br/></b>" + lines[11] + " " + userName);
                 break;
             case 13:
@@ -1057,35 +1077,47 @@ $(document).ready(function () {
                 $("#text1").html(employer + lines[14]);
                 break;
             case 16:
+                $('#tommy').hide(0);
                 animateDiv();
-                document.getElementById("beginningPage").style.backgroundImage = 'url("./images/background/basement.jpg")';
+                backgroundImagePicker("basement.jpg", "basement_square.png");
                 $("#text1").html(employer + lines[15]);
                 break;
             case 17:
+                $('#tommy').show(0);
                 $("#text1").html(employer + lines[16]);
                 break;
-            case 18:
+            case 18:                
+                $('#tommy').hide(0);
                 $("#text1").html(lines[17]);
                 break;
             case 19:
                 $("#text1").html(user + lines[18]);
                 break;
             case 20:
+                $('#tommy').show(0);
                 $("#text1").html(employer + lines[19]);
                 break;
             case 21:
+                animateDiv();
+                $('#tommy').hide(0);
+                backgroundImagePicker("watershed.jpg", "watershed2.jpg");
                 $("#text1").html(employer + lines[20]);
                 break;
             case 22:
+                backgroundImagePicker("stream.png", "stream2.png");
                 $("#text1").html(employer + lines[21]);
                 break;
             case 23:
+                backgroundImagePicker("reservoir.png", "reservoir2.png");
                 $("#text1").html(employer + lines[22]);
                 break;
             case 24:
+                $('#tommy').show(0);
+                backgroundImagePicker("basement.jpg", "basement_square.png");
                 $("#text1").html(employer + lines[23]);
                 break;
-            case 25:
+            case 25:                
+                $('#tommy').hide(0);
                 $("#text1").html(lines[24]);
                 break;
             case 26:
@@ -1097,7 +1129,8 @@ $(document).ready(function () {
             case 28:
                 $("#text1").html(user + lines[27]);
                 break;
-            case 29:
+            case 29:                
+                $('#tommy').show(0);
                 $("#text1").html(employer + lines[28]);
                 break;
             case 30:
@@ -1112,7 +1145,8 @@ $(document).ready(function () {
             case 33:
                 $("#text1").html(user + lines[32]);
                 break;
-            case 34:
+            case 34:                
+                $('#tommy').hide(0);
                 $("#next").hide(0);
                 $('#overlay').animate({
                     opacity: 1,
@@ -1576,9 +1610,16 @@ function animateDiv() {
 }
 
 function nextMinigame1() {
+    var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+    var height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
     $('#beginningPage').hide(0);
     $('#raindropDIV').show(0);
     startRaindropGame();
+    if(width > height) {
+        document.getElementById("raindropGame").style.backgroundImage = 'url("./images/background/basement_blur.jpg")';
+    } else {
+        document.getElementById("raindropGame").style.backgroundImage = 'url("./images/background/basement_square_blur.png")';
+    }
     $('#overlay').animate({
         opacity: 0,
     }, 1000, function () {
@@ -1648,12 +1689,21 @@ function nextEndGame3() {
     }
 }
 
+function backgroundImagePicker(src1, src2) {
+    var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+    var height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
+    if(width > height) {
+        document.getElementById("beginningPage").style.backgroundImage = "url('./images/background/"+ src1 + "')";
+    }else {
+        document.getElementById("beginningPage").style.backgroundImage = "url('./images/background/"+ src2 + "')";
+    }
+}
 
 function updatePage() {
     var text = document.getElementsByTagName("p");
     var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
     var height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
-
+    var image = document.getElementsByClassName("characterImg");
     for (let i = 0; i < text.length; i++) {
         if (width > height) {
             text[i].style.fontSize = height * 0.04 + "px";
@@ -1661,6 +1711,70 @@ function updatePage() {
             text[i].style.fontSize = width * 0.04 + "px";
         }
     }
+    for (let i = 0; i < image.length; i++) {
+        
+        if (height > width) {
+            var imageWidth = width * 0.9;
+            image[i].style.width = imageWidth + "px";
+            image[i].style.height = imageWidth + "px";
+            $('.characterImg').css("left", (width / 2 - imageWidth / 2) + "px");
+        } else {
+            var imageHeight = height * 0.7;
+            image[i].style.width = imageHeight + "px";
+            image[i].style.height = imageHeight + "px";
+            $('.characterImg').css("left", (width / 2 - imageHeight / 2) + "px");
+        }
+    }
     setTimeout(updatePage, 100);
 }
 updatePage();
+
+///SOUNDS FUNCTION///
+function sound(src, backgroundMusic) {
+    this.sound = document.createElement("audio");
+    this.sound.src = src;
+    this.sound.setAttribute("class", backgroundMusic);
+    this.sound.setAttribute("preload", "auto");
+    this.sound.setAttribute("controls", "none");
+    this.sound.style.display = "none";
+    document.body.appendChild(this.sound);
+    if(backgroundMusic == "backgroundMusic") {
+        this.sound.setAttribute("loop", "loop");
+    }
+    this.play = function () {
+        this.sound.play();
+    }
+    this.stop = function () {
+        this.sound.currentTime = 0;
+        this.sound.pause();
+    }
+}
+
+function removeAllSounds() {
+    var allSounds = document.getElementsByTagName("audio");
+    var i = 0;
+    while (i < allSounds.length) {
+        //console.log(allSounds);
+        allSounds[i].pause();
+        allSounds[i].parentNode.removeChild(allSounds[i]);
+    }
+}
+
+/// Use this to stop and remove sounds
+function stopAllSounds() {
+    var allSounds = document.getElementsByClassName("backgroundMusic");
+    if (allSounds.length == 0) {
+        return;
+    } else if (allSounds.length > 1) {
+        allSounds[0].pause();
+        allSounds[0].parentNode.removeChild(allSounds[0]);
+        return;
+    }
+    if (allSounds[0].volume >= 0.1) {
+        allSounds[0].volume -= 0.1;
+        setTimeout(stopAllSounds, 700);
+    } else {
+        allSounds[0].pause();
+        removeAllSounds();
+    }
+}
