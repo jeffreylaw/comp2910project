@@ -20,7 +20,7 @@ html, body {
                                  supported by Chrome and Opera */
 }
 
-# backgroundcolor{
+#backgroundcolor{
 	position: absolute;
 	background: black;
 	pointer-events: none;

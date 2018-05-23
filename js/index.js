@@ -16,6 +16,7 @@ var gravity = 0.05;
 var timer1;
 var userName;
 var raindropGameStopped = false;
+var raindropSound;
 
 window.addEventListener("touchmove", function (event) {
     event.preventDefault();
@@ -27,7 +28,7 @@ window.addEventListener("mousemove", mouseMove, false);
 
 function mouseMove(e) {
     gameArea.x = e.pageX;
-    console.log("no");
+    //console.log("no");
 
 }
 // mobile touch
@@ -36,7 +37,7 @@ window.addEventListener('touchmove', touchMove, false)
 window.addEventListener('touchend', touchEnd, false);
 
 function touchStart(e) {
-    console.log("touched");
+    //console.log("touched");
     touch = true;
 }
 
@@ -44,12 +45,12 @@ function touchMove(e) {
     if (touch === true && e.touches[0].screenX < gameArea.canvas.width) {
         var touchLocation = e.targetTouches[0];
         gameArea.x = touchLocation.pageX;
-        console.log("what");
+        //console.log("what");
     }
 }
 
 function touchEnd(e) {
-    console.log("touchend");
+    //console.log("touchend");
     touch = false;
 }
 
@@ -60,6 +61,7 @@ function startRaindropGame() {
         gameArea.canvas.width / 2 - width * 0.1, gameArea.canvas.height - height * 0.1, "./images/minigame1/bucket.png");
     myScore1 = new componentText(height * 0.05 + "px", "Consolas", "white", 0, height * 0.05, "text");
     timer1 = new componentText(height * 0.05 + "px", "Consolas", "white", width * 0.8, height * 0.05, "text");
+    raindropSound = new sound("./audio/waterDropSound.mp3", "effect");
 }
 
 var gameArea = {
@@ -153,9 +155,11 @@ function updateGameArea() {
         raindrops[i].width = width * 0.05;
         raindrops[i].height = width * 0.05;
         if (bucket.collideWith(raindrops[i])) {
+            raindropSound.stop();
+            raindropSound.play();
             collected += 5;
             raindrops.splice(i, 1);
-            console.log(raindrops.length)
+            //console.log(raindrops.length)
             if (collected === 100) {
                 gameArea.stop();
             }
@@ -198,7 +202,7 @@ function updateGameArea() {
     myScore1.fontSize = width * 0.03 + "px";
     timer1.fontSize = width * 0.03 + "px";
     myScore1.text = "Collected: " + collected + "%";
-    timer1.text = "Time: " + (20 - Math.ceil(gameArea.frameNum / 50))
+    timer1.text = "Time: " + (20 - Math.ceil(gameArea.frameNum / 50));
     timer1.x = width * 0.8;
     if ((20 - Math.ceil(gameArea.frameNum / 50) == 0)) {
         gameArea.stop();
@@ -238,11 +242,14 @@ function updateRandomFaucet() {
     var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
     var height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
     var sinkFill;
+    var sinkRunning;
+    sinkRunning = new sound("./audio/runningWater.mp3", "effect");
+    sinkRunning.play();
 
     switch (Math.floor((Math.random() * 8))) {
         case 0:
             if (faucet1On == true) {
-                //console.log("Ok carry it thorugh");
+                ////console.log("Ok carry it thorugh");
             } else {
                 faucetOn = true;
                 faucet1On = true;
@@ -251,7 +258,7 @@ function updateRandomFaucet() {
             }
         case 1:
             if (faucet2On == true) {
-                //console.log("Ok carry it thorugh");
+                ////console.log("Ok carry it thorugh");
             } else {
                 faucetOn = true;
                 faucet2On = true;
@@ -260,7 +267,7 @@ function updateRandomFaucet() {
             }
         case 2:
             if (faucet3On == true) {
-                //console.log("Ok carry it thorugh");
+                ////console.log("Ok carry it thorugh");
             } else {
                 faucetOn = true;
                 faucet3On = true;
@@ -269,7 +276,7 @@ function updateRandomFaucet() {
             }
         case 3:
             if (faucet4On == true) {
-                //console.log("Ok carry it thorugh");
+                ////console.log("Ok carry it thorugh");
             } else {
                 faucetOn = true;
                 faucet4On = true;
@@ -278,7 +285,7 @@ function updateRandomFaucet() {
             }
         case 4:
             if (faucet5On == true) {
-                //console.log("Ok carry it thorugh");
+                ////console.log("Ok carry it thorugh");
             } else {
                 faucetOn = true;
                 faucet5On = true;
@@ -287,7 +294,7 @@ function updateRandomFaucet() {
             }
         case 5:
             if (faucet6On == true) {
-                //console.log("Ok carry it thorugh");
+                ////console.log("Ok carry it thorugh");
             } else {
                 faucet6On = true;
                 faucetOn = true;
@@ -296,7 +303,7 @@ function updateRandomFaucet() {
             }
         case 6:
             if (faucet7On == true) {
-                //console.log("Ok carry it thorugh");
+                ////console.log("Ok carry it thorugh");
             } else {
                 faucet7On = true;
                 faucetOn = true;
@@ -306,7 +313,7 @@ function updateRandomFaucet() {
 
         case 7:
             if (faucet8On == true) {
-                //console.log("Ok carry it thorugh");
+                ////console.log("Ok carry it thorugh");
             } else {
                 faucet8On = true;
                 faucetOn = true;
@@ -316,7 +323,7 @@ function updateRandomFaucet() {
 
         case 8:
             if (faucet9On == true) {
-                //console.log("Ok carry it thorugh");
+                ////console.log("Ok carry it thorugh");
             } else {
                 faucet9On = true;
                 faucetOn = true;
@@ -340,7 +347,17 @@ function updateRandomFaucet() {
             }
             break;
     }
-    if (timer <= 0 || sinkFill >= 300) {
+    if (sinkFill >= 299 || timer <= 0 || gameOver == true) {
+        console.log("adding it??");
+        var nextButton = document.createElement("img");
+        nextButton.setAttribute("id", "next");
+        nextButton.setAttribute("alt", "next");
+        nextButton.setAttribute("class", "next");
+        nextButton.setAttribute("src", "./images/next.png");
+        nextButton.setAttribute("onclick", "nextClick()");
+        document.body.appendChild(nextButton);
+        sinkRunning.stop();
+        removeAllSoundEffects();
         return;
     }
     var rand = Math.floor(Math.random() * (1500 - 500)) + 500;
@@ -397,7 +414,7 @@ function startSinkFill() {
             return;
         }
 
-        //console.log(sinkFill);
+        ////console.log(sinkFill);
         $("#sinkGameWater").css("height", Math.ceil(sinkFill / 300 * 100) + "%");
         //placeholder (suppose to be random text)
         $("#text2").html(Math.ceil(sinkFill / 300 * 100) + "%");
@@ -418,7 +435,7 @@ function startTimer() {
             $('#next').show(0);
             return;
         }
-        console.log(timer)
+        //console.log(timer)
 
 
     }, 1000);
@@ -522,6 +539,8 @@ var waterBottle = {
     dropped: 0
 };
 
+var slicedSound;
+
 window.addEventListener("mousedown", mouseDown2, false);
 window.addEventListener("mousemove", mouseMove2, false);
 window.addEventListener("mouseup", mouseUp2, false);
@@ -539,7 +558,7 @@ function mouseMove2(e) {
         && e.pageX >= 0 && e.pageY <= gameArea2.canvas.height && e.pageY >= 0) {
         gameArea2.x = e.pageX;
         gameArea2.y = e.pageY;
-        console.log("what");
+        //console.log("what");
     } else {
         gameArea2.x = 0;
         gameArea2.y = 0;
@@ -547,7 +566,7 @@ function mouseMove2(e) {
 }
 
 function mouseUp2(e) {
-    console.log("touchend");
+    //console.log("touchend");
     touch2 = false;
     gameArea2.x = 0;
     gameArea2.y = 0;
@@ -555,7 +574,7 @@ function mouseUp2(e) {
 
 
 function touchStart2(e) {
-    console.log("2touched");
+    //console.log("2touched");
     touch2 = true;
 }
 
@@ -564,7 +583,7 @@ function touchMove2(e) {
         var touchLocation = e.targetTouches[0];
         gameArea2.x = touchLocation.pageX;
         gameArea2.y = touchLocation.pageY;
-        console.log("2what");
+        //console.log("2what");
     } else {
         gameArea2.x = 0;
         gameArea2.y = 0;
@@ -572,7 +591,7 @@ function touchMove2(e) {
 }
 
 function touchEnd2(e) {
-    console.log("2touchend");
+    //console.log("2touchend");
     touch2 = false;
     gameArea2.x = 0;
     gameArea2.y = 0;
@@ -600,6 +619,7 @@ var gameArea2 = {
         div2.style.display = "block";
         this.interval = setInterval(updateGameArea2, 20);
         this.frameNum = 0;
+        slicedSound = new sound("./audio/waterDropSound.mp3", "effect");
 
     },
     clear: function () {
@@ -668,7 +688,7 @@ function newGameObject(obj) {
             collide = true;
         }
         return collide;
-        console.log(collide);
+        //console.log(collide);
     }
 
 }
@@ -713,7 +733,7 @@ function updateGameArea2() {
         var rand = Math.floor(Math.random() * (120 - 50)) + 50;
         if (gameArea2.frameNum === 1 || everyinterval2(rand)) {
             addObjectOntoScreen();
-            //console.log(objects);
+            ////console.log(objects);
         }
         if (everyinterval2(80)) {
             addObjectOntoScreen();
@@ -757,7 +777,7 @@ function updateGameArea2() {
             if (objects[i].hitTop == true) {
                 objects[i].speed += gravity;
                 objects[i].y += 1 + objects[i].speed;
-                //console.log(objects[i].speed);
+                ////console.log(objects[i].speed);
             } else {
                 objects[i].speed -= height * 0.0001;
                 objects[i].y -= 1 + objects[i].speed;
@@ -770,15 +790,23 @@ function updateGameArea2() {
             if (objects[i].y >= height * 0.7) {
                 lives = lives + objects[i].dropped;
                 objects.splice(i, 1);
-                //console.log(objects);
+                ////console.log(objects);
             } else if (objects[i].sliced()) {
+                slicedSound.stop();
+                slicedSound.play();
                 score = score + objects[i].score;
                 lives = lives + objects[i].life;
                 objects.splice(i, 1);
 
             }
             if (lives <= 0 || score == 3000) {
-                $('#next').show(0);
+                var nextButton = document.createElement("img");
+                nextButton.setAttribute("id", "next");
+                nextButton.setAttribute("alt", "next");
+                nextButton.setAttribute("class", "next");
+                nextButton.setAttribute("src", "./images/next.png");
+                nextButton.setAttribute("onclick", "nextClick()");
+                document.body.appendChild(nextButton);
                 gameArea2.stop();
             }
         }
@@ -885,7 +913,7 @@ $.ajax({
     data: { output: 'json' },
     success: function (data) {
 
-        console.log(data);
+        //console.log(data);
         var i = 0;
         var j = 0;
         var x = 0;
@@ -910,7 +938,7 @@ function nameCancel() {
 
 $(document).ready(function () {
     $("#widgetContainer").hide(0);
-    $("#kayakButton").click(function() {
+    $("#kayakButton").click(function () {
         $("#widgetContainer").toggle("blind");
     });
 
@@ -941,7 +969,7 @@ $(document).ready(function () {
     //for mini game2---------------------------------------------------------------------------------
 
     $("#tap1").click(function () {
-        //console.log("clciked??");
+        ////console.log("clciked??");
         faucetOn = false;
         faucet1On = false;
         $("#tap1").attr("src", "./images/minigame2/faucet.png");
@@ -1026,7 +1054,7 @@ $(document).ready(function () {
         $('#text1').show(0);
         $('#next').show(0);
     }
-    
+
     function easterEgg() {
         $('#easterEggOverlay').animate({
             opacity: 0,
@@ -1039,7 +1067,7 @@ $(document).ready(function () {
     }
 
     $('#ok').click(function () {
-        if(okClicked==false){
+        if (okClicked == false) {
             nameConfirm();
             okClicked = true;
         }
@@ -1050,781 +1078,795 @@ $(document).ready(function () {
     })
 
     $("#next").click(function () {
-        var user = "<b>" + userName + ":<br/></b>";
-        var userAlone = userName;
-        textNum++;
-
-        console.log(textNum);
-        switch (textNum) {
-            case 1:
-                $("#text1").html(lines[0]);
-                break;
-            case 2: 
-                backgroundImagePicker("bedroom_blur.png", "bedroom_square_blur.png");
-                $("#text1").html(lines[1]);
-                break;
-            case 3:
-                $("#text1").html("<b>Employee:<br/></b>" + lines[2]);
-                break;
-            case 4:
-                $("#text1").html(user + lines[3]);
-                break;
-            case 5:
-                animateDiv();
-                backgroundImagePicker("hotel_corridor.jpg", "hotel_corridor_square.jpg");
-                $('#tommy').show(0); 
-                $('#tommy').attr("src", "./images/characters/tommy/tommy1.png");
-                $("#text1").html("<b>Employee:<br/></b>" + userName + "! "+ lines[4]);
-                break;
-            case 6:
-                $('#tommy').hide(0); 
-                backgroundImagePicker("bedroom.png", "bedroom_square.png");
-                $("#text1").html(user + lines[5]);
-                break;
-            case 7:
-                $('#tommy').show(0); 
-                $('#tommy').attr("src", "./images/characters/tommy/normalTommy.png");
-                backgroundImagePicker("hotel_corridor.jpg", "hotel_corridor_square.jpg");
-                $("#text1").html("<b>Employee:<br/></b>" + lines[6]);
-                break;
-            case 8:
-                $('#tommy').attr("src", "./images/characters/tommy/thinkingTommy.png");
-                $("#text1").html("<b>Employee:<br/></b>" + lines[7]);
-                break;
-            case 9:
-                $('#tommy').attr("src", "./images/characters/tommy/cryTommy.png");
-                $("#text1").html("<b>Employee:<br/></b>" + lines[8]);
-                break;
-            case 10:
-                $('#tommy').hide(0); 
-                backgroundImagePicker("bedroom.png", "bedroom_square.png");
-                $("#text1").html(user + lines[9]);
-                break;
-            case 11:
-                $('#tommy').show(0); 
-                backgroundImagePicker("hotel_corridor.jpg", "hotel_corridor_square.jpg");
-                $('#tommy').attr("src", "./images/characters/tommy/smileTommyOpen.png");
-                $("#text1").html("<b>Employee:<br/></b>" + lines[10]);
-                break;
-            case 12:
-                animateDiv();
-                backgroundImagePicker("lobby_day.jpg", "lobby_day2.jpg");
-                $('#tommy').attr("src", "./images/characters/tommy/normalTommy.png");
-                $("#text1").html("<b>Employee:<br/></b>" + lines[11] + " " + userName);
-                break;
-            case 13:
-                $('#tommy').attr("src", "./images/characters/tommy/smileTommyOpen.png");
-                $("#text1").html("<b>Employee:<br/></b>" + lines[12]);
-                break;
-            case 14:
-                $('#tommy').attr("src", "./images/characters/tommy/handTommy.png");
-                $("#text1").html(employer + lines[13]);
-                break;
-            case 15:
-                $('#tommy').attr("src", "./images/characters/tommy/normalTommy.png");
-                $("#text1").html(employer + lines[14]);
-                break;
-            case 16:
-                $('#tommy').hide(0);
-                animateDiv();
-                backgroundImagePicker("basement.jpg", "basement_square.png");
-                $("#text1").html(employer + lines[15]);
-                break;
-            case 17:
-                $('#tommy').show(0);
-                $('#tommy').attr("src", "./images/characters/tommy/smileTommyOpen.png");
-                $("#text1").html(employer + lines[16]);
-                break;
-            case 18:                
-                $('#tommy').hide(0);
-                $("#text1").html(lines[17]);
-                break;
-            case 19:
-                $('tommy').show(0);
-                $('#tommy').attr("src", "./images/characters/tommy/smileTommyOpen.png");
-                $("#text1").html(user + lines[18]);
-                break;
-            case 20:
-                $('#tommy').show(0);
-                $('#tommy').attr("src", "./images/characters/tommy/smileTommyClose.png");               
-                $("#text1").html(employer + lines[19]);
-                break;
-            case 21:
-                animateDiv();
-                $('#tommy').hide(0);
-                backgroundImagePicker("watershed.jpg", "watershed2.jpg");
-                $("#text1").html(employer + lines[20]);
-                break;
-            case 22:
-                backgroundImagePicker("stream.png", "stream2.png");
-                $("#text1").html(employer + lines[21]);
-                break;
-            case 23:
-                backgroundImagePicker("reservoir.png", "reservoir2.png");
-                $("#text1").html(employer + lines[22]);
-                break;
-            case 24:
-                $('#tommy').show(0);
-                backgroundImagePicker("basement.jpg", "basement_square.png");
-                $('#tommy').attr("src", "./images/characters/tommy/normalTommy.png");
-                $("#text1").html(employer + lines[23]);
-                break;
-            case 25:                
-                $('#tommy').hide(0);
-                $("#text1").html(lines[24]);
-                break;
-            case 26:
-                $("#text1").html(user + lines[25]);
-                break;
-            case 27:
-                $("#text1").html(lines[26]);
-                break;
-            case 28:
-                $("#text1").html(user + lines[27]);
-                break;
-            case 29:                
-                $('#tommy').attr("src", "./images/characters/tommy/dullTommy.png"); 
-                $('#tommy').show(0);
-                $("#text1").html(employer + lines[28]);
-                break;
-            case 30:
-                $("#text1").html(user + lines[29]);
-                break;
-            case 31:
-                $('#tommy').attr("src", "./images/characters/tommy/omgTommy.png"); 
-                $("#text1").html(employer + lines[30]);
-                break;
-            case 32:
-                $("#text1").html(user + lines[31]);
-                break;
-            case 33:
-                $("#text1").html(user + lines[32]);
-                break;
-            case 34:                
-                $('#tommy').hide(0);
-                $("#next").hide(0);
-                $('#overlay').animate({
-                    opacity: 1,
-                }, 1500, function () {
-                });
-                setTimeout(nextMinigame1, 1500);
-                break;
-            case 35:
-                nextEndGame();
-                break;
-            case (secondSceneNum + 1):
-                animateDiv();         
-                backgroundImagePicker("basement.jpg", "basement_square.png");
-                $('#raindropDIV').remove(0);
-                $('#raindropGame').remove(0);
-                $('#beginningPage').show(0);
-                $('#tommy').show(0);
-                $('#tommy').attr("src", "./images/characters/tommy/smileTommyOpen.png"); 
-                $("#text1").html(employer + lines2[0]);
-                break;
-            case 102:
-                $('#tommy').attr("src", "./images/characters/tommy/grinTommyHand.png"); 
-                $("#text1").html(employer + lines2[1]);
-                break;
-            case 103:
-                $('#tommy').attr("src", "./images/characters/tommy/confidentTommy.png"); 
-                $("#text1").html(employer + lines2[2]);
-                break;
-            case 104:                
-                $('#tommy').hide(0);
-                $('#richard').show(0);
-                $("#text1").html(questionMark + lines2[3]);
-                break;
-            case 105:
-                $("#text1").html(questionMark + lines2[4]);
-                break;
-            case 106:
-                $('#richard').hide(0);
-                $("#text1").html(user + lines2[5]);
-                break;
-            case 107:
-                $('#richard').show(0);
-                $('#richard').attr("src", "./images/characters/richard/normalRichard.png");
-                $("#text1").html(maintenanceGuy + lines2[6]);
-                break;
-            case 108:
-                $('#richard').attr("src", "./images/characters/richard/smileRichard.png");
-                $("#text1").html(maintenanceGuy + lines2[7]);
-                break;
-            case 109:
-                $('#richard').attr("src", "./images/characters/richard/smileRichardEye.png");
-                $("#text1").html(maintenanceGuy + lines2[8]);
-                break;
-            case 110:                
-                $('#tommy').hide(0); 
-                $('#richard').hide(0);
-                $('#tommyLeft').attr("src", "./images/characters/tommy/thinkingTommy.png");
-                $('#tommyLeft').show(0); 
-                $('#richardRight').attr("src", "./images/characters/richard/smileRichardEye.png");
-                $('#richardRight').show(0);
-                $("#text1").html(employer + lines2[9]);
-                break;
-            case 111:
-                $('#richardRight').attr("src", "./images/characters/richard/mildRichard.png");
-                $("#text1").html(maintenanceGuy + lines2[10]);
-                break;
-            case 112:
-                $('#tommyLeft').attr("src", "./images/characters/tommy/dullTommy.png");
-                $("#text1").html(employer + lines2[11]);
-                break;
-            case 113:
-                $('#tommyLeft').hide(0); 
-                $('#richardRight').hide(0);
-                backgroundImagePicker("sunshine.jpg", "sunshine2.jpg");
-                $("#text1").html(maintenanceGuy + lines2[12]);
-                break;
-            case 114:
-                $("#text1").html(maintenanceGuy + lines2[13]);
-                break;
-            case 115:
-                $('#richard').hide(0);
-                backgroundImagePicker("basement.jpg", "basement_square.png");
-                $('#tommyLeft').show(0); 
-                $('#richardRight').show(0);
-                $("#text1").html(user + lines2[14]);
-                break;
-            case 116:
-                $("#text1").html(user + lines2[15]);
-                break;
-            case 117:
-                $('#richardRight').hide(0);
-                $('#tommyLeft').hide(0);
-                backgroundImagePicker("population1.jpg", "population2.jpg");
-                $("#text1").html(maintenanceGuy + lines2[16]);
-                break;
-            case 118:
-                $("#text1").html(maintenanceGuy + lines2[17]);
-                break;
-            case 119:
-                $('#tommy').attr("src", "./images/characters/tommy/handTommy.png");             
-                $('#tommy').show(0);
-                backgroundImagePicker("basement.jpg", "basement_square.png");
-                $("#text1").html(employer + lines2[18]);
-                break;
-            case 120:
-                $('#tommy').attr("src", "./images/characters/tommy/concernedTommy.png");             
-                $("#text1").html(user + lines2[19]);
-                break;
-            case 121:
-                $("#text1").html(user + lines2[20]);
-                break;
-            case 122:
-                $("#text1").html(user + lines2[21]);
-                break;
-            case 123:
-                $('#tommy').attr("src", "./images/characters/tommy/thinkingTommy.png");             
-                $("#text1").html(employer + lines2[22]);
-                break;
-            case 124:
-                $('#tommy').attr("src", "./images/characters/tommy/grinTommyHand.png");     
-                $("#text1").html(employer + lines2[23]);
-                break;
-            case 125:
-                $("#text1").html(user + lines2[24]);
-                break;
-            case 126:
-                $('#tommy').hide(0);
-                animateDiv();
-                backgroundImagePicker("garden_walkway.jpg", "garden_walkway2.jpg");
-                $("#text1").html(lines2[25]);
-                break;
-            case 127:
-                $('#tommy').attr("src", "./images/characters/tommy/concernedTommyMild.png");
-                $('#tommy').show(0);
-                $("#text1").html(employer + "<i>" + lines2[26] + "</i>");
-                break;
-            case 128:
-                animateDiv();
-                $('#tommyLeft').attr("src", "./images/characters/tommy/normalTommy.png");
-                $('#tommy').hide(0);
-                $('#tommyLeft').show(0);
-                backgroundImagePicker("garden_pavillion.jpg", "garden_pavillion2.jpg");
-                $("#text1").html(employer + lines2[27]);
-                break;
-            case 129: 
-                $('#lilyRight').show(0);
-                $("#text1").html("<b>Gardener:<br/></b>" + lines2[28]);
-                break;
-            case 130:
-                $('#lilyRight').attr("src", "./images/characters/gardener/lily.png");
-                $("#text1").html(gardener + lines2[29]);
-                break;
-            case 131:
-                $('#lilyRight').attr("src", "./images/characters/gardener/smileLilyClose.png");
-                $("#text1").html(gardener + lines2[30]);
-                break;
-            case 132:
-                $('#tommyLeft').attr("src", "./images/characters/tommy/tommy1.png");
-                $("#text1").html(employer + lines2[31]);
-                break;
-            case 133:
-                $('#lilyRight').attr("src", "./images/characters/gardener/concernedLily.png");
-                $("#text1").html(gardener + lines2[32]);
-                break;
-            case 134:
-                $('#tommyLeft').attr("src", "./images/characters/tommy/concernedTommyMild.png");
-                $("#text1").html(employer + lines2[33]);
-                break;
-            case 135:
-                $('#tommyLeft').attr("src", "./images/characters/tommy/concernedTommy.png");
-                $("#text1").html(employer + lines2[34]);
-                break;
-            case 136:
-                $('#lilyRight').attr("src", "./images/characters/gardener/helpLily.png");
-                $("#text1").html(gardener + lines2[35]);
-                break;
-            case 137:
-                $('#tommyLeft').attr("src", "./images/characters/tommy/normalTommy.png");
-                $("#text1").html(employer + lines2[36]);
-                break;
-            case 138:
-                $('#lilyRight').attr("src", "./images/characters/gardener/smileLilyOpenGrass.png");
-                $("#text1").html(gardener + lines2[37]);
-                break;
-            case 139:
-                $('#lilyRight').attr("src", "./images/characters/gardener/smileLilyDownGrass.png");
-                $("#text1").html(gardener + lines2[38]);
-                break;
-            case 140:
-                $('#lilyRight').attr("src", "./images/characters/gardener/smileLilyCloseGrass.png");
-                $("#text1").html(gardener + lines2[39]);
-                break;
-            case 141:
-                $('#lilyRight').attr("src", "./images/characters/gardener/smileLilyClose.png");
-                $('#tommyLeft').attr("src", "./images/characters/tommy/tommy1.png");
-                $("#text1").html(employer + lines2[40]);
-                break;
-            case 142:
-                $('#lilyRight').attr("src", "./images/characters/gardener/normalLily.png");
-                $("#text1").html(gardener + lines2[41]);
-                break;
-            case 143:
-                $('#tommyLeft').attr("src", "./images/characters/tommy/smileTommyOpen.png");
-                $("#text1").html(employer + lines2[42]);
-                break;
-            case 144:
-                $('#tommyLeft').attr("src", "./images/characters/tommy/urgentTommy.png");
-                $("#text1").html(gardener + lines2[43]);
-                break;
-            case 145:
-                $('#tommyLeft').attr("src", "./images/characters/tommy/thinkingTommy.png");
-                $("#text1").html(employer + lines2[44]);
-                break;
-            case 146:
-                $('#lilyRight').attr("src", "./images/characters/gardener/questionLily.png");
-                $("#text1").html(gardener + lines2[45]);
-                break;
-            case 147:
-                $('#tommyLeft').attr("src", "./images/characters/tommy/tommy1.png");
-                $("#text1").html(employer + lines2[46]);
-                break;
-            case 148:
-                $('#lilyRight').attr("src", "./images/characters/gardener/smileLilyOpenNozzle.png");
-                $("#text1").html(gardener + lines2[47]);
-                break;
-            case 149:
-                $('#lilyRight').attr("src", "./images/characters/gardener/smileLilyCloseNozzle.png");
-                $("#text1").html(gardener + lines2[48]);
-                break;
-            case 150:
-                $('#tommyLeft').attr("src", "./images/characters/tommy/concernedTommyMild.png");
-                $('#lilyRight').attr("src", "./images/characters/gardener/smileLilyClose.png");
-                $("#text1").html(employer + lines2[49]);
-                break;
-            case 151:
-                $('#tommyLeft').attr("src", "./images/characters/tommy/normalTommy.png");
-                $("#text1").html(employer + lines2[50]);
-                break;
-            case 152:
-                $('#tommyLeft').attr("src", "./images/characters/tommy/smileTommyOpenSpring.png");
-                $("#text1").html(employer + lines2[51]);
-                break;
-            case 153:
-                $('#tommyLeft').attr("src", "./images/characters/tommy/smileTommyCloseSpring.png");
-                $("#text1").html(employer + lines2[52]);
-                break;
-            case 154:
-                $('#tommyLeft').attr("src", "./images/characters/tommy/normalTommyBroom.png");
-                $('#lilyRight').attr("src", "./images/characters/gardener/smileLilyOpen.png");
-                $("#text1").html(gardener + lines2[53]);
-                break;
-            case 155:
-                $('#tommyLeft').attr("src", "./images/characters/tommy/normalTommy.png");
-                $('#lilyRight').attr("src", "./images/characters/gardener/smileLilyClose.png");
-                $("#text1").html(gardener + lines2[54]);
-                break;                
-            case 156:
-                $('#tommyLeft').attr("src", "./images/characters/tommy/grinTommyHand.png");
-                $("#text1").html(employer + lines2[55]);
-                break;
-            case 157:
-                $('#tommyLeft').attr("src", "./images/characters/tommy/handTommy.png");
-                $("#text1").html(employer + lines2[56]);
-                break;
-            case 158:
-                $('#lilyRight').hide(0);
-                $('#tommyLeft').hide(0);
-                animateDiv();
-                backgroundImagePicker("kitchen.jpg", "kitchen2.jpg");
-                $("#text1").html(user + lines2[57]);
-                break;
-            case 159:
-                $("#text1").html(user + lines2[58]);
-                break;
-            case 160:
-                backgroundImagePicker("sink_overflow.png", "sink_overflow.png");
-                $("#text1").html(lines2[59]);
-                break;
-            case 161:
-                backgroundImagePicker("kitchen.jpg", "kitchen2.jpg");
-                $("#text1").html(user + lines2[60]);
-                break;
-            case 162:
-                $('#tommy').hide(0);
-                backgroundImagePicker("sink_overflow.png", "sink_overflow.png");
-                $("#text1").html(user + lines2[61]);
-                break;
-            case 163:
-                $("#next").hide(0);
-                $('#overlay').animate({
-                    opacity: 1,
-                }, 1500, function () {
-                });
-                setTimeout(nextMinigame2, 1500);
-                break;
-            case 164:
-                $("#text1").show(0);
-                $("#text2").hide(0);
-                console.log("g");
-                backgroundImagePicker("kitchen.jpg", "kitchen2.jpg");                
-                nextEndGame2();
-                break;
-            case (thirdSceneNum + 1):
-                backgroundImagePicker("kitchen.jpg", "kitchen2.jpg");                
-                animateDiv();
-                $('#sinkGameWater').hide(0);
-                $('#sinkGame').hide(0);
-                $('#beginningPage').show(0);
-                $('#olivia').show(0);
-                $("#text1").html(questionMark + lines3[0] + " " + lines3[1]);
-                break;
-            case 202:
-                $("#text1").html(user + lines3[2] + " " + userName + ".");
-                break;
-            case 203:
-                $("#text1").html(user + lines3[3]);
-                break;
-            case 204:
-                $("#text1").html(questionMark + lines3[4]);
-                break;
-            case 205:
-                $('#olivia').attr("src", "./images/characters/chef/creepyOlivia.png");
-                $("#text1").html(chef + lines3[5]);
-                break;
-            case 206:
-                $('#olivia').attr("src", "./images/characters/chef/normalOlivia.png");
-                $("#text1").html(chef + lines3[6]);
-                break;
-            case 207:
-                $("#text1").html(user + lines3[7]);
-                break;
-            case 208:
-                $("#text1").html(user + lines3[8]);
-                break;
-            case 209:
-                $('#olivia').attr("src", "./images/characters/chef/distressOlivia.png");
-                $("#text1").html(chef + lines3[9]);
-                break;
-            case 210:
-                $("#text1").html(user + lines3[10]);
-                break;
-            case 211:
-                $('#olivia').attr("src", "./images/characters/chef/mildOlivia.png");
-                $("#text1").html(chef + lines3[11]);
-                break;
-            case 212:
-                $('#olivia').attr("src", "./images/characters/chef/guiltyOlivia.png");
-                $("#text1").html(chef + lines3[12]);
-                break;
-            case 213:
-                $("#text1").html(user + lines3[13]);
-                break;
-            case 214:
-                $('#olivia').hide(0);
-                backgroundImagePicker("rinsing.png", "rinsing.png");                
-                $("#text1").html(user + lines3[14]);
-                break;
-            case 215:
-                backgroundImagePicker("washingdishes.png", "dishes.png");        
-                $("#text1").html(user + lines3[15]);
-                break;
-            case 216:
-                backgroundImagePicker("kitchen.jpg", "kitchen2.jpg");                
-                $('#olivia').attr("src", "./images/characters/chef/happyOlivia.png");
-                $('#olivia').show(0);
-                $("#text1").html(chef + lines3[16]);
-                break;
-            case 217:
-                $('#olivia').attr("src", "./images/characters/chef/smileOliviaDefrost.png");
-                $("#text1").html(chef + lines3[17]);
-                break;
-            case 218:
-                $('#olivia').attr("src", "./images/characters/chef/smileOlivia.png");
-                $('#olivia').hide(0);
-                $("#text1").html(user + lines3[18]);
-                break;
-            case 219:
-                $('#olivia').attr("src", "./images/characters/chef/normalOliviaDish.png");
-                $('#olivia').show(0);
-                $("#text1").html(chef + lines3[19]);
-                break;
-            case 220:
-                $('#olivia').attr("src", "./images/characters/chef/shadyOliviaDish.png");
-                $("#text1").html(chef + lines3[20]);
-                break;
-            case 221:
-                $("#text1").html(user + lines3[21]);
-                break;
-            case 222:
-                $('#olivia').attr("src", "./images/characters/chef/smileOlivia.png");
-                $("#text1").html(chef + lines3[22]);
-                break;
-            case 223:
-                $('#olivia').hide(0);
-                $("#text1").html(lines3[23]);
-                break;
-            case 224:
-                $("#text1").html(user + lines3[24]);
-                break;
-            case 225:
-                $('#olivia').attr("src", "./images/characters/chef/happyOlivia.png");
-                $('#olivia').show(0);
-                $("#text1").html(chef + lines3[25]);
-                break;
-            case 226:
-                $("#text1").html(user + lines3[26]);
-                break;
-            case 227:
-                $('#olivia').attr("src", "./images/characters/chef/smileOlivia.png");
-                $("#text1").html(chef + lines3[27]);
-                break;
-            case 228:
-                $('#olivia').attr("src", "./images/characters/chef/normalOlivia.png");
-                $("#text1").html(chef + lines3[28]);
-                break;
-            case 229:
-                $("#text1").html(user + lines3[29]);
-                break;
-            case 230:
-                $('#olivia').attr("src", "./images/characters/chef/creepyOlivia.png");
-                $("#text1").html(chef + lines3[30]);
-                break;
-            case 231:
-                $('#olivia').attr("src", "./images/characters/chef/normalOliviaWashing.png");
-                $("#text1").html(chef + lines3[31]);
-                break;
-            case 232:
-                $("#text1").html(user + lines3[32]);
-                break;
-            case 233:
-                $('#olivia').attr("src", "./images/characters/chef/mildOliviaWashing.png");
-                $("#text1").html(chef + lines3[33]);
-                break;
-            case 234:
-                $('#olivia').attr("src", "./images/characters/chef/guiltyOliviaWashing.png");
-                $("#text1").html(chef + lines3[34]);
-                break;
-            case 235:
-                $('#olivia').attr("src", "./images/characters/chef/guiltyOlivia.png");
-                $("#text1").html(user + lines3[35]);
-                break;
-            case 236:
-                $("#text1").html(user + lines3[36]);
-                break;
-            case 237:
-                $('#olivia').attr("src", "./images/characters/chef/smileOlivia.png");
-                $("#text1").html(chef + lines3[37] + " " + userAlone);
-                break;
-            case 238:
-                $('#olivia').hide(0);
-                animateDiv();
-                $('#tommy').attr("src", "./images/characters/tommy/smileTommyOpen.png");
-                $('#tommy').show(0);
-                backgroundImagePicker("lobby_night.jpg", "lobby_night2.jpg");
-                $("#text1").html(employer + lines3[38]);
-                break;
-            case 239:
-                $("#text1").html(user + lines3[39]);
-                break;
-            case 240:
-                $('#tommy').attr("src", "./images/characters/tommy/normalTommy.png");
-                $("#text1").html(employer + lines3[40]);
-                break;
-            case 241:
-                $('#tommy').attr("src", "./images/characters/tommy/smileTommyOpen.png");
-                $("#text1").html(employer + lines3[41]);
-                break;
-            case 242:
-                $('#tommy').attr("src", "./images/characters/tommy/smileTommyClose.png");
-                $("#text1").html(employer + lines3[42]);
-                break;
-            case 243:
-                $('#tommy').attr("src", "./images/characters/tommy/smileTommyOpen.png");
-                $("#text1").html(employer + lines3[43]);
-                break;
-            case 244:
-                $('#tommy').attr("src", "./images/characters/tommy/normalTommy.png");
-                $("#text1").html(user + lines3[44]);
-                break;
-            case 245:
-                $("#text1").html(user + lines3[45]);
-                break;
-            case 246:
-                $("#text1").html(user + lines3[46]);
-                break;
-            case 247:
-                $("#text1").html(user + lines3[47]);
-                break;
-            case 248:
-                $('#tommy').attr("src", "./images/characters/tommy/grinTommyHand.png");
-                $("#text1").html(employer + lines3[48]);
-                break;
-            case 249:
-                $('#tommy').hide(0);
-                $("#text1").html(lines3[49]);
-                break;
-            case 250:
-                $('#tommy').attr("src", "./images/characters/tommy/handTommy.png");
-                $('#tommy').show(0);
-                $("#text1").html(employer + lines3[50]);
-                break;
-            case 251:
-                $("#text1").html(user + lines3[51]);
-                break;
-            case 252:
-                $('#tommy').attr("src", "./images/characters/tommy/tommy1.png");
-                $("#text1").html(employer + lines3[52]);
-                break;
-            case 253:
-                $("#text1").html(user + lines3[53]);
-                break;
-            case 254:
-                $('#tommy').hide(0);
-                backgroundImagePicker("rainfall.jpg", "rainfall2.jpg");
-                $("#text1").html(user + lines3[54]);
-                break;
-            case 255:
-                backgroundImagePicker("city_picture1.jpg", "city_picture2.jpg");
-                $("#text1").html(user + lines3[55]);
-                break;
-            case 256:
-                $("#text1").html(user + lines3[56]);
-                break;
-            case 257:
-                backgroundImagePicker("lobby_night.jpg", "lobby_night2.jpg");
-                $('#tommy').attr("src", "./images/characters/tommy/smileTommyOpenTwo.png");
-                $('#tommy').show(0);
-                $("#text1").html(employer + lines3[57]);
-                break;
-            case 258:
-                $('#tommy').attr("src", "./images/characters/tommy/smileTommyOpen.png");
-                $('#tommy').hide(0);
-                $('#richard').attr("src", "./images/characters/richard/smileRichardOpen.png");
-                $('#richard').show(0);
-                $("#text1").html(maintenanceGuy + lines3[58] + " " + userName + "! " + lines3[59]);
-                break;
-            case 259:
-                $("#next").hide(0);
-                $('#overlay').animate({
-                    opacity: 1,
-                }, 1500, function () {
-                });
-                setTimeout(nextMinigame3, 1500);
-                break;
-            case 260: 
-                nextEndGame3();
-                break;
-            case (lastSceneNum+1):
-                animateDiv();
-                $('#beginningPage').show(0);
-                $('#sliceDIV').hide(0);
-                $('#sliceGame').hide(0);
-               $("#text1").html("You successfully saved enough water...for now...");
-                break;
-            case 302:
-                $('#richard').attr("src", "./images/characters/richard/smileRichard.png");
-                $("#text1").html(maintenanceGuy + lines3[60]);
-                break;
-            case 303:
-                $('#richard').hide(0);
-                $("#text1").html(lines3[61]);
-                break;
-            case 304:       
-                $('#tommy').attr("src", "./images/characters/tommy/smileTommyOpen.png");
-                $('#tommy').show(0);
-                $("#text1").html(employer + lines3[62]);
-                break;
-            case 305:       
-                $('#tommy').attr("src", "./images/characters/tommy/smileTommyClose.png");
-                $("#text1").html(user + lines3[63]);
-                break;
-            case 306:       
-                $('#tommy').attr("src", "./images/characters/tommy/alrightTommy.png");
-                $("#text1").html(employer + lines3[64]);
-                break;
-            case 307:       
-                $('#tommy').attr("src", "./images/characters/tommy/thinkingTommy.png");
-                $("#text1").html(employer + lines3[65]);
-                break;
-            case 308:       
-                $('#tommy').attr("src", "./images/characters/tommy/grinTommyHand.png");
-                $("#text1").html(employer + lines3[66]);
-                break;
-            case 1000:
-                animateDiv();
-                $('#raindropDIV').remove(0);
-                $('#raindropGame').remove(0);
-                $('#beginningPage').show(0);
-                $("#text1").html(employer + "Although we did not collect all the drops, we fixed the pipes. Everything should be all good for now.");
-                textNum = secondSceneNum + 1;
-                break;
-            case 2000:
-                animateDiv();
-                $('#sinkGameWater').hide(0);
-                $('#sinkGame').hide(0);
-                $('#beginningPage').show(0);
-                $("#text1").html("You couldn't turn off all the faucets in time... <br>Water ended up overflowing out of the sink...");
-                break;
-            case 2001:
-                $("#text1").html(questionMark + lines3[0] + " " + lines3[1]);
-                $('#olivia').show(0);
-                textNum = thirdSceneNum+1;
-                break;
-            case 3000:
-                animateDiv();
-                $('#beginningPage').show(0);
-                $('#sliceDIV').hide(0);
-                $('#sliceGame').hide(0);
-                $("#text1").html("Fortunately, even with your mistake, Olivia managed to speak to the hotel guests and convinced them to conserve water...");
-                break;
-            case 3001:
-                $('#richard').show(0);
-                $('#richard').attr("src", "./images/characters/richard/normalRichard.png");
-                $("#text1").html(maintenanceGuy + "It was a little close but...");
-                textNum = lastSceneNum+1;
-                break;
-            default:
-                break;
-        }
-
-    })
-
+        nextClick();
+    });
 })
+//////////////audio variables///////////////
+var sleepingAudio;
+var knockingAudio;
+
+function nextClick() {
+    var user = "<b>" + userName + ":<br/></b>";
+    var userAlone = userName;
+    textNum++;
+
+    console.log(textNum);
+    switch (textNum) {
+        case 1:
+            $("#text1").html(lines[0]);
+            sleepingAudio = new sound("./audio/sleeping.mp3", "effect");
+            sleepingAudio.play();
+            break;
+        case 2:
+            sleepingAudio = new sound("./audio/sleeping.mp3", "effect");
+            sleepingAudio.play();
+            backgroundImagePicker("bedroom_blur.png", "bedroom_square_blur.png");
+            $("#text1").html(lines[1]);
+            break;
+        case 3:
+            sleepingAudio.stop();
+            knockingAudio = new sound("./audio/knock.mp3", "effect");
+            knockingAudio.play();
+
+            $("#text1").html("<b>Employee:<br/></b>" + lines[2]);
+            break;
+        case 4:
+            knockingAudio.stop();
+            $("#text1").html(user + lines[3]);
+            break;
+        case 5:
+            animateDiv();
+            backgroundImagePicker("hotel_corridor.jpg", "hotel_corridor_square.jpg");
+            $('#tommy').show(0);
+            $('#tommy').attr("src", "./images/characters/tommy/tommy1.png");
+            $("#text1").html("<b>Employee:<br/></b>" + userName + "! " + lines[4]);
+            break;
+        case 6:
+            $('#tommy').hide(0);
+            backgroundImagePicker("bedroom.png", "bedroom_square.png");
+            $("#text1").html(user + lines[5]);
+            break;
+        case 7:
+            $('#tommy').show(0);
+            $('#tommy').attr("src", "./images/characters/tommy/normalTommy.png");
+            backgroundImagePicker("hotel_corridor.jpg", "hotel_corridor_square.jpg");
+            $("#text1").html("<b>Employee:<br/></b>" + lines[6]);
+            break;
+        case 8:
+            $('#tommy').attr("src", "./images/characters/tommy/thinkingTommy.png");
+            $("#text1").html("<b>Employee:<br/></b>" + lines[7]);
+            break;
+        case 9:
+            $('#tommy').attr("src", "./images/characters/tommy/cryTommy.png");
+            $("#text1").html("<b>Employee:<br/></b>" + lines[8]);
+            break;
+        case 10:
+            $('#tommy').hide(0);
+            backgroundImagePicker("bedroom.png", "bedroom_square.png");
+            $("#text1").html(user + lines[9]);
+            break;
+        case 11:
+            $('#tommy').show(0);
+            backgroundImagePicker("hotel_corridor.jpg", "hotel_corridor_square.jpg");
+            $('#tommy').attr("src", "./images/characters/tommy/smileTommyOpen.png");
+            $("#text1").html("<b>Employee:<br/></b>" + lines[10]);
+            break;
+        case 12:
+            animateDiv();
+            backgroundImagePicker("lobby_day.jpg", "lobby_day2.jpg");
+            $('#tommy').attr("src", "./images/characters/tommy/normalTommy.png");
+            $("#text1").html("<b>Employee:<br/></b>" + lines[11] + " " + userName);
+            break;
+        case 13:
+            $('#tommy').attr("src", "./images/characters/tommy/smileTommyOpen.png");
+            $("#text1").html("<b>Employee:<br/></b>" + lines[12]);
+            break;
+        case 14:
+            $('#tommy').attr("src", "./images/characters/tommy/handTommy.png");
+            $("#text1").html(employer + lines[13]);
+            break;
+        case 15:
+            $('#tommy').attr("src", "./images/characters/tommy/normalTommy.png");
+            $("#text1").html(employer + lines[14]);
+            break;
+        case 16:
+            $('#tommy').hide(0);
+            animateDiv();
+            backgroundImagePicker("basement.jpg", "basement_square.png");
+            $("#text1").html(employer + lines[15]);
+            break;
+        case 17:
+            $('#tommy').show(0);
+            $('#tommy').attr("src", "./images/characters/tommy/smileTommyOpen.png");
+            $("#text1").html(employer + lines[16]);
+            break;
+        case 18:                
+            $('#tommy').hide(0);
+            $("#text1").html(lines[17]);
+            break;
+        case 19:
+            $('tommy').show(0);
+            $('#tommy').attr("src", "./images/characters/tommy/smileTommyOpen.png");
+            $("#text1").html(user + lines[18]);
+            break;
+        case 20:
+            $('#tommy').show(0);
+            $('#tommy').attr("src", "./images/characters/tommy/smileTommyClose.png");               
+            $("#text1").html(employer + lines[19]);
+            break;
+        case 21:
+            animateDiv();
+            $('#tommy').hide(0);
+            backgroundImagePicker("watershed.jpg", "watershed2.jpg");
+            $("#text1").html(employer + lines[20]);
+            break;
+        case 22:
+            backgroundImagePicker("stream.png", "stream2.png");
+            $("#text1").html(employer + lines[21]);
+            break;
+        case 23:
+            backgroundImagePicker("reservoir.png", "reservoir2.png");
+            $("#text1").html(employer + lines[22]);
+            break;
+        case 24:
+            $('#tommy').show(0);
+            backgroundImagePicker("basement.jpg", "basement_square.png");
+            $('#tommy').attr("src", "./images/characters/tommy/normalTommy.png");
+            $("#text1").html(employer + lines[23]);
+            break;
+        case 25:                
+            $('#tommy').hide(0);
+            $("#text1").html(lines[24]);
+            break;
+        case 26:
+            $("#text1").html(user + lines[25]);
+            break;
+        case 27:
+            $("#text1").html(lines[26]);
+            break;
+        case 28:
+            $("#text1").html(user + lines[27]);
+            break;
+        case 29:                
+            $('#tommy').attr("src", "./images/characters/tommy/dullTommy.png"); 
+            $('#tommy').show(0);
+            $("#text1").html(employer + lines[28]);
+            break;
+        case 30:
+            $("#text1").html(user + lines[29]);
+            break;
+        case 31:
+            $('#tommy').attr("src", "./images/characters/tommy/omgTommy.png"); 
+            $("#text1").html(employer + lines[30]);
+            break;
+        case 32:
+            $("#text1").html(user + lines[31]);
+            break;
+        case 33:
+            $("#text1").html(user + lines[32]);
+            break;
+        case 34:                
+            $('#tommy').hide(0);
+            $("#next").hide(0);
+            $('#overlay').animate({
+                opacity: 1,
+            }, 1500, function () {
+            });
+            setTimeout(nextMinigame1, 1500);
+            break;
+        case 35:
+            nextEndGame();
+            break;
+        case (secondSceneNum + 1):
+            animateDiv();         
+            backgroundImagePicker("basement.jpg", "basement_square.png");
+            $('#raindropDIV').remove(0);
+            $('#raindropGame').remove(0);
+            $('#beginningPage').show(0);
+            $('#tommy').show(0);
+            $('#tommy').attr("src", "./images/characters/tommy/smileTommyOpen.png"); 
+            $("#text1").html(employer + lines2[0]);
+            break;
+        case 102:
+            $('#tommy').attr("src", "./images/characters/tommy/grinTommyHand.png"); 
+            $("#text1").html(employer + lines2[1]);
+            break;
+        case 103:
+            $('#tommy').attr("src", "./images/characters/tommy/confidentTommy.png"); 
+            $("#text1").html(employer + lines2[2]);
+            break;
+        case 104:                
+            $('#tommy').hide(0);
+            $('#richard').show(0);
+            $("#text1").html(questionMark + lines2[3]);
+            break;
+        case 105:
+            $("#text1").html(questionMark + lines2[4]);
+            break;
+        case 106:
+            $('#richard').hide(0);
+            $("#text1").html(user + lines2[5]);
+            break;
+        case 107:
+            $('#richard').show(0);
+            $('#richard').attr("src", "./images/characters/richard/normalRichard.png");
+            $("#text1").html(maintenanceGuy + lines2[6]);
+            break;
+        case 108:
+            $('#richard').attr("src", "./images/characters/richard/smileRichard.png");
+            $("#text1").html(maintenanceGuy + lines2[7]);
+            break;
+        case 109:
+            $('#richard').attr("src", "./images/characters/richard/smileRichardEye.png");
+            $("#text1").html(maintenanceGuy + lines2[8]);
+            break;
+        case 110:                
+            $('#tommy').hide(0); 
+            $('#richard').hide(0);
+            $('#tommyLeft').attr("src", "./images/characters/tommy/thinkingTommy.png");
+            $('#tommyLeft').show(0); 
+            $('#richardRight').attr("src", "./images/characters/richard/smileRichardEye.png");
+            $('#richardRight').show(0);
+            $("#text1").html(employer + lines2[9]);
+            break;
+        case 111:
+            $('#richardRight').attr("src", "./images/characters/richard/mildRichard.png");
+            $("#text1").html(maintenanceGuy + lines2[10]);
+            break;
+        case 112:
+            $('#tommyLeft').attr("src", "./images/characters/tommy/dullTommy.png");
+            $("#text1").html(employer + lines2[11]);
+            break;
+        case 113:
+            $('#tommyLeft').hide(0); 
+            $('#richardRight').hide(0);
+            backgroundImagePicker("sunshine.jpg", "sunshine2.jpg");
+            $("#text1").html(maintenanceGuy + lines2[12]);
+            break;
+        case 114:
+            $("#text1").html(maintenanceGuy + lines2[13]);
+            break;
+        case 115:
+            $('#richard').hide(0);
+            backgroundImagePicker("basement.jpg", "basement_square.png");
+            $('#tommyLeft').show(0); 
+            $('#richardRight').show(0);
+            $("#text1").html(user + lines2[14]);
+            break;
+        case 116:
+            $("#text1").html(user + lines2[15]);
+            break;
+        case 117:
+            $('#richardRight').hide(0);
+            $('#tommyLeft').hide(0);
+            backgroundImagePicker("population1.jpg", "population2.jpg");
+            $("#text1").html(maintenanceGuy + lines2[16]);
+            break;
+        case 118:
+            $("#text1").html(maintenanceGuy + lines2[17]);
+            break;
+        case 119:
+            $('#tommy').attr("src", "./images/characters/tommy/handTommy.png");             
+            $('#tommy').show(0);
+            backgroundImagePicker("basement.jpg", "basement_square.png");
+            $("#text1").html(employer + lines2[18]);
+            break;
+        case 120:
+            $('#tommy').attr("src", "./images/characters/tommy/concernedTommy.png");             
+            $("#text1").html(user + lines2[19]);
+            break;
+        case 121:
+            $("#text1").html(user + lines2[20]);
+            break;
+        case 122:
+            $("#text1").html(user + lines2[21]);
+            break;
+        case 123:
+            $('#tommy').attr("src", "./images/characters/tommy/thinkingTommy.png");             
+            $("#text1").html(employer + lines2[22]);
+            break;
+        case 124:
+            $('#tommy').attr("src", "./images/characters/tommy/grinTommyHand.png");     
+            $("#text1").html(employer + lines2[23]);
+            break;
+        case 125:
+            $("#text1").html(user + lines2[24]);
+            break;
+        case 126:
+            $('#tommy').hide(0);
+            animateDiv();
+            backgroundImagePicker("garden_walkway.jpg", "garden_walkway2.jpg");
+            $("#text1").html(lines2[25]);
+            break;
+        case 127:
+            $('#tommy').attr("src", "./images/characters/tommy/concernedTommyMild.png");
+            $('#tommy').show(0);
+            $("#text1").html(employer + "<i>" + lines2[26] + "</i>");
+            break;
+        case 128:
+            animateDiv();
+            $('#tommyLeft').attr("src", "./images/characters/tommy/normalTommy.png");
+            $('#tommy').hide(0);
+            $('#tommyLeft').show(0);
+            backgroundImagePicker("garden_pavillion.jpg", "garden_pavillion2.jpg");
+            $("#text1").html(employer + lines2[27]);
+            break;
+        case 129: 
+            $('#lilyRight').show(0);
+            $("#text1").html("<b>Gardener:<br/></b>" + lines2[28]);
+            break;
+        case 130:
+            $('#lilyRight').attr("src", "./images/characters/gardener/lily.png");
+            $("#text1").html(gardener + lines2[29]);
+            break;
+        case 131:
+            $('#lilyRight').attr("src", "./images/characters/gardener/smileLilyClose.png");
+            $("#text1").html(gardener + lines2[30]);
+            break;
+        case 132:
+            $('#tommyLeft').attr("src", "./images/characters/tommy/tommy1.png");
+            $("#text1").html(employer + lines2[31]);
+            break;
+        case 133:
+            $('#lilyRight').attr("src", "./images/characters/gardener/concernedLily.png");
+            $("#text1").html(gardener + lines2[32]);
+            break;
+        case 134:
+            $('#tommyLeft').attr("src", "./images/characters/tommy/concernedTommyMild.png");
+            $("#text1").html(employer + lines2[33]);
+            break;
+        case 135:
+            $('#tommyLeft').attr("src", "./images/characters/tommy/concernedTommy.png");
+            $("#text1").html(employer + lines2[34]);
+            break;
+        case 136:
+            $('#lilyRight').attr("src", "./images/characters/gardener/helpLily.png");
+            $("#text1").html(gardener + lines2[35]);
+            break;
+        case 137:
+            $('#tommyLeft').attr("src", "./images/characters/tommy/normalTommy.png");
+            $("#text1").html(employer + lines2[36]);
+            break;
+        case 138:
+            $('#lilyRight').attr("src", "./images/characters/gardener/smileLilyOpenGrass.png");
+            $("#text1").html(gardener + lines2[37]);
+            break;
+        case 139:
+            $('#lilyRight').attr("src", "./images/characters/gardener/smileLilyDownGrass.png");
+            $("#text1").html(gardener + lines2[38]);
+            break;
+        case 140:
+            $('#lilyRight').attr("src", "./images/characters/gardener/smileLilyCloseGrass.png");
+            $("#text1").html(gardener + lines2[39]);
+            break;
+        case 141:
+            $('#lilyRight').attr("src", "./images/characters/gardener/smileLilyClose.png");
+            $('#tommyLeft').attr("src", "./images/characters/tommy/tommy1.png");
+            $("#text1").html(employer + lines2[40]);
+            break;
+        case 142:
+            $('#lilyRight').attr("src", "./images/characters/gardener/normalLily.png");
+            $("#text1").html(gardener + lines2[41]);
+            break;
+        case 143:
+            $('#tommyLeft').attr("src", "./images/characters/tommy/smileTommyOpen.png");
+            $("#text1").html(employer + lines2[42]);
+            break;
+        case 144:
+            $('#tommyLeft').attr("src", "./images/characters/tommy/urgentTommy.png");
+            $("#text1").html(gardener + lines2[43]);
+            break;
+        case 145:
+            $('#tommyLeft').attr("src", "./images/characters/tommy/thinkingTommy.png");
+            $("#text1").html(employer + lines2[44]);
+            break;
+        case 146:
+            $('#lilyRight').attr("src", "./images/characters/gardener/questionLily.png");
+            $("#text1").html(gardener + lines2[45]);
+            break;
+        case 147:
+            $('#tommyLeft').attr("src", "./images/characters/tommy/tommy1.png");
+            $("#text1").html(employer + lines2[46]);
+            break;
+        case 148:
+            $('#lilyRight').attr("src", "./images/characters/gardener/smileLilyOpenNozzle.png");
+            $("#text1").html(gardener + lines2[47]);
+            break;
+        case 149:
+            $('#lilyRight').attr("src", "./images/characters/gardener/smileLilyCloseNozzle.png");
+            $("#text1").html(gardener + lines2[48]);
+            break;
+        case 150:
+            $('#tommyLeft').attr("src", "./images/characters/tommy/concernedTommyMild.png");
+            $('#lilyRight').attr("src", "./images/characters/gardener/smileLilyClose.png");
+            $("#text1").html(employer + lines2[49]);
+            break;
+        case 151:
+            $('#tommyLeft').attr("src", "./images/characters/tommy/normalTommy.png");
+            $("#text1").html(employer + lines2[50]);
+            break;
+        case 152:
+            $('#tommyLeft').attr("src", "./images/characters/tommy/smileTommyOpenSpring.png");
+            $("#text1").html(employer + lines2[51]);
+            break;
+        case 153:
+            $('#tommyLeft').attr("src", "./images/characters/tommy/smileTommyCloseSpring.png");
+            $("#text1").html(employer + lines2[52]);
+            break;
+        case 154:
+            $('#tommyLeft').attr("src", "./images/characters/tommy/normalTommyBroom.png");
+            $('#lilyRight').attr("src", "./images/characters/gardener/smileLilyOpen.png");
+            $("#text1").html(gardener + lines2[53]);
+            break;
+        case 155:
+            $('#tommyLeft').attr("src", "./images/characters/tommy/normalTommy.png");
+            $('#lilyRight').attr("src", "./images/characters/gardener/smileLilyClose.png");
+            $("#text1").html(gardener + lines2[54]);
+            break;                
+        case 156:
+            $('#tommyLeft').attr("src", "./images/characters/tommy/grinTommyHand.png");
+            $("#text1").html(employer + lines2[55]);
+            break;
+        case 157:
+            $('#tommyLeft').attr("src", "./images/characters/tommy/handTommy.png");
+            $("#text1").html(employer + lines2[56]);
+            break;
+        case 158:
+            $('#lilyRight').hide(0);
+            $('#tommyLeft').hide(0);
+            animateDiv();
+            backgroundImagePicker("kitchen.jpg", "kitchen2.jpg");
+            $("#text1").html(user + lines2[57]);
+            break;
+        case 159:
+            $("#text1").html(user + lines2[58]);
+            break;
+        case 160:
+            backgroundImagePicker("sink_overflow.png", "sink_overflow.png");
+            $("#text1").html(lines2[59]);
+            break;
+        case 161:
+            backgroundImagePicker("kitchen.jpg", "kitchen2.jpg");
+            $("#text1").html(user + lines2[60]);
+            break;
+        case 162:
+            $('#tommy').hide(0);
+            backgroundImagePicker("sink_overflow.png", "sink_overflow.png");
+            $("#text1").html(user + lines2[61]);
+            break;
+        case 163:
+            $("#next").remove(0);
+            $('#overlay').animate({
+                opacity: 1,
+            }, 1500, function () {
+            });
+            setTimeout(nextMinigame2, 1500);
+            break;
+        case 164:
+            $("#text1").show(0);
+            $("#text2").hide(0);
+            console.log("g");
+            backgroundImagePicker("kitchen.jpg", "kitchen2.jpg");                
+            nextEndGame2();
+            break;
+        case (thirdSceneNum + 1):
+            backgroundImagePicker("kitchen.jpg", "kitchen2.jpg");                
+            animateDiv();
+            $('#sinkGameWater').hide(0);
+            $('#sinkGame').hide(0);
+            $('#beginningPage').show(0);
+            $('#olivia').show(0);
+            $("#text1").html(questionMark + lines3[0] + " " + lines3[1]);
+            break;
+        case 202:
+            $("#text1").html(user + lines3[2] + " " + userName + ".");
+            break;
+        case 203:
+            $("#text1").html(user + lines3[3]);
+            break;
+        case 204:
+            $("#text1").html(questionMark + lines3[4]);
+            break;
+        case 205:
+            $('#olivia').attr("src", "./images/characters/chef/creepyOlivia.png");
+            $("#text1").html(chef + lines3[5]);
+            break;
+        case 206:
+            $('#olivia').attr("src", "./images/characters/chef/normalOlivia.png");
+            $("#text1").html(chef + lines3[6]);
+            break;
+        case 207:
+            $("#text1").html(user + lines3[7]);
+            break;
+        case 208:
+            $("#text1").html(user + lines3[8]);
+            break;
+        case 209:
+            $('#olivia').attr("src", "./images/characters/chef/distressOlivia.png");
+            $("#text1").html(chef + lines3[9]);
+            break;
+        case 210:
+            $("#text1").html(user + lines3[10]);
+            break;
+        case 211:
+            $('#olivia').attr("src", "./images/characters/chef/mildOlivia.png");
+            $("#text1").html(chef + lines3[11]);
+            break;
+        case 212:
+            $('#olivia').attr("src", "./images/characters/chef/guiltyOlivia.png");
+            $("#text1").html(chef + lines3[12]);
+            break;
+        case 213:
+            $("#text1").html(user + lines3[13]);
+            break;
+        case 214:
+            $('#olivia').hide(0);
+            backgroundImagePicker("rinsing.png", "rinsing.png");                
+            $("#text1").html(user + lines3[14]);
+            break;
+        case 215:
+            backgroundImagePicker("washingdishes.png", "dishes.png");        
+            $("#text1").html(user + lines3[15]);
+            break;
+        case 216:
+            backgroundImagePicker("kitchen.jpg", "kitchen2.jpg");                
+            $('#olivia').attr("src", "./images/characters/chef/happyOlivia.png");
+            $('#olivia').show(0);
+            $("#text1").html(chef + lines3[16]);
+            break;
+        case 217:
+            $('#olivia').attr("src", "./images/characters/chef/smileOliviaDefrost.png");
+            $("#text1").html(chef + lines3[17]);
+            break;
+        case 218:
+            $('#olivia').attr("src", "./images/characters/chef/smileOlivia.png");
+            $('#olivia').hide(0);
+            $("#text1").html(user + lines3[18]);
+            break;
+        case 219:
+            $('#olivia').attr("src", "./images/characters/chef/normalOliviaDish.png");
+            $('#olivia').show(0);
+            $("#text1").html(chef + lines3[19]);
+            break;
+        case 220:
+            $('#olivia').attr("src", "./images/characters/chef/shadyOliviaDish.png");
+            $("#text1").html(chef + lines3[20]);
+            break;
+        case 221:
+            $("#text1").html(user + lines3[21]);
+            break;
+        case 222:
+            $('#olivia').attr("src", "./images/characters/chef/smileOlivia.png");
+            $("#text1").html(chef + lines3[22]);
+            break;
+        case 223:
+            $('#olivia').hide(0);
+            $("#text1").html(lines3[23]);
+            break;
+        case 224:
+            $("#text1").html(user + lines3[24]);
+            break;
+        case 225:
+            $('#olivia').attr("src", "./images/characters/chef/happyOlivia.png");
+            $('#olivia').show(0);
+            $("#text1").html(chef + lines3[25]);
+            break;
+        case 226:
+            $("#text1").html(user + lines3[26]);
+            break;
+        case 227:
+            $('#olivia').attr("src", "./images/characters/chef/smileOlivia.png");
+            $("#text1").html(chef + lines3[27]);
+            break;
+        case 228:
+            $('#olivia').attr("src", "./images/characters/chef/normalOlivia.png");
+            $("#text1").html(chef + lines3[28]);
+            break;
+        case 229:
+            $("#text1").html(user + lines3[29]);
+            break;
+        case 230:
+            $('#olivia').attr("src", "./images/characters/chef/creepyOlivia.png");
+            $("#text1").html(chef + lines3[30]);
+            break;
+        case 231:
+            $('#olivia').attr("src", "./images/characters/chef/normalOliviaWashing.png");
+            $("#text1").html(chef + lines3[31]);
+            break;
+        case 232:
+            $("#text1").html(user + lines3[32]);
+            break;
+        case 233:
+            $('#olivia').attr("src", "./images/characters/chef/mildOliviaWashing.png");
+            $("#text1").html(chef + lines3[33]);
+            break;
+        case 234:
+            $('#olivia').attr("src", "./images/characters/chef/guiltyOliviaWashing.png");
+            $("#text1").html(chef + lines3[34]);
+            break;
+        case 235:
+            $('#olivia').attr("src", "./images/characters/chef/guiltyOlivia.png");
+            $("#text1").html(user + lines3[35]);
+            break;
+        case 236:
+            $("#text1").html(user + lines3[36]);
+            break;
+        case 237:
+            $('#olivia').attr("src", "./images/characters/chef/smileOlivia.png");
+            $("#text1").html(chef + lines3[37] + " " + userAlone);
+            break;
+        case 238:
+            $('#olivia').hide(0);
+            animateDiv();
+            $('#tommy').attr("src", "./images/characters/tommy/smileTommyOpen.png");
+            $('#tommy').show(0);
+            backgroundImagePicker("lobby_night.jpg", "lobby_night2.jpg");
+            $("#text1").html(employer + lines3[38]);
+            break;
+        case 239:
+            $("#text1").html(user + lines3[39]);
+            break;
+        case 240:
+            $('#tommy').attr("src", "./images/characters/tommy/normalTommy.png");
+            $("#text1").html(employer + lines3[40]);
+            break;
+        case 241:
+            $('#tommy').attr("src", "./images/characters/tommy/smileTommyOpen.png");
+            $("#text1").html(employer + lines3[41]);
+            break;
+        case 242:
+            $('#tommy').attr("src", "./images/characters/tommy/smileTommyClose.png");
+            $("#text1").html(employer + lines3[42]);
+            break;
+        case 243:
+            $('#tommy').attr("src", "./images/characters/tommy/smileTommyOpen.png");
+            $("#text1").html(employer + lines3[43]);
+            break;
+        case 244:
+            $('#tommy').attr("src", "./images/characters/tommy/normalTommy.png");
+            $("#text1").html(user + lines3[44]);
+            break;
+        case 245:
+            $("#text1").html(user + lines3[45]);
+            break;
+        case 246:
+            $("#text1").html(user + lines3[46]);
+            break;
+        case 247:
+            $("#text1").html(user + lines3[47]);
+            break;
+        case 248:
+            $('#tommy').attr("src", "./images/characters/tommy/grinTommyHand.png");
+            $("#text1").html(employer + lines3[48]);
+            break;
+        case 249:
+            $('#tommy').hide(0);
+            $("#text1").html(lines3[49]);
+            break;
+        case 250:
+            $('#tommy').attr("src", "./images/characters/tommy/handTommy.png");
+            $('#tommy').show(0);
+            $("#text1").html(employer + lines3[50]);
+            break;
+        case 251:
+            $("#text1").html(user + lines3[51]);
+            break;
+        case 252:
+            $('#tommy').attr("src", "./images/characters/tommy/tommy1.png");
+            $("#text1").html(employer + lines3[52]);
+            break;
+        case 253:
+            $("#text1").html(user + lines3[53]);
+            break;
+        case 254:
+            $('#tommy').hide(0);
+            backgroundImagePicker("rainfall.jpg", "rainfall2.jpg");
+            $("#text1").html(user + lines3[54]);
+            break;
+        case 255:
+            backgroundImagePicker("city_picture1.jpg", "city_picture2.jpg");
+            $("#text1").html(user + lines3[55]);
+            break;
+        case 256:
+            $("#text1").html(user + lines3[56]);
+            break;
+        case 257:
+            backgroundImagePicker("lobby_night.jpg", "lobby_night2.jpg");
+            $('#tommy').attr("src", "./images/characters/tommy/smileTommyOpenTwo.png");
+            $('#tommy').show(0);
+            $("#text1").html(employer + lines3[57]);
+            break;
+        case 258:
+            $('#tommy').attr("src", "./images/characters/tommy/smileTommyOpen.png");
+            $('#tommy').hide(0);
+            $('#richard').attr("src", "./images/characters/richard/smileRichardOpen.png");
+            $('#richard').show(0);
+            $("#text1").html(maintenanceGuy + lines3[58] + " " + userName + "! " + lines3[59]);
+            break;
+        case 259:
+            $("#next").remove(0);
+            $('#overlay').animate({
+                opacity: 1,
+            }, 1500, function () {
+            });
+            setTimeout(nextMinigame3, 1500);
+            break;
+        case 260: 
+            nextEndGame3();
+            break;
+        case (lastSceneNum+1):
+            animateDiv();
+            $('#beginningPage').show(0);
+            $('#sliceDIV').hide(0);
+            $('#sliceGame').hide(0);
+            $("#text1").html("You successfully saved enough water...for now...");
+            break;
+        case 302:
+            $('#richard').attr("src", "./images/characters/richard/smileRichard.png");
+            $("#text1").html(maintenanceGuy + lines3[60]);
+            break;
+        case 303:
+            $('#richard').hide(0);
+            $("#text1").html(lines3[61]);
+            break;
+        case 304:       
+            $('#tommy').attr("src", "./images/characters/tommy/smileTommyOpen.png");
+            $('#tommy').show(0);
+            $("#text1").html(employer + lines3[62]);
+            break;
+        case 305:       
+            $('#tommy').attr("src", "./images/characters/tommy/smileTommyClose.png");
+            $("#text1").html(user + lines3[63]);
+            break;
+        case 306:       
+            $('#tommy').attr("src", "./images/characters/tommy/alrightTommy.png");
+            $("#text1").html(employer + lines3[64]);
+            break;
+        case 307:       
+            $('#tommy').attr("src", "./images/characters/tommy/thinkingTommy.png");
+            $("#text1").html(employer + lines3[65]);
+            break;
+        case 308:       
+            $('#tommy').attr("src", "./images/characters/tommy/grinTommyHand.png");
+            $("#text1").html(employer + lines3[66]);
+            break;
+        case 1000:
+            animateDiv();
+            $('#raindropDIV').remove(0);
+            $('#raindropGame').remove(0);
+            $('#beginningPage').show(0);
+            $("#text1").html(employer + "Although we did not collect all the drops, we fixed the pipes. Everything should be all good for now.");
+            textNum = secondSceneNum + 1;
+            break;
+        case 2000:
+            animateDiv();
+            $('#sinkGameWater').hide(0);
+            $('#sinkGame').hide(0);
+            $('#beginningPage').show(0);
+            $("#text1").html("You couldn't turn off all the faucets in time... <br>Water ended up overflowing out of the sink...");
+            break;
+        case 2001:
+            $("#text1").html(questionMark + lines3[0] + " " + lines3[1]);
+            $('#olivia').show(0);
+            textNum = thirdSceneNum+1;
+            break;
+        case 3000:
+            animateDiv();
+            $('#beginningPage').show(0);
+            $('#sliceDIV').hide(0);
+            $('#sliceGame').hide(0);
+            $("#text1").html("Fortunately, even with your mistake, Olivia managed to speak to the hotel guests and convinced them to conserve water...");
+            break;
+        case 3001:
+            $('#richard').show(0);
+            $('#richard').attr("src", "./images/characters/richard/normalRichard.png");
+            $("#text1").html(maintenanceGuy + "It was a little close but...");
+            textNum = lastSceneNum+1;
+            break;
+        default:
+            break;
+    }
+};
 
 function animateDiv() {
     $('#overlay').animate({
@@ -1843,7 +1885,7 @@ function nextMinigame1() {
     $('#beginningPage').hide(0);
     $('#raindropDIV').show(0);
     startRaindropGame();
-    if(width > height) {
+    if (width > height) {
         document.getElementById("raindropGame").style.backgroundImage = 'url("./images/background/basement_blur.jpg")';
     } else {
         document.getElementById("raindropGame").style.backgroundImage = 'url("./images/background/basement_square_blur.png")';
@@ -1884,8 +1926,8 @@ function nextMinigame3() {
 }
 
 function nextEndGame() {
-    console.log((Math.ceil(gameArea.frameNum / 50)));
-    console.log(collected);
+    //console.log((Math.ceil(gameArea.frameNum / 50)));
+    //console.log(collected);
     if (collected == 100) {
         $("#text1").html("You did it.");
         textNum = secondSceneNum;
@@ -1893,7 +1935,7 @@ function nextEndGame() {
         $("#text1").html("You failed to collect enough water droplets.<br/>You wasted some water.");
         textNum = 999;
     } else {
-        console.log("Game not completed.");
+        //console.log("Game not completed.");
     }
 
 }
@@ -1921,10 +1963,10 @@ function nextEndGame3() {
 function backgroundImagePicker(src1, src2) {
     var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
     var height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
-    if(width > height) {
-        document.getElementById("beginningPage").style.backgroundImage = "url('./images/background/"+ src1 + "')";
+    if (width > height) {
+        document.getElementById("beginningPage").style.backgroundImage = "url('./images/background/" + src1 + "')";
     } else {
-        document.getElementById("beginningPage").style.backgroundImage = "url('./images/background/"+ src2 + "')";
+        document.getElementById("beginningPage").style.backgroundImage = "url('./images/background/" + src2 + "')";
     }
 }
 
@@ -1945,7 +1987,7 @@ function updatePage() {
         }
     }
     for (let i = 0; i < imageCenter.length; i++) {
-        
+
         if (height > width) {
             var imageWidth = width * 0.7;
             imageCenter[i].style.width = imageWidth + "px";
@@ -1960,35 +2002,35 @@ function updatePage() {
     }
     for (let i = 0; i < imageLeft.length; i++) {
         if (height > width) {
-            
+
             var imageWidth = width * 0.7;
             imageLeft[i].style.width = imageWidth + "px";
             imageLeft[i].style.height = imageWidth + "px";
-            $('.characterImgLeft').css("left", (width*0.5 - imageWidth + "px"));
+            $('.characterImgLeft').css("left", (width * 0.5 - imageWidth + "px"));
         } else {
             var imageHeight = height * 0.6;
             imageLeft[i].style.width = imageHeight + "px";
             imageLeft[i].style.height = imageHeight + "px";
-            $('.characterImgLeft').css("left", (width*0.5 - imageHeight + "px"));
+            $('.characterImgLeft').css("left", (width * 0.5 - imageHeight + "px"));
         }
     }
     for (let i = 0; i < imageRight.length; i++) {
         if (height > width) {
-            
+
             var imageWidth = width * 0.7;
             imageRight[i].style.width = imageWidth + "px";
             imageRight[i].style.height = imageWidth + "px";
-            $('.characterImgRight').css("right", (width*0.5 - imageWidth + "px"));
+            $('.characterImgRight').css("right", (width * 0.5 - imageWidth + "px"));
         } else {
             var imageHeight = height * 0.6;
             imageRight[i].style.width = imageHeight + "px";
             imageRight[i].style.height = imageHeight + "px";
-            $('.characterImgRight').css("right", (width*0.5 - imageHeight + "px"));
+            $('.characterImgRight').css("right", (width * 0.5 - imageHeight + "px"));
         }
     }
-    
+
     for (let i = 0; i < imageIcon.length; i++) {
-        
+
         if (height > width) {
             var imageWidth = width * 0.15;
             imageIcon[i].style.width = imageWidth + "px";
@@ -2000,7 +2042,7 @@ function updatePage() {
         }
     }
     for (let i = 0; i < imageIcon2.length; i++) {
-        
+
         if (height > width) {
             var imageWidth = width * 0.19;
             imageIcon2[i].style.width = imageWidth + "px";
@@ -2024,7 +2066,7 @@ function sound(src, backgroundMusic) {
     this.sound.setAttribute("controls", "none");
     this.sound.style.display = "none";
     document.body.appendChild(this.sound);
-    if(backgroundMusic == "backgroundMusic") {
+    if (backgroundMusic == "backgroundMusic") {
         this.sound.setAttribute("loop", "loop");
     }
     this.play = function () {
@@ -2040,7 +2082,17 @@ function removeAllSounds() {
     var allSounds = document.getElementsByTagName("audio");
     var i = 0;
     while (i < allSounds.length) {
-        //console.log(allSounds);
+        ////console.log(allSounds);
+        allSounds[i].pause();
+        allSounds[i].parentNode.removeChild(allSounds[i]);
+    }
+}
+
+function removeAllSoundEffects() {
+    var allSounds = document.getElementsByClassName("effect");
+    var i = 0;
+    while (i < allSounds.length) {
+        ////console.log(allSounds);
         allSounds[i].pause();
         allSounds[i].parentNode.removeChild(allSounds[i]);
     }
