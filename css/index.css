@@ -1,8 +1,8 @@
 #divID {
-    background-image: url("../images/Ocean.png");
+    background-image: url("../images/background/hotel.png");
     height: 100vh;
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: 100% 100%;
 }
 
 html, body {
@@ -11,9 +11,16 @@ html, body {
     overflow-x: hidden;
     overflow-y: hidden;
     background-color: black; 
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                                 supported by Chrome and Opera */
 }
 
-# backgroundcolor{
+#backgroundcolor{
 	position: absolute;
 	background: black;
 	pointer-events: none;
@@ -25,22 +32,19 @@ html, body {
 }
 
 #title {
-    margin-top: 10%;
-    margin-left: 10%;
-    margin-right: 10%;
-    margin-bottom:10%;
-    width: 80%;
-    position: relative;
-    
+    margin-left: 5%;
+    margin-right: 5%;
+    top: 20%;
+    width: 90%;
+    position: absolute;
 }
 
 #startButton {
-    margin-left: 40%;
-    margin-right: 40%;
-    width: 20%;
-    height: 60%;
-    position: relative;
-    bottom:20%;
+    margin-left: 30%;
+    margin-right: 30%;
+    width:40%;
+    position: absolute;
+    bottom: 40%;
 }
 
 #firstDiv{
@@ -48,22 +52,36 @@ html, body {
     position: absolute;
     margin-left: 10%;
     margin-right: 10%;
+    height: 100vh;
 }
 
 #overlay {
 	position: absolute;
-	background: black;
+	background-image: url("../images/background/black.jpeg");
 	pointer-events: none;
 	opacity: 0;
 	width: 100%;
+  height: 100%;
 	top: 0px;
 	bottom: 4px;
 	z-index: 99;
 }
 
+#easterEggOverlay {
+  position: absolute;
+	background-image: url("../images/background/easterEgg.png");
+	pointer-events: none;
+	opacity: 0;
+	width: 100%;
+  height: 100%;
+	top: 0px;
+	bottom: 4px;
+	z-index: 99;
+  background-size: 100% 100%;
+}
+
 #beginningPage {
-    background-image: url("../images/black1.jpeg");
-    height: 100vh;
+    background-image: url("../images/background/black.jpeg");
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -78,7 +96,7 @@ html, body {
 }
 
 p{
-    padding: 3vh;
+    padding: 1vh;
 }
 
 #raindropDIV {
@@ -87,23 +105,24 @@ p{
 
 #text1 {
     background-color:beige;
-    width:60%;
-    height:18vh;
+    width:65%;
+    height:20vh;
     margin-right: 15%;
     margin-left: 15%;
     position: absolute;
     bottom: 2%;
-    text-align: justify;
+    text-align:left;
     border: 2px solid #298;
     box-shadow: 10px 10px 5px -2px #872;
     border-radius: 5px 10px 15px 20px;
     color: black;
     font-size: 32pt;
 }
+
 #text2 {
     background-color:beige;
-    width:60%;
-    height:18vh;
+    width:65%;
+    height:20vh;
     margin-right: 15%;
     margin-left: 15%;
     position: absolute;
@@ -116,19 +135,11 @@ p{
     font-size: 32pt;
 }
 
-#bottomBar {
-    background-image: url("../images/back.png");
-    position: absoulte;
-    bottom: 0;
-    width: 100%;
-    height: 10vh;
-}
-
-
 #raindropGame {
-    background-image: url("../images/back.png");
+    background-image: url("../images/minigame1/back.png");
     background-repeat: no-repeat;
     background-size: cover;
+    
 }
 
 
@@ -144,7 +155,7 @@ canvas {
 }
 
 #sinkGameWater {
-    background-image: url("../images/Ocean.png");
+    background-image: url("../images/minigame2/Ocean.png");
     background-repeat: no-repeat;
     background-size: cover;
     width:100%;
@@ -247,5 +258,39 @@ canvas {
     background-size: cover;
 }
 
+.characterImgCenter{
+    position: absolute;
+    bottom: 31.3%;
+    margin: 0;
+}
 
+.characterImgLeft{
+    position: absolute;
+    bottom: 31.3%;
+    margin: 0;
+}
+
+.characterImgRight{
+    position: absolute;
+    bottom: 31.3%;
+    margin: 0;
+}
+
+.icons{
+    position:absolute;
+    left:50%;
+    bottom:40%;
+}
+
+.icons2{
+    position:absolute;
+    left:65%;
+    bottom:40%;
+}
+
+#kayakButton{
+    position:absolute;
+    right: 0;
+    font-size: 10pt;
+}
 
