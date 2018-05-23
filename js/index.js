@@ -1387,15 +1387,15 @@ $(document).ready(function () {
                 $("#text1").html(gardener + lines2[37]);
                 break;
             case 139:
-                $('#lilyRight').attr("src", "./images/characters/gardener/smileLilyDown.png");
+                $('#lilyRight').attr("src", "./images/characters/gardener/smileLilyDownGrass.png");
                 $("#text1").html(gardener + lines2[38]);
                 break;
             case 140:
-                $('#lilyRight').attr("src", "./images/characters/gardener/smileLilyClose.png");
+                $('#lilyRight').attr("src", "./images/characters/gardener/smileLilyCloseGrass.png");
                 $("#text1").html(gardener + lines2[39]);
                 break;
             case 141:
-                $('#grassIcon').hide(0);
+                $('#lilyRight').attr("src", "./images/characters/gardener/smileLilyClose.png");
                 $('#tommyLeft').attr("src", "./images/characters/tommy/tommy1.png");
                 $("#text1").html(employer + lines2[40]);
                 break;
@@ -1424,17 +1424,16 @@ $(document).ready(function () {
                 $("#text1").html(employer + lines2[46]);
                 break;
             case 148:
-                $('#nozzleIcon').show(0);
-                $('#lilyRight').attr("src", "./images/characters/gardener/smileLilyOpen.png");
+                $('#lilyRight').attr("src", "./images/characters/gardener/smileLilyOpenNozzle.png");
                 $("#text1").html(gardener + lines2[47]);
                 break;
             case 149:
-                $('#lilyRight').attr("src", "./images/characters/gardener/smileLilyClose.png");
+                $('#lilyRight').attr("src", "./images/characters/gardener/smileLilyCloseNozzle.png");
                 $("#text1").html(gardener + lines2[48]);
                 break;
             case 150:
                 $('#tommyLeft').attr("src", "./images/characters/tommy/concernedTommyMild.png");
-                $('#nozzleIcon').hide(0);
+                $('#lilyRight').attr("src", "./images/characters/gardener/smileLilyClose.png");
                 $("#text1").html(employer + lines2[49]);
                 break;
             case 151:
@@ -1442,23 +1441,21 @@ $(document).ready(function () {
                 $("#text1").html(employer + lines2[50]);
                 break;
             case 152:
-                $('#tommyLeft').attr("src", "./images/characters/tommy/smileTommyOpen.png");
-                $('#springIcon').show(0);
+                $('#tommyLeft').attr("src", "./images/characters/tommy/smileTommyOpenSpring.png");
                 $("#text1").html(employer + lines2[51]);
                 break;
             case 153:
-                $('#tommyLeft').attr("src", "./images/characters/tommy/smileTommyClose.png");
+                $('#tommyLeft').attr("src", "./images/characters/tommy/smileTommyCloseSpring.png");
                 $("#text1").html(employer + lines2[52]);
                 break;
             case 154:
-                $('#springIcon').hide(0);
-                $('#broomIcon').show(0);
+                $('#tommyLeft').attr("src", "./images/characters/tommy/normalTommyBroom.png");
                 $('#lilyRight').attr("src", "./images/characters/gardener/smileLilyOpen.png");
                 $("#text1").html(gardener + lines2[53]);
                 break;
             case 155:
+                $('#tommyLeft').attr("src", "./images/characters/tommy/normalTommy.png");
                 $('#lilyRight').attr("src", "./images/characters/gardener/smileLilyClose.png");
-                $('#broomIcon').hide(0);
                 $("#text1").html(gardener + lines2[54]);
                 break;                
             case 156:
@@ -1559,23 +1556,24 @@ $(document).ready(function () {
                 break;
             case 214:
                 $('#rinseIcon').show(0);
+                backgroundImagePicker("rinsing.png", "rinsing.png");                
                 $("#text1").html(user + lines3[14]);
                 break;
             case 215:
+                backgroundImagePicker("dishes.png", "dishes.png");                
                 $("#text1").html(user + lines3[15]);
                 break;
             case 216:
-                $('#rinseIcon').hide(0);
+                backgroundImagePicker("kitchen.jpg", "kitchen2.jpg");                
                 $('#olivia').attr("src", "./images/characters/chef/happyOlivia.png");
                 $("#text1").html(chef + lines3[16]);
                 break;
             case 217:
-                $('#defrostingIcon').show(0);
-                $('#olivia').attr("src", "./images/characters/chef/smileOlivia.png");
+                $('#olivia').attr("src", "./images/characters/chef/smileOliviaDefrost.png");
                 $("#text1").html(chef + lines3[17]);
                 break;
             case 218:
-                $('#defrostingIcon').hide(0);
+                $('#olivia').attr("src", "./images/characters/chef/smileOlivia.png");
                 $('#olivia').hide(0);
                 $("#text1").html(user + lines3[18]);
                 break;
@@ -1627,22 +1625,22 @@ $(document).ready(function () {
                 break;
             case 231:
                 $('#washingIcon').show(0);
-                $('#olivia').attr("src", "./images/characters/chef/normalOlivia.png");
+                $('#olivia').attr("src", "./images/characters/chef/normalOliviaWashing.png");
                 $("#text1").html(chef + lines3[31]);
                 break;
             case 232:
-                $('#olivia').attr("src", "./images/characters/chef/muteOlivia.png");
                 $("#text1").html(user + lines3[32]);
                 break;
             case 233:
-                $('#olivia').attr("src", "./images/characters/chef/mildOlivia.png");
+                $('#olivia').attr("src", "./images/characters/chef/mildOliviaWashing.png");
                 $("#text1").html(chef + lines3[33]);
                 break;
             case 234:
-                $('#olivia').attr("src", "./images/characters/chef/mildOlivia.png");
+                $('#olivia').attr("src", "./images/characters/chef/guiltyOliviaWashing.png");
                 $("#text1").html(chef + lines3[34]);
                 break;
             case 235:
+                $('#olivia').attr("src", "./images/characters/chef/guiltyOlivia.png");
                 $("#text1").html(user + lines3[35]);
                 break;
             case 236:
@@ -1730,12 +1728,11 @@ $(document).ready(function () {
                 break;
             case 257:
                 backgroundImagePicker("lobby_night.jpg", "lobby_night2.jpg");
+                $('#tommy').attr("src", "./images/characters/tommy/smileTommyOpenTwo.png");
                 $('#tommy').show(0);
-                $('#showerIcon').show(0);
                 $("#text1").html(employer + lines3[57]);
                 break;
             case 258:
-                $('#showerIcon').hide(0);
                 $('#tommy').hide(0);
                 $('#richard').attr("src", "./images/characters/richard/smileRichardOpen.png");
                 $('#richard').show(0);
