@@ -1025,9 +1025,14 @@ $(document).ready(function () {
 
     function nameConfirm() {
         userName = document.getElementById('userNameInput').value;
-        if (userName.trim().length == 0) {
+        if (userName.trim().length == 0 || userName.trim().length >= 12) {
+            okClicked = false;
             document.getElementById('nameBlank').style.display = 'inline';
         } else if (userName.toUpperCase() === 'BCIT') {
+            $('#myModal').remove(0);
+            $('#promtBox').remove(0);
+            $("promptBoxContent").remove(0);
+            backgroundMusicStory.play();
             $('#divID').remove(0);
             $('#easterEggOverlay').animate({
                 opacity: 1,
@@ -1035,6 +1040,10 @@ $(document).ready(function () {
             });
             setTimeout(easterEgg, 3000)
         } else {
+            $('#myModal').remove(0);
+            $('#promtBox').remove(0);
+            $("promptBoxContent").remove(0);
+            backgroundMusicStory.play();
             $('#overlay').animate({
                 opacity: 1,
             }, 1000, function () {
@@ -1068,13 +1077,9 @@ $(document).ready(function () {
 
     $('#ok').click(function () {
         if (okClicked == false) {
-            nameConfirm();
             okClicked = true;
-        }
-        $('#myModal').remove(0);
-        $('#promtBox').remove(0);
-        $("promptBoxContent").remove(0);
-        backgroundMusicStory.play();
+            nameConfirm();
+        } 
     })
 
     $("#next").click(function () {
@@ -1084,6 +1089,7 @@ $(document).ready(function () {
 //////////////audio variables///////////////
 var sleepingAudio;
 var knockingAudio;
+var elevatorAudio;
 
 function nextClick() {
     var user = "<b>" + userName + ":<br/></b>";
@@ -1122,6 +1128,7 @@ function nextClick() {
             $("#text1").html("<b>Employee:<br/></b>" + userName + "! " + lines[4]);
             break;
         case 6:
+            elevatorAudio.stop();
             $('#tommy').hide(0);
             backgroundImagePicker("bedroom.png", "bedroom_square.png");
             $("#text1").html(user + lines[5]);
@@ -1153,11 +1160,14 @@ function nextClick() {
             break;
         case 12:
             animateDiv();
+            elevatorAudio = new sound("./audio/elevator.mp3", "effect");
+            elevator.play();
             backgroundImagePicker("lobby_day.jpg", "lobby_day2.jpg");
             $('#tommy').attr("src", "./images/characters/tommy/normalTommy.png");
             $("#text1").html("<b>Employee:<br/></b>" + lines[11] + " " + userName);
             break;
         case 13:
+            elevator.stop();
             $('#tommy').attr("src", "./images/characters/tommy/smileTommyOpen.png");
             $("#text1").html("<b>Employee:<br/></b>" + lines[12]);
             break;
