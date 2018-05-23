@@ -1771,12 +1771,11 @@ function nextClick() {
             $("#text1").html(user + lines3[56]);
             break;
         case 257:
-            backgroundImagePicker("lobby_night.jpg", "lobby_night2.jpg");
-            $('#tommy').attr("src", "./images/characters/tommy/smileTommyOpenTwo.png");
-            $('#tommy').show(0);
+            backgroundImagePicker("two.png", "two_square.jpg");
             $("#text1").html(employer + lines3[57]);
             break;
         case 258:
+            backgroundImagePicker("lobby_night.jpg", "lobby_night2.jpg");
             $('#tommy').attr("src", "./images/characters/tommy/smileTommyOpen.png");
             $('#tommy').hide(0);
             $('#richard').attr("src", "./images/characters/richard/smileRichardOpen.png");
