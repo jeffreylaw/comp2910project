@@ -1560,7 +1560,7 @@ $(document).ready(function () {
                 $("#text1").html(user + lines3[14]);
                 break;
             case 215:
-                backgroundImagePicker("dishes.png", "dishes.png");                
+                backgroundImagePicker("washingdishes.png", "dishes.png");        
                 $("#text1").html(user + lines3[15]);
                 break;
             case 216:
