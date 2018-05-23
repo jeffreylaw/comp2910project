@@ -936,19 +936,7 @@ function nameCancel() {
     document.getElementById('nameBlank').style.display = 'none';
 }
 
-function muteSounds() {
-    var allSounds = document.getElementsByTagName("audio");
-    for(let i = 0; i < allSounds.length; i++) {
-        allSounds[0].volume = 0;
-    }
-}
 
-function unmuteSounds() {
-    var allSounds = document.getElementsByClassName("audio");
-    for(let i = 0; i < allSounds.length; i++) {
-        allSounds[0].volume = 0.9;
-    }
-}
 
 
 $(document).ready(function () {
@@ -980,8 +968,29 @@ $(document).ready(function () {
     $('#washingIcon').hide(0);
     $('#showerIcon').hide(0);
     $('#sound').hide(0);
-    var backgroundMusicStory;
+
+    //audio variables--------------------------------------------
+    //audio variables--------------------------------------------
+    //audio variables--------------------------------------------
+    //audio variables--------------------------------------------
+    //audio variables--------------------------------------------
+    
+    backgroundMusicStory;
     backgroundMusicStory = new sound("./audio/startBackgroundMusic.mp3", "backgroundMusic");
+    knockingAudio = new sound("./audio/knock.mp3", "effect");
+    sleepingAudio = new sound("./audio/sleeping.mp3", "effect");
+    yawnAudio = new sound("./audio/yawn.mp3", "effect");
+    elevatorAudio = new sound("./audio/ele.mp3", "effect");
+    waterDropAudio = new sound("./audio/badwaterdrop.mp3", "effect");
+    throatAudio = new sound("./audio/throatclear.mp3", "effect");
+
+    //for mini game2---------------------------------------------------------------------------------
+    //for mini game2---------------------------------------------------------------------------------
+    //for mini game2---------------------------------------------------------------------------------
+    //for mini game2---------------------------------------------------------------------------------
+    //for mini game2---------------------------------------------------------------------------------
+    //for mini game2---------------------------------------------------------------------------------
+    //for mini game2---------------------------------------------------------------------------------
     //for mini game2---------------------------------------------------------------------------------
 
     $("#tap1").click(function () {
@@ -1128,16 +1137,30 @@ $(document).ready(function () {
         }
     })
     
+    function muteSounds() {
+        var allSounds = document.getElementsByTagName("audio");
+        for(let i = 0; i < allSounds.length; i++) {
+            allSounds[i].pause();
+        }
+    }
+    
+    function unmuteSounds() {
+        var allSounds = document.getElementsByClassName("audio");
+        for(let i = 0; i < allSounds.length; i++) {
+            allSounds[i].play();
+        }
+    }
+
     var soundMute = false;
     $('#sound').click(function(){
         if (soundMute == false){
-            muteSounds();
             $('#sound').attr("src", "./images/icons/mute.png");
             soundMute = true;
+            muteSounds();
         } else {
-            unmuteSounds();
             $('#sound').attr("src", "./images/icons/sound.png");
             soundMute = false;
+            unmuteSounds();
         }
     })
 
@@ -1145,13 +1168,7 @@ $(document).ready(function () {
         nextClick();
     });
 })
-//////////////audio variables///////////////
-var sleepingAudio;
-var knockingAudio;
-var elevatorAudio;
-var yawnAudio;
-var waterDropAudio;
-var throatAudio;
+
 
 
 
@@ -1164,12 +1181,10 @@ function nextClick() {
     switch (textNum) {
         case 1:
             $("#text1").html(lines[0]);
-            knockingAudio = new sound("./audio/knock.mp3", "effect");
             knockingAudio.play();
             break;
         case 2:
             knockingAudio.stop();
-            sleepingAudio = new sound("./audio/sleeping.mp3", "effect");
             sleepingAudio.play();
             backgroundImagePicker("bedroom_blur.png", "bedroom_square_blur.png");
             $("#text1").html(lines[1]);
@@ -1179,7 +1194,6 @@ function nextClick() {
             $("#text1").html("<b>Employee:<br/></b>" + lines[2]);
             break;
         case 4:
-            yawnAudio = new sound("./audio/yawn.mp3", "effect");
             yawnAudio.play();
             $("#text1").html(user + lines[3]);
             break;
@@ -1223,7 +1237,6 @@ function nextClick() {
             $("#text1").html("<b>Employee:<br/></b>" + lines[10]);
             break;
         case 12:
-            elevatorAudio = new sound("./audio/ele.mp3", "effect");
             elevatorAudio.play();
             animateDivSlow();
             backgroundImagePicker("lobby_day.jpg", "lobby_day2.jpg");
@@ -1255,7 +1268,6 @@ function nextClick() {
             $("#text1").html(employer + lines[16]);
             break;
         case 18:        
-            waterDropAudio = new sound("./audio/badwaterdrop.mp3", "effect");
             waterDropAudio.play();
             $('#tommy').hide(0);
             $("#text1").html(lines[17]);
@@ -1292,7 +1304,6 @@ function nextClick() {
             $("#text1").html(employer + lines[23]);
             break;
         case 25:        
-            waterDropAudio = new sound("./audio/badwaterdrop.mp3", "effect");
             waterDropAudio.play();
             $('#tommy').hide(0);
             $("#text1").html(lines[24]);
@@ -1302,7 +1313,6 @@ function nextClick() {
             $("#text1").html(user + lines[25]);
             break;
         case 27:
-            waterDropAudio = new sound("./audio/badwaterdrop.mp3", "effect");
             waterDropAudio.play();
             $("#text1").html(lines[26]);
             break;
@@ -1371,7 +1381,6 @@ function nextClick() {
             $("#text1").html(user + lines2[5]);
             break;
         case 107:
-            throatAudio = new sound("./audio/throatclear.mp3", "effect");
             throatAudio.play();
             $('#richard').show(0);
             $('#richard').attr("src", "./images/characters/richard/normalRichard.png");
