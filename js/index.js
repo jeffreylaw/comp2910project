@@ -853,6 +853,9 @@ var richard;
 var lily;
 var olivia;
 var okClicked = false;
+var miniGame1Pass = 0;
+var miniGame2Pass = 0;
+var miniGame3Pass = 0;
 
 
 function startStoryGame() {
@@ -933,7 +936,19 @@ function nameCancel() {
     document.getElementById('nameBlank').style.display = 'none';
 }
 
+function muteSounds() {
+    var allSounds = document.getElementsByTagName("audio");
+    for(let i = 0; i < allSounds.length; i++) {
+        allSounds[0].volume = 0;
+    }
+}
 
+function unmuteSounds() {
+    var allSounds = document.getElementsByClassName("audio");
+    for(let i = 0; i < allSounds.length; i++) {
+        allSounds[0].volume = 0.9;
+    }
+}
 
 
 $(document).ready(function () {
@@ -964,6 +979,7 @@ $(document).ready(function () {
     $('#dishwasherIcon').hide(0);
     $('#washingIcon').hide(0);
     $('#showerIcon').hide(0);
+    $('#sound').hide(0);
     var backgroundMusicStory;
     backgroundMusicStory = new sound("./audio/startBackgroundMusic.mp3", "backgroundMusic");
     //for mini game2---------------------------------------------------------------------------------
@@ -1022,16 +1038,31 @@ $(document).ready(function () {
 
     //----------------------------------------------------------------------------------------------
 
-
     function nameConfirm() {
         userName = document.getElementById('userNameInput').value;
         if (userName.trim().length == 0 || userName.trim().length >= 12) {
             okClicked = false;
             document.getElementById('nameBlank').style.display = 'inline';
         } else if (userName.toUpperCase() === 'BCIT') {
+            $.ajax({
+                url: "./js/userName_post.php",
+                type: "POST",
+                async: false,
+                data: {
+                    "done": 1,
+                    "playerName": userName,
+                    "miniGame1": miniGame1Pass,
+                    "miniGame2": miniGame2Pass,
+                    "miniGame3": miniGame3Pass
+                },
+                success: function(data){
+                    console.log(data);
+                }
+            })
             $('#myModal').remove(0);
             $('#promtBox').remove(0);
             $("promptBoxContent").remove(0);
+            $('#sound').show(0);
             backgroundMusicStory.play();
             $('#divID').remove(0);
             $('#easterEggOverlay').animate({
@@ -1040,6 +1071,22 @@ $(document).ready(function () {
             });
             setTimeout(easterEgg, 3000)
         } else {
+            $.ajax({
+                url: "./js/userName_post.php",
+                type: "POST",
+                async: false,
+                data: {
+                    "done": 1,
+                    "playerName": userName,
+                    "miniGame1": miniGame1Pass,
+                    "miniGame2": miniGame2Pass,
+                    "miniGame3": miniGame3Pass
+                },
+                success: function(data){
+                    console.log(data);
+                }
+            })
+            $('#sound').show(0);
             $('#myModal').remove(0);
             $('#promtBox').remove(0);
             $("promptBoxContent").remove(0);
@@ -1074,12 +1121,24 @@ $(document).ready(function () {
         $('#next').show(0);
 
     }
-
     $('#ok').click(function () {
         if (okClicked == false) {
             okClicked = true;
             nameConfirm();
-        } 
+        }
+    })
+    
+    var soundMute = false;
+    $('#sound').click(function(){
+        if (soundMute == false){
+            muteSounds();
+            $('#sound').attr("src", "./images/icons/mute.png");
+            soundMute = true;
+        } else {
+            unmuteSounds();
+            $('#sound').attr("src", "./images/icons/sound.png");
+            soundMute = false;
+        }
     })
 
     $("#next").click(function () {
@@ -1093,6 +1152,8 @@ var elevatorAudio;
 var yawnAudio;
 var waterDropAudio;
 var throatAudio;
+
+
 
 function nextClick() {
     var user = "<b>" + userName + ":<br/></b>";
