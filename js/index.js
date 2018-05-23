@@ -1090,6 +1090,9 @@ $(document).ready(function () {
 var sleepingAudio;
 var knockingAudio;
 var elevatorAudio;
+var yawnAudio;
+var waterDropAudio;
+var throatAudio;
 
 function nextClick() {
     var user = "<b>" + userName + ":<br/></b>";
@@ -1100,10 +1103,11 @@ function nextClick() {
     switch (textNum) {
         case 1:
             $("#text1").html(lines[0]);
-            sleepingAudio = new sound("./audio/sleeping.mp3", "effect");
-            sleepingAudio.play();
+            knockingAudio = new sound("./audio/knock.mp3", "effect");
+            knockingAudio.play();
             break;
         case 2:
+            knockingAudio.stop();
             sleepingAudio = new sound("./audio/sleeping.mp3", "effect");
             sleepingAudio.play();
             backgroundImagePicker("bedroom_blur.png", "bedroom_square_blur.png");
@@ -1111,16 +1115,15 @@ function nextClick() {
             break;
         case 3:
             sleepingAudio.stop();
-            knockingAudio = new sound("./audio/knock.mp3", "effect");
-            knockingAudio.play();
-
             $("#text1").html("<b>Employee:<br/></b>" + lines[2]);
             break;
         case 4:
-            knockingAudio.stop();
+            yawnAudio = new sound("./audio/yawn.mp3", "effect");
+            yawnAudio.play();
             $("#text1").html(user + lines[3]);
             break;
         case 5:
+            yawnAudio.stop();
             animateDiv();
             backgroundImagePicker("hotel_corridor.jpg", "hotel_corridor_square.jpg");
             $('#tommy').show(0);
@@ -1159,15 +1162,15 @@ function nextClick() {
             $("#text1").html("<b>Employee:<br/></b>" + lines[10]);
             break;
         case 12:
-            animateDiv();
-            elevatorAudio = new sound("./audio/elevator.mp3", "effect");
-            elevator.play();
+            elevatorAudio = new sound("./audio/ele.mp3", "effect");
+            elevatorAudio.play();
+            animateDivSlow();
             backgroundImagePicker("lobby_day.jpg", "lobby_day2.jpg");
             $('#tommy').attr("src", "./images/characters/tommy/normalTommy.png");
             $("#text1").html("<b>Employee:<br/></b>" + lines[11] + " " + userName);
             break;
         case 13:
-            elevator.stop();
+            elevatorAudio.stop();
             $('#tommy').attr("src", "./images/characters/tommy/smileTommyOpen.png");
             $("#text1").html("<b>Employee:<br/></b>" + lines[12]);
             break;
@@ -1190,11 +1193,14 @@ function nextClick() {
             $('#tommy').attr("src", "./images/characters/tommy/smileTommyOpen.png");
             $("#text1").html(employer + lines[16]);
             break;
-        case 18:                
+        case 18:        
+            waterDropAudio = new sound("./audio/badwaterdrop.mp3", "effect");
+            waterDropAudio.play();
             $('#tommy').hide(0);
             $("#text1").html(lines[17]);
             break;
         case 19:
+            waterDropAudio.stop();
             $('tommy').show(0);
             $('#tommy').attr("src", "./images/characters/tommy/smileTommyOpen.png");
             $("#text1").html(user + lines[18]);
@@ -1224,17 +1230,23 @@ function nextClick() {
             $('#tommy').attr("src", "./images/characters/tommy/normalTommy.png");
             $("#text1").html(employer + lines[23]);
             break;
-        case 25:                
+        case 25:        
+            waterDropAudio = new sound("./audio/badwaterdrop.mp3", "effect");
+            waterDropAudio.play();
             $('#tommy').hide(0);
             $("#text1").html(lines[24]);
             break;
         case 26:
+            waterDropAudio.stop();
             $("#text1").html(user + lines[25]);
             break;
         case 27:
+            waterDropAudio = new sound("./audio/badwaterdrop.mp3", "effect");
+            waterDropAudio.play();
             $("#text1").html(lines[26]);
             break;
         case 28:
+            waterDropAudio.stop();
             $("#text1").html(user + lines[27]);
             break;
         case 29:                
@@ -1298,11 +1310,14 @@ function nextClick() {
             $("#text1").html(user + lines2[5]);
             break;
         case 107:
+            throatAudio = new sound("./audio/throatclear.mp3", "effect");
+            throatAudio.play();
             $('#richard').show(0);
             $('#richard').attr("src", "./images/characters/richard/normalRichard.png");
             $("#text1").html(maintenanceGuy + lines2[6]);
             break;
         case 108:
+            throatAudio.stop();
             $('#richard').attr("src", "./images/characters/richard/smileRichard.png");
             $("#text1").html(maintenanceGuy + lines2[7]);
             break;
@@ -1885,6 +1900,17 @@ function animateDiv() {
     $('#overlay').animate({
         opacity: 0,
     }, 1000, function () {
+    });
+}
+
+function animateDivSlow() {
+    $('#overlay').animate({
+        opacity: 1,
+    }, 0, function () {
+    });
+    $('#overlay').animate({
+        opacity: 0,
+    }, 4000, function () {
     });
 }
 
