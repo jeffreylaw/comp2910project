@@ -966,6 +966,7 @@ $(document).ready(function () {
     $('#showerIcon').hide(0);
     var backgroundMusicStory;
     backgroundMusicStory = new sound("./audio/startBackgroundMusic.mp3", "backgroundMusic");
+    var gardenBackgroundMusic;
     //for mini game2---------------------------------------------------------------------------------
 
     $("#tap1").click(function () {
@@ -1093,6 +1094,9 @@ var elevatorAudio;
 var yawnAudio;
 var waterDropAudio;
 var throatAudio;
+var walkingAudio;
+var lilyHello;
+var sprinkler;
 
 function nextClick() {
     var user = "<b>" + userName + ":<br/></b>";
@@ -1398,17 +1402,26 @@ function nextClick() {
             $("#text1").html(user + lines2[24]);
             break;
         case 126:
-            $('#tommy').hide(0);
             animateDiv();
+            removeAllSounds();
+            gardenBackgroundMusic = new sound("./audio/gardenscene.mp3", "backgroundMusic");
+            gardenBackgroundMusic.play();
+            $('#tommy').hide(0);
+            walkingAudio = new sound("./audio/walking.mp3", "effect");
+            walkingAudio.play();
             backgroundImagePicker("garden_walkway.jpg", "garden_walkway2.jpg");
             $("#text1").html(lines2[25]);
             break;
         case 127:
+            walkingAudio.stop();
+            sprinkler = new sound("./audio/sprinkler.mp3", "effect");
+            sprinkler.play();
             $('#tommy').attr("src", "./images/characters/tommy/concernedTommyMild.png");
             $('#tommy').show(0);
             $("#text1").html(employer + "<i>" + lines2[26] + "</i>");
             break;
         case 128:
+            sprinkler.stop();
             animateDiv();
             $('#tommyLeft').attr("src", "./images/characters/tommy/normalTommy.png");
             $('#tommy').hide(0);
@@ -1417,10 +1430,13 @@ function nextClick() {
             $("#text1").html(employer + lines2[27]);
             break;
         case 129: 
+            lilyHello = new sound("./audio/hello.mp3", "effect");
+            lilyHello.play();
             $('#lilyRight').show(0);
             $("#text1").html("<b>Gardener:<br/></b>" + lines2[28]);
             break;
         case 130:
+            lilyHello.stop();
             $('#lilyRight').attr("src", "./images/characters/gardener/lily.png");
             $("#text1").html(gardener + lines2[29]);
             break;
