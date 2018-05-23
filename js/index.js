@@ -1555,6 +1555,7 @@ $(document).ready(function () {
                 $("#text1").html(user + lines3[13]);
                 break;
             case 214:
+                $('#olivia').hide(0);
                 backgroundImagePicker("rinsing.png", "rinsing.png");                
                 $("#text1").html(user + lines3[14]);
                 break;
@@ -1565,6 +1566,7 @@ $(document).ready(function () {
             case 216:
                 backgroundImagePicker("kitchen.jpg", "kitchen2.jpg");                
                 $('#olivia').attr("src", "./images/characters/chef/happyOlivia.png");
+                $('#olivia').show(0);
                 $("#text1").html(chef + lines3[16]);
                 break;
             case 217:
@@ -1730,6 +1732,7 @@ $(document).ready(function () {
                 $("#text1").html(employer + lines3[57]);
                 break;
             case 258:
+                $('#tommy').attr("src", "./images/characters/tommy/smileTommyOpen.png");
                 $('#tommy').hide(0);
                 $('#richard').attr("src", "./images/characters/richard/smileRichardOpen.png");
                 $('#richard').show(0);
