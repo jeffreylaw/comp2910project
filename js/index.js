@@ -1383,8 +1383,7 @@ $(document).ready(function () {
                 $("#text1").html(employer + lines2[36]);
                 break;
             case 138:
-                $('#grassIcon').show(0);
-                $('#lilyRight').attr("src", "./images/characters/gardener/smileLilyOpen.png");
+                $('#lilyRight').attr("src", "./images/characters/gardener/smileLilyOpenGrass.png");
                 $("#text1").html(gardener + lines2[37]);
                 break;
             case 139:
@@ -1581,17 +1580,15 @@ $(document).ready(function () {
                 $("#text1").html(user + lines3[18]);
                 break;
             case 219:
-                $('#dishwasherIcon').show(0);
-                $('#olivia').attr("src", "./images/characters/chef/normalOlivia.png");
+                $('#olivia').attr("src", "./images/characters/chef/normalOliviaDish.png");
                 $('#olivia').show(0);
                 $("#text1").html(chef + lines3[19]);
                 break;
             case 220:
-                $('#olivia').attr("src", "./images/characters/chef/shadyOlivia.png");
+                $('#olivia').attr("src", "./images/characters/chef/shadyOliviaDish.png");
                 $("#text1").html(chef + lines3[20]);
                 break;
             case 221:
-                $('#dishwasherIcon').hide(0);
                 $("#text1").html(user + lines3[21]);
                 break;
             case 222:
