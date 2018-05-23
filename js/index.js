@@ -1555,7 +1555,6 @@ $(document).ready(function () {
                 $("#text1").html(user + lines3[13]);
                 break;
             case 214:
-                $('#rinseIcon').show(0);
                 backgroundImagePicker("rinsing.png", "rinsing.png");                
                 $("#text1").html(user + lines3[14]);
                 break;
@@ -1624,7 +1623,6 @@ $(document).ready(function () {
                 $("#text1").html(chef + lines3[30]);
                 break;
             case 231:
-                $('#washingIcon').show(0);
                 $('#olivia').attr("src", "./images/characters/chef/normalOliviaWashing.png");
                 $("#text1").html(chef + lines3[31]);
                 break;
@@ -1644,7 +1642,6 @@ $(document).ready(function () {
                 $("#text1").html(user + lines3[35]);
                 break;
             case 236:
-                $('#washingIcon').hide(0);
                 $("#text1").html(user + lines3[36]);
                 break;
             case 237:
