@@ -3,15 +3,15 @@
     $methodType = $_SERVER['REQUEST_METHOD'];
     $data = array("status" => "fail", "msg" => "On $methodType");
 
-/*  $DBHost = "localhost";
-    $dblogin = "ticom_root";
-    $DBpassword = "password";
-    $DBname = "ticom_COMP2910"; */
+    // $DBHost = "localhost";
+    // $dblogin = "ticom_root";
+    // $DBpassword = "password";
+    // $DBname = "ticom_COMP2910";
 
-    $DBHost = "localhost";
-    $dblogin = "root";
-    $DBpassword = "";
-    $DBname = "2910project";
+   $DBHost = "localhost";
+   $dblogin = "root";
+   $DBpassword = "";
+   $DBname = "2910project";
 
 
     // to see you will need to type this in the URL bar of your browser:

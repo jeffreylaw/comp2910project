@@ -294,3 +294,9 @@ canvas {
     font-size: 10pt;
 }
 
+#sound {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 10%;
+}
