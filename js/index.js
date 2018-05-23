@@ -1139,15 +1139,17 @@ $(document).ready(function () {
     
     function muteSounds() {
         var allSounds = document.getElementsByTagName("audio");
+        soundsMuted = true;
         for(let i = 0; i < allSounds.length; i++) {
-            allSounds[i].pause();
+            allSounds[0].stop();
         }
     }
     
     function unmuteSounds() {
-        var allSounds = document.getElementsByClassName("audio");
-        for(let i = 0; i < allSounds.length; i++) {
-            allSounds[i].play();
+        var backgroundMusic = document.getElementsByClassName("backgroundMusic");
+        soundsMuted = false;
+        for(let i = 0; i < backgroundMusic.length; i++) {
+            backgroundMusic[i].play();
         }
     }
 
@@ -2163,6 +2165,8 @@ function updatePage() {
 updatePage();
 
 ///SOUNDS FUNCTION///
+var soundsMuted = false;
+
 function sound(src, backgroundMusic) {
     this.sound = document.createElement("audio");
     this.sound.src = src;
@@ -2175,7 +2179,9 @@ function sound(src, backgroundMusic) {
         this.sound.setAttribute("loop", "loop");
     }
     this.play = function () {
-        this.sound.play();
+        if(soundsMuted == false) {
+            this.sound.play();
+        }
     }
     this.stop = function () {
         this.sound.currentTime = 0;
