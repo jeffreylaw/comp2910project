@@ -975,7 +975,7 @@ $(document).ready(function () {
     //audio variables--------------------------------------------
     //audio variables--------------------------------------------
     
-    backgroundMusicStory;
+    var backgroundMusicStory;
     backgroundMusicStory = new sound("./audio/startBackgroundMusic.mp3", "backgroundMusic");
     knockingAudio = new sound("./audio/knock.mp3", "effect");
     sleepingAudio = new sound("./audio/sleeping.mp3", "effect");
