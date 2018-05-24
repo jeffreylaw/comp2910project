@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="./css/index.css" />
     <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
     <script src="./js/index.js"></script>
-    <script type="text/JavaScript" src="https://www.kayak.com/affiliate/widget-v2.js"></script>
+    
 </head>
 
 <body>
@@ -71,19 +71,13 @@
     <div id='beginningPage'>
     </div>
     <div id="divID">
+        <script type="text/JavaScript" src="https://www.kayak.com/affiliate/widget-v2.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <div id="firstDiv">
-
             <img src="./images/Title.png" id="title" alt="title">
             <button id="startButton" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Play</button>
             <div id="widgetContainer" style="width: 500px; height: 500px;">
-                <script>                    
-                    var containerElem = document.getElementById("widgetContainer");
-                    KAYAK.embed({
-                    container: containerElem,
-                    /* more options */
-                    });
-                </script>
+                <script src="./js/kayak.js"></script>
             </div>
         </div>
         <button id="kayakButton" type="button" value="Toggle Blind">Find Hotel</button>

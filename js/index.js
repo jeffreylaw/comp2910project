@@ -364,8 +364,6 @@ function updateRandomFaucet() {
     setTimeout(updateRandomFaucet, rand);
 }
 
-
-
 /*  ////////////////////////////////////// */
 var sinkFill = 0;
 
@@ -544,7 +542,6 @@ var slicedSound;
 window.addEventListener("mousedown", mouseDown2, false);
 window.addEventListener("mousemove", mouseMove2, false);
 window.addEventListener("mouseup", mouseUp2, false);
-
 window.addEventListener('touchstart', touchStart2, false);
 window.addEventListener('touchmove', touchMove2, false)
 window.addEventListener('touchend', touchEnd2, false);
@@ -571,7 +568,6 @@ function mouseUp2(e) {
     gameArea2.x = 0;
     gameArea2.y = 0;
 }
-
 
 function touchStart2(e) {
     //console.log("2touched");
@@ -857,7 +853,6 @@ var miniGame1Pass = 0;
 var miniGame2Pass = 0;
 var miniGame3Pass = 0;
 
-
 function startStoryGame() {
     storyArea.start();
 }
@@ -935,9 +930,6 @@ $.ajax({
 function nameCancel() {
     document.getElementById('nameBlank').style.display = 'none';
 }
-
-
-
 
 $(document).ready(function () {
     $("#widgetContainer").hide(0);
@@ -1190,9 +1182,6 @@ $(document).ready(function () {
         nextClick();
     });
 })
-
-
-
 
 function nextClick() {
     var user = "<b>" + userName + ":<br/></b>";
