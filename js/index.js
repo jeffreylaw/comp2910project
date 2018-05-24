@@ -986,10 +986,12 @@ $(document).ready(function () {
     throatAudio = new sound("./audio/throatclear.mp3", "effect");
     lilyHello = new sound("./audio/hello.mp3", "effect");
     sprinklerAudio = new sound("./audio/sprinkler.mp3", "effect");
-    huh = new sound("./audio/huh.mp3", "effect");
+    huhAudio = new sound("./audio/huh.mp3", "effect");
     igotit = new sound("./audio/igotit.mp3", "effect");
     lawnmower = new sound("./audio/lawnmower.mp3", "effect");
     walkingAudio = new sound("./audio/walking.mp3", "effect");
+    sprinklerAudio = new sound("./audio/sprinkler.mp3", "effect");
+
 
   
 
@@ -1363,13 +1365,13 @@ function nextClick() {
             break;
         case (secondSceneNum + 1):
             animateDiv();     
-           igotit.play();
             backgroundImagePicker("basement.jpg", "basement_square.png");
             $('#raindropDIV').remove(0);
             $('#raindropGame').remove(0);
             $('#beginningPage').show(0);
             $('#tommy').show(0);
             $('#tommy').attr("src", "./images/characters/tommy/smileTommyOpen.png"); 
+            igotit.play();
             $("#text1").html(employer + lines2[0]);
             break;
         case 102:
@@ -1492,7 +1494,6 @@ function nextClick() {
             break;
         case 127:
             walkingAudio.stop();
-            sprinklerAudio = new sound("./audio/sprinkler.mp3", "effect");
             sprinklerAudio.play();
             $('#tommy').attr("src", "./images/characters/tommy/concernedTommyMild.png");
             $('#tommy').show(0);
@@ -1508,10 +1509,12 @@ function nextClick() {
             $("#text1").html(employer + lines2[27]);
             break;
         case 129: 
+            lilyHello.play();
             $('#lilyRight').show(0);
             $("#text1").html("<b>Gardener:<br/></b>" + lines2[28]);
             break;
         case 130:
+            lilyHello.stop();        
             $('#lilyRight').attr("src", "./images/characters/gardener/lily.png");
             $("#text1").html(gardener + lines2[29]);
             break;
@@ -1544,10 +1547,12 @@ function nextClick() {
             $("#text1").html(employer + lines2[36]);
             break;
         case 138:
+            lawnmower.play();
             $('#lilyRight').attr("src", "./images/characters/gardener/smileLilyOpenGrass.png");
             $("#text1").html(gardener + lines2[37]);
             break;
         case 139:
+            lawnmower.stop();
             $('#lilyRight').attr("src", "./images/characters/gardener/smileLilyDownGrass.png");
             $("#text1").html(gardener + lines2[38]);
             break;
@@ -1577,10 +1582,12 @@ function nextClick() {
             $("#text1").html(employer + lines2[44]);
             break;
         case 146:
+            huhAudio.play();
             $('#lilyRight').attr("src", "./images/characters/gardener/questionLily.png");
             $("#text1").html(gardener + lines2[45]);
             break;
         case 147:
+            huhAudio.stop();
             $('#tommyLeft').attr("src", "./images/characters/tommy/tommy1.png");
             $("#text1").html(employer + lines2[46]);
             break;
@@ -2001,7 +2008,7 @@ function animateDivSlow() {
     });
     $('#overlay').animate({
         opacity: 0,
-    }, 4000, function () {
+    }, 3500, function () {
     });
 }
 
