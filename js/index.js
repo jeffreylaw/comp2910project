@@ -1115,21 +1115,6 @@ $(document).ready(function () {
             });
             setTimeout(easterEgg, 3000)
         } else {
-            $.ajax({
-                url: "./js/userName_post.php",
-                type: "POST",
-                async: false,
-                data: {
-                    "done": 1,
-                    "playerName": userName,
-                    "miniGame1": miniGame1Pass,
-                    "miniGame2": miniGame2Pass,
-                    "miniGame3": miniGame3Pass
-                },
-                success: function(data){
-                    console.log(data);
-                }
-            })
             $('#sound').show(0);
             $('#myModal').remove(0);
             $('#promtBox').remove(0);
@@ -1993,6 +1978,21 @@ function nextClick() {
         case 303:
             $('#richard').hide(0);
             $("#text1").html(lines3[61]);
+            $.ajax({
+                url: "./js/userName_post.php",
+                type: "POST",
+                async: false,
+                data: {
+                    "done": 1,
+                    "playerName": userName,
+                    "miniGame1": miniGame1Pass,
+                    "miniGame2": miniGame2Pass,
+                    "miniGame3": miniGame3Pass
+                },
+                success: function(data){
+                    console.log(data);
+                }
+            })
             break;
         case 304:       
             $('#tommy').attr("src", "./images/characters/tommy/smileTommyOpen.png");
@@ -2023,6 +2023,7 @@ function nextClick() {
             $('#raindropGame').remove(0);
             $('#beginningPage').show(0);
             $("#text1").html(employer + "Although we did not collect all the drops, we fixed the pipes. Everything should be all good for now.");
+            miniGame1Pass = 1;
             textNum = secondSceneNum;
             break;
         case 2000:
@@ -2031,6 +2032,7 @@ function nextClick() {
             $('#sinkGame').hide(0);
             $('#beginningPage').show(0);
             $("#text1").html("You couldn't turn off all the faucets in time... <br>Water ended up overflowing out of the sink...");
+            miniGame2Pass = 1;
             break;
         case 2001:
             $("#text1").html(questionMark + lines3[0] + " " + lines3[1]);
@@ -2043,6 +2045,7 @@ function nextClick() {
             $('#beginningPage').show(0);
             $('#sliceDIV').hide(0);
             $('#sliceGame').hide(0);
+            miniGame3Pass = 1;
             $("#text1").html("Fortunately, even with your mistake, Olivia managed to speak to the hotel guests and convinced them to conserve water...");
             break;
         case 3001:
@@ -2052,6 +2055,7 @@ function nextClick() {
             textNum = lastSceneNum+1;
             break;
         default:
+            location.reload(false);
             break;
     }
 };
