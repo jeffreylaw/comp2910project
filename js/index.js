@@ -987,7 +987,7 @@ $(document).ready(function () {
     waterDropAudio = new sound("./audio/badwaterdrop.mp3", "effect");
     waterDropAudio1 = new sound("./audio/badwaterdrop1.mp3", "effect");
     waterDropAudio2 = new sound("./audio/badwaterdrop2.mp3", "effect");
-
+    birds = new sound("./audio/birds.mp3", "effect");
     throatAudio = new sound("./audio/throatclear.mp3", "effect");
     sprinklerAudio = new sound("./audio/sprinkler.mp3", "effect");
     lilyHello = new sound("./audio/hello.mp3", "effect");
@@ -1322,6 +1322,7 @@ function nextClick() {
             $("#text1").html(employer + lines[19]);
             break;
         case 21:
+            birds.play();
             animateDiv();
             $('#tommy').hide(0);
             backgroundImagePicker("watershed.jpg", "watershed2.jpg");
@@ -1336,6 +1337,7 @@ function nextClick() {
             $("#text1").html(employer + lines[22]);
             break;
         case 24:
+            birds.stop();
             $('#tommy').show(0);
             backgroundImagePicker("basement.jpg", "basement_square.png");
             $('#tommy').attr("src", "./images/characters/tommy/normalTommy.png");
