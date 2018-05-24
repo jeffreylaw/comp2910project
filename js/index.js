@@ -1141,7 +1141,7 @@ $(document).ready(function () {
         var allSounds = document.getElementsByTagName("audio");
         soundsMuted = true;
         for(let i = 0; i < allSounds.length; i++) {
-            allSounds[0].stop();
+            allSounds[i].pause();
         }
     }
     
