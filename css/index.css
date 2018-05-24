@@ -43,9 +43,9 @@ html, body {
 #startButton {
     margin-left: 30%;
     margin-right: 30%;
-    width:40%;
+    width:35%;
     position: absolute;
-    bottom: 40%;
+    bottom: 25%;
 }
 
 #firstDiv{
@@ -257,6 +257,7 @@ canvas {
     background-image: url("../images/background/back.png");
     background-repeat: no-repeat;
     background-size: cover;
+    background-size: 100% 100%;
 }
 
 .characterImgCenter{

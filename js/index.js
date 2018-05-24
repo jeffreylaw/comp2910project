@@ -2121,9 +2121,9 @@ function nextMinigame3() {
     $('#sliceDIV').show(0);
     $('#sliceGame').show(0);
     if (width > height) {
-        document.getElementById("sliceGame").style.backgroundImage = 'url("./images/background/lobby_night2.jpg")';
+        document.getElementById("sliceGame").style.backgroundImage = 'url("./images/background/lobbyblur.jpg")';
     } else {
-        document.getElementById("sliceGame").style.backgroundImage = 'url("./images/background/lobby_night2_bur.jpg")';
+        document.getElementById("sliceGame").style.backgroundImage = 'url("./images/background/lobby_night2_blur.jpg")';
     }
     startSliceGame();
     $('#overlay').animate({
