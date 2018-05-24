@@ -977,12 +977,21 @@ $(document).ready(function () {
     
     var backgroundMusicStory;
     backgroundMusicStory = new sound("./audio/startBackgroundMusic.mp3", "backgroundMusic");
+    gardenBackgroundMusic = new sound("./audio/gardenscene.mp3", "backgroundMusic");
     knockingAudio = new sound("./audio/knock.mp3", "effect");
     sleepingAudio = new sound("./audio/sleeping.mp3", "effect");
     yawnAudio = new sound("./audio/yawn.mp3", "effect");
     elevatorAudio = new sound("./audio/ele.mp3", "effect");
     waterDropAudio = new sound("./audio/badwaterdrop.mp3", "effect");
     throatAudio = new sound("./audio/throatclear.mp3", "effect");
+    lilyHello = new sound("./audio/hello.mp3", "effect");
+    sprinklerAudio = new sound("./audio/sprinkler.mp3", "effect");
+    huh = new sound("./audio/huh.mp3", "effect");
+    igotit = new sound("./audio/igotit.mp3", "effect");
+    lawnmower = new sound("./audio/lawnmower.mp3", "effect");
+    walkingAudio = new sound("./audio/walking.mp3", "effect");
+
+  
 
     //for mini game2---------------------------------------------------------------------------------
     //for mini game2---------------------------------------------------------------------------------
@@ -1353,7 +1362,8 @@ function nextClick() {
             nextEndGame();
             break;
         case (secondSceneNum + 1):
-            animateDiv();         
+            animateDiv();     
+           igotit.play();
             backgroundImagePicker("basement.jpg", "basement_square.png");
             $('#raindropDIV').remove(0);
             $('#raindropGame').remove(0);
@@ -1363,6 +1373,7 @@ function nextClick() {
             $("#text1").html(employer + lines2[0]);
             break;
         case 102:
+            igotit.stop();
             $('#tommy').attr("src", "./images/characters/tommy/grinTommyHand.png"); 
             $("#text1").html(employer + lines2[1]);
             break;
@@ -1472,15 +1483,22 @@ function nextClick() {
         case 126:
             $('#tommy').hide(0);
             animateDiv();
+            removeAllSounds();
+            gardenBackgroundMusic.play();
+            walkingAudio.play();
             backgroundImagePicker("garden_walkway.jpg", "garden_walkway2.jpg");
             $("#text1").html(lines2[25]);
             break;
         case 127:
+            walkingAudio.stop();
+            sprinklerAudio = new sound("./audio/sprinkler.mp3", "effect");
+            sprinklerAudio.play();
             $('#tommy').attr("src", "./images/characters/tommy/concernedTommyMild.png");
             $('#tommy').show(0);
             $("#text1").html(employer + "<i>" + lines2[26] + "</i>");
             break;
         case 128:
+            sprinklerAudio.stop();
             animateDiv();
             $('#tommyLeft').attr("src", "./images/characters/tommy/normalTommy.png");
             $('#tommy').hide(0);
