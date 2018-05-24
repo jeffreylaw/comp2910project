@@ -991,6 +991,11 @@ $(document).ready(function () {
     lawnmower = new sound("./audio/lawnmower.mp3", "effect");
     walkingAudio = new sound("./audio/walking.mp3", "effect");
     sprinklerAudio = new sound("./audio/sprinkler.mp3", "effect");
+    soif = new sound("./audio/soif.mp3", "effect");
+    whogoesthere = new sound("./audio/whogoesthere.mp3", "effect");
+    leaveAudio = new sound("./audio/leavetoyou.mp3", "effect");
+    cmonAudio = new sound("./audio/cmon.mp3", "effect");
+
 
 
   
@@ -1219,7 +1224,6 @@ function nextClick() {
             $("#text1").html("<b>Employee:<br/></b>" + userName + "! " + lines[4]);
             break;
         case 6:
-            elevatorAudio.stop();
             $('#tommy').hide(0);
             backgroundImagePicker("bedroom.png", "bedroom_square.png");
             $("#text1").html(user + lines[5]);
@@ -1235,10 +1239,12 @@ function nextClick() {
             $("#text1").html("<b>Employee:<br/></b>" + lines[7]);
             break;
         case 9:
+            cmonAudio.play();
             $('#tommy').attr("src", "./images/characters/tommy/cryTommy.png");
             $("#text1").html("<b>Employee:<br/></b>" + lines[8]);
             break;
         case 10:
+            cmonAudio.stop();
             $('#tommy').hide(0);
             backgroundImagePicker("bedroom.png", "bedroom_square.png");
             $("#text1").html(user + lines[9]);
@@ -1539,10 +1545,12 @@ function nextClick() {
             $("#text1").html(employer + lines2[34]);
             break;
         case 136:
+            soif.play();
             $('#lilyRight').attr("src", "./images/characters/gardener/helpLily.png");
             $("#text1").html(gardener + lines2[35]);
             break;
         case 137:
+            soif.stop();
             $('#tommyLeft').attr("src", "./images/characters/tommy/normalTommy.png");
             $("#text1").html(employer + lines2[36]);
             break;
@@ -1675,6 +1683,7 @@ function nextClick() {
         case (thirdSceneNum + 1):
             backgroundImagePicker("kitchen.jpg", "kitchen2.jpg");                
             animateDiv();
+            whogoesthere.play();
             $('#sinkGameWater').hide(0);
             $('#sinkGame').hide(0);
             $('#beginningPage').show(0);
@@ -1682,6 +1691,7 @@ function nextClick() {
             $("#text1").html(questionMark + lines3[0] + " " + lines3[1]);
             break;
         case 202:
+            whogoesthere.stop();
             $("#text1").html(user + lines3[2] + " " + userName + ".");
             break;
         case 203:
@@ -1815,10 +1825,12 @@ function nextClick() {
             $("#text1").html(user + lines3[36]);
             break;
         case 237:
+            leaveAudio.play();
             $('#olivia').attr("src", "./images/characters/chef/smileOlivia.png");
             $("#text1").html(chef + lines3[37] + " " + userAlone);
             break;
         case 238:
+            leaveAudio.stop();
             $('#olivia').hide(0);
             animateDiv();
             $('#tommy').attr("src", "./images/characters/tommy/smileTommyOpen.png");
