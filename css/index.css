@@ -22,7 +22,7 @@ html, body {
 
 #backgroundcolor{
 	position: absolute;
-	background: black;
+	background-image: url("../images/background/black.jpeg");
 	pointer-events: none;
 	opacity: 0;
 	width: 100%;
@@ -253,7 +253,7 @@ canvas {
 }
 
 #sliceGame {
-    background-image: url("../images/back.png");
+    background-image: url("../images/background/back.png");
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -297,6 +297,5 @@ canvas {
 #sound {
     position: absolute;
     left: 0;
-    top: 0;
-    width: 10%;
+    top: 6%;
 }

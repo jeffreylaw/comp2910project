@@ -2178,6 +2178,8 @@ function updatePage() {
     var imageRight = document.getElementsByClassName("characterImgRight");
     var imageIcon = document.getElementsByClassName("icons");
     var imageIcon2 = document.getElementsByClassName("icons2");
+    var soundManage = document.getElementsByClassName("manageSound");
+
     for (let i = 0; i < text.length; i++) {
         if (width > height) {
             text[i].style.fontSize = height * 0.04 + "px";
@@ -2250,6 +2252,19 @@ function updatePage() {
             var imageHeight = height * 0.19;
             imageIcon2[i].style.width = imageHeight + "px";
             imageIcon2[i].style.height = imageHeight + "px";
+        }
+    }
+
+    for (let i = 0; i < soundManage.length; i++) {
+
+        if (height > width) {
+            var imageWidth = width * 0.08;
+            soundManage[i].style.width = imageWidth + "px";
+            soundManage[i].style.height = imageWidth + "px";
+        } else {
+            var imageHeight = height * 0.08;
+            soundManage[i].style.width = imageHeight + "px";
+            soundManage[i].style.height = imageHeight + "px";
         }
     }
     setTimeout(updatePage, 20);
