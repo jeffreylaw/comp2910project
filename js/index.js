@@ -977,7 +977,7 @@ $(document).ready(function () {
     
     var backgroundMusicStory;
     backgroundMusicStory = new sound("./audio/startBackgroundMusic.mp3", "backgroundMusic");
-    gardenBackgroundMusic = new sound("./audio/gardenscene.mp3", "backgroundMusic");
+    var gardenBackgroundMusic;
     knockingAudio = new sound("./audio/knock.mp3", "effect");
     sleepingAudio = new sound("./audio/sleeping.mp3", "effect");
     yawnAudio = new sound("./audio/yawn.mp3", "effect");
@@ -1158,7 +1158,7 @@ $(document).ready(function () {
         var backgroundMusic = document.getElementsByClassName("backgroundMusic");
         soundsMuted = false;
         for(let i = 0; i < backgroundMusic.length; i++) {
-            backgroundMusic[i].play();
+            backgroundMusic[0].play();
         }
     }
 
@@ -1484,6 +1484,7 @@ function nextClick() {
             $('#tommy').hide(0);
             animateDiv();
             removeAllSounds();
+            gardenBackgroundMusic = new sound("./audio/gardenscene.mp3", "backgroundMusic");
             gardenBackgroundMusic.play();
             walkingAudio.play();
             backgroundImagePicker("garden_walkway.jpg", "garden_walkway2.jpg");
