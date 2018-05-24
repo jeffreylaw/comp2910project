@@ -1,6 +1,6 @@
 <?php
-    $connection = mysqli_connect('localhost', 'root', '', '2910project');
-    // $connection = mysqli_connect('localhost', 'ticom_root', 'password', 'ticom_COMP2910');
+    // $connection = mysqli_connect('localhost', 'root', '', '2910project');
+    $connection = mysqli_connect('localhost', 'ticom_root', 'password', 'ticom_COMP2910');
 
     if($_POST['done']){
         $userName = $_POST['playerName'];
