@@ -1010,6 +1010,7 @@ $(document).ready(function () {
     thats = new sound("./audio/thats.mp3", "effect");
     nothatsnotit = new sound("./audio/nothatsnotit.mp3", "effect");
     thatsit = new sound("./audio/thatsit.mp3", "effect");
+    listen = new sound("./audio/listen.mp3", "effect");
 
 
 
@@ -1767,7 +1768,7 @@ function nextClick() {
             break;
         case 214:
             $('#olivia').hide(0);
-            backgroundImagePicker("rinsing.png", "rinsing.png");                
+            backgroundImagePicker("rinsing.png", "rinsing_square.png");                
             $("#text1").html(user + lines3[14]);
             break;
         case 215:
@@ -1950,18 +1951,22 @@ function nextClick() {
             $("#text1").html(user + lines3[56]);
             break;
         case 257:
-            backgroundImagePicker("two.png", "two_square.jpg");
+            backgroundImagePicker("lobby_night.jpg", "lobby_night2.jpg");
+            $('#tommy').attr("src", "./images/characters/tommy/smileTommyOpenTwo.png");
+            $('#tommy').show(0);
             $("#text1").html(employer + lines3[57]);
             break;
         case 258:
-            backgroundImagePicker("lobby_night.jpg", "lobby_night2.jpg");
+            listen.play();
             $('#tommy').attr("src", "./images/characters/tommy/smileTommyOpen.png");
             $('#tommy').hide(0);
+            $('#tommy').attr("src", "./images/characters/tommy/smileTommyOpen.png");
             $('#richard').attr("src", "./images/characters/richard/smileRichardOpen.png");
             $('#richard').show(0);
             $("#text1").html(maintenanceGuy + lines3[58] + " " + userName + "! " + lines3[59]);
             break;
         case 259:
+            listen.stop();
             $("#next").remove(0);
             $('#overlay').animate({
                 opacity: 1,
