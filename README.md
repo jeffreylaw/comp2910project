@@ -35,7 +35,8 @@ Our web application uses GlowHost for the name registrar and web hosting.
 * [JavaScript](https://en.wikipedia.org/wiki/JavaScript)
 * [jQuery](https://jquery.com/)
 * [Bootstrap](https://getbootstrap.com/)
-
+* [MySQL](https://www.mysql.com/)
+* [PHP](http://www.php.net/)
 
 ## Versioning
 
