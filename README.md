@@ -46,7 +46,7 @@ We use [Github](https://github.com/) for version control. For the network graph,
 See the list of [contributors](https://github.com/jeffreylaw/comp2910project/graphs/contributors) who participated in this project here.
 
 * **Jeffrey Law** - *A00864331* - [jeffreylaw](https://github.com/jeffreylaw)
-* **Victor Phan** - *A01023049  * - [Victor-Phan](https://github.com/Victor-Phan)
+* **Victor Phan** - *A01023049* - [Victor-Phan](https://github.com/Victor-Phan)
 * **Ryan Cheong** - *A01043291* - [Victor-Phan](https://github.com/RyanCheong123)
 * **Gursharn Heer**
 * **Denny Han**
