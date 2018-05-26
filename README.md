@@ -3,10 +3,18 @@
 Water Conservation Wasn't in the Job Description (or WCWITJD) is a web app that seeks to educate the end user about water conservation through the means of a story. The user plays through the story as the manager of a hotel facing a water shortage crisis. Along the way, mini-games must be completed and tips and tricks on how to conserve water are discussed.
 
 
-### Challenges as a group
-The challenges we faced as a group can be divided into technical and non-technical. Technical challenges rose from having a non-modular structure for our code. Ryan, Victor, and Jeffrey would often have to work closely together to combine code and make adjustments according to the design. Much of the code was located in a single JavaScript file which made changes from different team members, complicated to incorporate.
+![alternativetext](poster.png "App Poster for WCWITJD")
 
-Non-technical challenges came from certain team members having difficulty working in a team environment. As a result, changes were made to the style of project management. Instead of having each member provide input on a certain task, members were assigned certain tasks and assumed all control and responsbility for their assigned tasks.
+
+## Built With
+
+* [HTML](https://en.wikipedia.org/wiki/HTML)
+* [CSS](https://en.wikipedia.org/wiki/Cascading_Style_Sheets)
+* [JavaScript](https://en.wikipedia.org/wiki/JavaScript)
+* [jQuery](https://jquery.com/)
+* [Bootstrap](https://getbootstrap.com/)
+* [MySQL](https://www.mysql.com/)
+* [PHP](http://www.php.net/)
 
 ## Percentage Completion
 95%
@@ -28,15 +36,12 @@ Several bugs exist and the front page design could be improved upon.
 
 Our web application uses GlowHost for the name registrar and web hosting.
 
-## Built With
 
-* [HTML](https://en.wikipedia.org/wiki/HTML)
-* [CSS](https://en.wikipedia.org/wiki/Cascading_Style_Sheets)
-* [JavaScript](https://en.wikipedia.org/wiki/JavaScript)
-* [jQuery](https://jquery.com/)
-* [Bootstrap](https://getbootstrap.com/)
-* [MySQL](https://www.mysql.com/)
-* [PHP](http://www.php.net/)
+### Challenges as a group
+The challenges we faced as a group can be divided into technical and non-technical. Technical challenges rose from having a non-modular structure for our code. Ryan, Victor, and Jeffrey would often have to work closely together to combine code and make adjustments according to the design. Much of the code was located in a single JavaScript file which made changes from different team members, complicated to incorporate.
+
+Non-technical challenges came from certain team members having difficulty working in a team environment. As a result, changes were made to the style of project management. Instead of having each member provide input on a certain task, members were assigned certain tasks and assumed all control and responsbility for their assigned tasks.
+
 
 ## Versioning
 
