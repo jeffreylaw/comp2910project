@@ -2,9 +2,9 @@
 
 Water Conservation Wasn't in the Job Description (or WCWITJD) is a web app that seeks to educate the end user about water conservation through the means of a story. The user plays through the story as the manager of a hotel facing a water shortage crisis. Along the way, mini-games must be completed and tips and tricks on how to conserve water are discussed.
 
-
-![alternativetext](poster.png "App Poster for WCWITJD")
-
+<p align="center">
+<img src="poster.png" alt="Poster" width="500"/>
+</p>
 
 ## Built With
 
